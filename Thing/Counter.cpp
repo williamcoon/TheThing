@@ -26,7 +26,7 @@ int Counter::getCount(){
 }
 
 void Counter::update(bool direction){
-	int inc = direction ? 1:-1; //Increment or decrement based on fwd/rev direction
+	int inc = (direction==FWD) ? 1:-1; //Increment or decrement based on fwd/rev direction
 	bool pinState = digitalRead(countPin);
 	if(pinState!=lastPinState){
 		//If the state has changed, the next magnet is in front of the sensor

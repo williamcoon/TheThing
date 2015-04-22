@@ -6,9 +6,9 @@
 
 #ifndef Thing_H_
 #define Thing_H_
+
 #include "Arduino.h"
 //add your includes for the project Thing here
-#include "Counter.h"
 
 //end of add your includes here
 #ifdef __cplusplus
