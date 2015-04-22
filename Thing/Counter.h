@@ -8,10 +8,19 @@
 #ifndef COUNTER_H_
 #define COUNTER_H_
 
+#include "Arduino.h"
+
 class Counter {
+
 public:
-	Counter();
+	Counter(int);
 	virtual ~Counter();
+	int getCount();
+	void update(bool);
+private:
+	int countPin;
+	int count;
+	bool lastPinState;
 };
 
 #endif /* COUNTER_H_ */

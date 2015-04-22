@@ -8,7 +8,7 @@
 #define Thing_H_
 #include "Arduino.h"
 //add your includes for the project Thing here
-
+#include "Counter.h"
 
 //end of add your includes here
 #ifdef __cplusplus
@@ -22,7 +22,10 @@ void setup();
 
 //add your function definitions for the project Thing here
 
-
+class Thing{
+public:
+	Thing();
+}thing;
 
 
 //Do not add code below this line
