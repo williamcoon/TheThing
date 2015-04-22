@@ -15,7 +15,7 @@ There are a few different options on how to do this, I’m using the plugin from
 
 1. Launch Eclipse, select “TheThing” folder that was created above as your workspace
 2. Go to Help>Install New Software
-3. In the “Work With:” field, type in: http://www.baeyens.it/eclipse/
+3. In the “Work With:” field, type in: http://www.baeyens.it/eclipse/update
 4. Select the most recent version (I’m using 1.2.4) and install it.
 5. Open Eclipse>Preferences
 6. Under Arduino>Arduino you will need to fill in the Arduino IDE path and the Private Library path. Replace the <ARDUINOPATH> with wherever you installed Arduino (on a mac it’s usually /Applications/Arduino.app/)
