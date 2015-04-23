@@ -16,7 +16,6 @@ class Counter {
 
 public:
 	Counter(int);
-	virtual ~Counter();
 	int getCount();
 	void update(bool);
 private:

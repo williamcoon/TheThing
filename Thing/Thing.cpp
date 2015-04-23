@@ -8,6 +8,7 @@ void setup()
 	Serial.begin(115200);
 }
 
+
 // The loop function is called in an endless loop
 void loop()
 {
@@ -17,6 +18,7 @@ void loop()
 	  digitalWrite(13, LOW);    // turn the LED off by making the voltage LOW
 	  Serial.println("LOW");
 	  delay(1000);              // wait for a second
+
 }
 
 

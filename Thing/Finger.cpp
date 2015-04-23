@@ -51,7 +51,3 @@ bool Finger::isFinished(){
 	return finished;
 }
 
-Finger::~Finger() {
-	// TODO Auto-generated destructor stub
-}
-

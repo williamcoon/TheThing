@@ -17,10 +17,6 @@ Counter::Counter(int pin) {
 	lastPinState = digitalRead(countPin);
 }
 
-Counter::~Counter() {
-	// TODO Auto-generated destructor stub
-}
-
 int Counter::getCount(){
 	return count;
 }

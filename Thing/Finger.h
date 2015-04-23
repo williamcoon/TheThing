@@ -16,7 +16,6 @@
 class Finger {
 public:
 	Finger(int pwmPin, int counterPin);
-	virtual ~Finger();
 	void startMotion(int targetPosition, double motionSpeed);
 	void update();
 	bool isFinished();
