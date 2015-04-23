@@ -39,6 +39,12 @@ Create your new Project
 5. Select “Arduino Mega 2560 or Mega ADK” as the Board
 6. Select the correct port (the same one you chose when you uploaded from Arduino)
 7. Click Finish
+8. Add paths to headers - right click on the project and select "Properties"
+9. Under C/C++ general, select "Paths and Symbols"
+10. Under the "Includes" tab, select GNU C and click "Add..."
+11. Check the box for "Is a workspace path" and put the directory "/Thing/Subsystems"
+12. Click OK
+13. Repeat this for the Commands and Inputs folders, and then add all three to the GNU C++ language.
 
 Update your project from github
 Since this just created a default project, we need to sync up with the code that is on github
