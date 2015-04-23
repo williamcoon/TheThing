@@ -29,7 +29,6 @@ There are a few different options on how to do this, I’m using the plugin from
 12. Check the box that says “Disable search for system paths on startup”
 13. Under C/C++>Indexer check the boxes next to “Index unused headers” and “Index source and header files opened in editor”
 14. Under General>Workspace check the box next to “Save automatically before build”
-15. Whew… good job.
 
 Create your new Project
 1. Make sure your Arduino Mega is plugged in to the computer
@@ -45,6 +44,8 @@ Create your new Project
 11. Check the box for "Is a workspace path" and put the directory "/Thing/Subsystems"
 12. Click OK
 13. Repeat this for the Commands and Inputs folders, and then add all three to the GNU C++ language.
+14. Click Apply, then OK
+15. Whew... good job
 
 Update your project from github
 Since this just created a default project, we need to sync up with the code that is on github
