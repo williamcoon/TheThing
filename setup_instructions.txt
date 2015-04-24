@@ -40,10 +40,10 @@ Create your new Project
 7. Click Finish
 8. Add paths to headers - right click on the project and select "Properties"
 9. Under C/C++ general, select "Paths and Symbols"
-10. Under the "Includes" tab, select GNU C and click "Add..."
+10. Under the "Includes" tab, select GNU C++ and click "Add..."
 11. Check the box for "Is a workspace path" and put the directory "/Thing/Subsystems"
 12. Click OK
-13. Repeat this for the Commands and Inputs folders, and then add all three to the GNU C++ language.
+13. Repeat this for the Commands and Inputs folders.
 14. Click Apply, then OK
 15. Whew... good job
 
