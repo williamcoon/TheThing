@@ -10,6 +10,7 @@
 
 #include "Arduino.h"
 #include "Parameters.h"
+#include "CommandCreator.h"
 
 class SerialHandler {
 public:
@@ -18,11 +19,11 @@ public:
 private:
 	String readSerial();
 	Parameters *getParameters(String paramString);
-	void executeNextCommand();
+	void parseCommand();
 	HardwareSerial *serial;
 	const unsigned int MAX_SIZE;
 	String buffer;
-	const String DELIMETER;
+	CommandCreator commandCreator;
 };
 
 #endif /* INPUTS_SERIALHANDLER_H_ */

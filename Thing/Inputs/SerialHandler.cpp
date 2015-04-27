@@ -8,7 +8,8 @@
 #include <SerialHandler.h>
 
 SerialHandler::SerialHandler(HardwareSerial *s)
-	:	MAX_SIZE(50)
+	:	MAX_SIZE(50),
+		commandCreator()
 {
 	// TODO Auto-generated constructor stub
 	serial = s;
@@ -31,7 +32,7 @@ String SerialHandler::readSerial(){
 	return string;
 }
 
-void SerialHandler::executeNextCommand(){
+void SerialHandler::parseCommand(){
 	int startIndex = buffer.indexOf("<"); // Find the beginning of the new command
 	if(startIndex < 0){
 		//No Commands are available
@@ -48,15 +49,13 @@ void SerialHandler::executeNextCommand(){
 	int paramEnd = newCommand.indexOf(")");
 	Parameters *params;
 	if(paramStart>0){
-		serial->print("New Command: ");
-		serial->println(newCommand);
 		//Get parameters
 		String paramString = newCommand.substring(paramStart+1, paramEnd);
 		newCommand.remove(paramStart);
 		params = getParameters(paramString);
-	}else{
-		serial->print("New Command: ");
-		serial->println(newCommand);
+	}
+	if(!commandCreator.createCommand(newCommand, params)){
+		serial->println("Bad Command");
 	}
 }
 
@@ -81,7 +80,9 @@ Parameters* SerialHandler::getParameters(String paramString){
 
 void SerialHandler::update(){
 	buffer += readSerial();
-	executeNextCommand();
+	if(buffer.length() > 0){
+		parseCommand();
+	}
 }
 
 

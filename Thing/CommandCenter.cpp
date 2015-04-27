@@ -7,6 +7,8 @@
 
 #include <CommandCenter.h>
 
+CommandCenter* CommandCenter::instance = NULL;
+
 CommandCenter::CommandCenter() {
 	// TODO Create list of commands for parallel execution
 	currentCommand = NULL;
@@ -18,6 +20,12 @@ CommandCenter::~CommandCenter() {
 		delete cmd;
 		cmd = NULL;
 	}
+}
+
+CommandCenter* CommandCenter::getInstance(){
+	if(!instance)
+		instance = new CommandCenter();
+	return instance;
 }
 
 void CommandCenter::addCommand(CommandBase *command){

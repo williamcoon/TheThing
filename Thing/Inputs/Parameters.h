@@ -26,12 +26,12 @@ struct parameter_t{
 class Parameters {
 public:
 	Parameters();
-	int getInt(int paramIndex);
-	String getString(int paramIndex);
-	bool getBool(int paramIndex);
+	bool getInt(int paramIndex, int *val);
+	bool getString(int paramIndex, String *val);
+	bool getBool(int paramIndex, bool *val);
 	void setValue(int paramIndex, String val);
 private:
-	parameter_t *parameters[5];
+	parameter_t parameters[5];
 };
 
 #endif /* INPUTS_PARAMETERS_H_ */

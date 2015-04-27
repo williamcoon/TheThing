@@ -12,13 +12,15 @@
 
 class CommandCenter {
 public:
-	CommandCenter();
 	virtual ~CommandCenter();
 	void addCommand(CommandBase *command);
 	void update();
+	static CommandCenter* getInstance();
 private:
 	QueueList <CommandBase *> commands;
 	CommandBase *currentCommand;
+	CommandCenter();
+	static CommandCenter *instance;
 };
 
 #endif /* COMMANDCENTER_H_ */

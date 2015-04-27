@@ -36,36 +36,39 @@ void Parameters::setValue(int paramIndex, String val){
 		val.toCharArray(buf,val.length()+1);
 		param.val.intVal = atoi(buf);
 	}
-	parameters[paramIndex] = &param;
+	parameters[paramIndex] = param;
 }
 
-int Parameters::getInt(int paramIndex){
-	if(parameters[paramIndex] != NULL){
-		if(parameters[paramIndex]->val_type==int_type){
-			return parameters[paramIndex]->val.intVal;
-		}
+bool Parameters::getInt(int paramIndex, int *val){
+	if(parameters[paramIndex].val_type==int_type){
+		*val = parameters[paramIndex].val.intVal;
+		return true;
 	}
-	return NULL;
+	Serial.print("Expected integer in parameters at index ");
+	Serial.println(paramIndex);
+	return false;
 }
 
-String Parameters::getString(int paramIndex){
-	if(parameters[paramIndex] != NULL){
-		if(parameters[paramIndex]->val_type==string_type){
-			char *str = parameters[paramIndex]->val.strVal;
-			String ret(str);
-			return ret;
-		}
+bool Parameters::getString(int paramIndex, String *val){
+	if(parameters[paramIndex].val_type==string_type){
+		char *str = parameters[paramIndex].val.strVal;
+		String ret(str);
+		*val = ret;
+		return true;
 	}
-	return "";
+	Serial.print("Expected string in parameters at index ");
+	Serial.println(paramIndex);
+	return false;
 }
 
-bool Parameters::getBool(int paramIndex){
-	if(parameters[paramIndex] != NULL){
-		if(parameters[paramIndex]->val_type==bool_type){
-			return parameters[paramIndex]->val.boolVal;
-		}
+bool Parameters::getBool(int paramIndex, bool *val){
+	if(parameters[paramIndex].val_type==bool_type){
+		*val = parameters[paramIndex].val.boolVal;
+		return true;
 	}
-	return NULL;
+	Serial.print("Expected boolean(true/false) in parameters at index ");
+	Serial.println(paramIndex);
+	return false;
 }
 
 
