@@ -13,6 +13,7 @@
 #include "CommandCenter.h"
 #include "StringHashTable.h"
 #include "PrintCommand.h"
+#include "MoveFinger.h"
 
 class CommandCreator {
 public:
@@ -23,6 +24,7 @@ private:
 	static CommandCenter *commandCenter;
 	StringHashTable commandHash;
 	static bool printSomething(Parameters *params);
+	static bool moveFinger(Parameters *params);
 };
 
 #endif /* COMMANDS_COMMANDCREATOR_H_ */

@@ -38,11 +38,13 @@ void CommandCenter::update(){
 		//Check if there is a new command on the queue
 		if(!commands.isEmpty()){
 			currentCommand = commands.pop();
+			Serial.println("Starting new command");
 		}
 	}
 	if(currentCommand!= NULL){
 		if(currentCommand->isFinished()){
 			//If the command is finished, set current to NULL and delete it
+			Serial.println("Command Finished");
 			delete currentCommand;
 			currentCommand = NULL;
 		}else{

@@ -1,6 +1,7 @@
 #include "Thing.h"
 #include "CommandCenter.h"
 #include "SerialHandler.h"
+#include "Hand.h"
 
 //The setup function is called once at startup of the sketch
 void setup()
@@ -12,6 +13,7 @@ void setup()
 }
 
 CommandCenter *commandCenter = CommandCenter::getInstance();
+Hand *hand = Hand::getInstance();
 SerialHandler serialHandler(&Serial);
 
 // The loop function is called in an endless loop
@@ -22,6 +24,7 @@ void loop()
 	static unsigned long lastSerial = 0UL;
 	unsigned long current = millis();
 	if((current - lastUpdate) > 20){
+		hand->update();
 		commandCenter->update();
 		lastUpdate = current;
 	}

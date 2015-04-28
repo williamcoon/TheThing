@@ -17,11 +17,11 @@ public:
 	Finger middle;
 	Finger index;
 	Finger thumb;
+	Finger *fingers[5];
 	bool isFinished();
 	void update();
 	static Hand* getInstance();
 private:
-	Finger *fingers[5];
 	Hand();
 	static Hand *instance;
 };

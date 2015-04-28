@@ -89,6 +89,8 @@ int freeRam () {
 void SerialHandler::update(){
 	buffer += readSerial();
 	if(buffer.length() > 0){
+		serial->print("Free RAM: ");
+		serial->println(freeRam());
 		parseCommand();
 	}
 }

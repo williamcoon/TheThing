@@ -11,7 +11,8 @@ CommandCenter* CommandCreator::commandCenter = CommandCenter::getInstance();
 
 CommandCreator::CommandCreator() {
 	commandHash = StringHashTable();
-	commandHash.put("Print", printSomething);
+	commandHash.put("print", printSomething);
+	commandHash.put("moveFinger", moveFinger);
 }
 
 CommandCreator::~CommandCreator() {
@@ -36,6 +37,24 @@ bool CommandCreator::printSomething(Parameters *params){
 	int numberOfRepeats;
 	if(params->getString(0, &str)&&params->getInt(1, &numberOfRepeats)){
 		CommandBase *command = new PrintCommand(str, numberOfRepeats);
+		commandCenter->addCommand(command);
+		delete params;
+		params = NULL;
+		return true;
+	}else{
+		return false;
+	}
+}
+
+/*
+ * moveFinger(int fingerIndex, int targetPosition, int speed)
+ */
+bool CommandCreator::moveFinger(Parameters *params){
+	int fingerIndex;
+	int targetPosition;
+	int speed;
+	if(params->getInt(0, &fingerIndex)&&params->getInt(1, &targetPosition)&&params->getInt(2, &speed)){
+		CommandBase *command = new MoveFinger(fingerIndex, targetPosition, speed);
 		commandCenter->addCommand(command);
 		delete params;
 		params = NULL;

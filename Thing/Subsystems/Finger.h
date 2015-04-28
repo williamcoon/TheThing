@@ -16,7 +16,7 @@
 class Finger {
 public:
 	Finger(int pwmPin, int counterPin);
-	void startMotion(int targetPosition, double motionSpeed);
+	void startMotion(int targetPosition, int motionSpeed);
 	void update();
 	bool isFinished();
 private:
