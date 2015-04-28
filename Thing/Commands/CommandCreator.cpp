@@ -14,6 +14,7 @@ CommandCreator::CommandCreator() {
 	commandHash.put("print", printSomething);
 	commandHash.put("moveFinger", moveFinger);
 	commandHash.put("moveHand", moveHand);
+	commandHash.put("drive", drive);
 }
 
 CommandCreator::~CommandCreator() {
@@ -88,6 +89,27 @@ bool CommandCreator::moveHand(Parameters *params){
 											indexPosition,
 											thumbPosition,
 											speed);
+		commandCenter->addCommand(command);
+		delete params;
+		params = NULL;
+		return true;
+	}else{
+		return false;
+	}
+}
+
+/*
+ * drive(int leftSpeed, int rightSpeed, int driveTime)
+ * leftSpeed: Integer from -100 to 100
+ * rightSpeed: Integer from -100 to 100
+ * driveTime: Seconds to drive before stopping. Use -1 to set indefinitely.
+ */
+bool CommandCreator::drive(Parameters *params){
+	int leftSpeed;
+	int rightSpeed;
+	int driveTime;
+	if(params->getInt(0, &leftSpeed)&&params->getInt(1, &rightSpeed)&&params->getInt(2, &driveTime)){
+		CommandBase *command = new Drive(leftSpeed, rightSpeed, driveTime);
 		commandCenter->addCommand(command);
 		delete params;
 		params = NULL;

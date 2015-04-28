@@ -15,6 +15,7 @@
 #include "PrintCommand.h"
 #include "MoveFinger.h"
 #include "MoveHand.h"
+#include "Drive.h"
 
 class CommandCreator {
 public:
@@ -27,6 +28,7 @@ private:
 	static bool printSomething(Parameters *params);
 	static bool moveFinger(Parameters *params);
 	static bool moveHand(Parameters *params);
+	static bool drive(Parameters *params);
 };
 
 #endif /* COMMANDS_COMMANDCREATOR_H_ */
