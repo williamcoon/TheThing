@@ -19,9 +19,6 @@ public:
 	bool isFinished();
 	void stop();
 private:
-	int m_fingerIndex;
-	int m_targetPosition;
-	int m_speed;
 	bool finished;
 	static Hand *hand;
 };

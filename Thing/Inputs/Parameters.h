@@ -14,7 +14,7 @@ typedef enum{int_type, string_type, bool_type} VALUE_TYPE;
 
 typedef union{
 	int intVal;
-	char strVal[50];
+	char strVal[20];
 	bool boolVal;
 }VALUE;
 
@@ -31,7 +31,7 @@ public:
 	bool getBool(int paramIndex, bool *val);
 	void setValue(int paramIndex, String val);
 private:
-	parameter_t parameters[5];
+	parameter_t parameters[10];
 };
 
 #endif /* INPUTS_PARAMETERS_H_ */

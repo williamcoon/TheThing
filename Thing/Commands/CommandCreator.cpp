@@ -13,6 +13,7 @@ CommandCreator::CommandCreator() {
 	commandHash = StringHashTable();
 	commandHash.put("print", printSomething);
 	commandHash.put("moveFinger", moveFinger);
+	commandHash.put("moveHand", moveHand);
 }
 
 CommandCreator::~CommandCreator() {
@@ -64,4 +65,35 @@ bool CommandCreator::moveFinger(Parameters *params){
 	}
 }
 
+/*
+ * moveHand(int pinkyPosition, int ringPosition, int middlePosition, int indexPosition, int thumbPosition, int speed)
+ */
+bool CommandCreator::moveHand(Parameters *params){
+	int pinkyPosition;
+	int ringPosition;
+	int middlePosition;
+	int indexPosition;
+	int thumbPosition;
+	int speed;
+	if(params->getInt(0, &pinkyPosition)
+			&&params->getInt(1, &ringPosition)
+			&&params->getInt(2, &middlePosition)
+			&&params->getInt(3, &indexPosition)
+			&&params->getInt(4, &thumbPosition)
+			&&params->getInt(5, &speed))
+	{
+		CommandBase *command = new MoveHand(pinkyPosition,
+											ringPosition,
+											middlePosition,
+											indexPosition,
+											thumbPosition,
+											speed);
+		commandCenter->addCommand(command);
+		delete params;
+		params = NULL;
+		return true;
+	}else{
+		return false;
+	}
+}
 

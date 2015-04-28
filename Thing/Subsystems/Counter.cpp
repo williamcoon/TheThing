@@ -13,6 +13,7 @@
 Counter::Counter(int pin) {
 	countPin = pin; //Arduino pin of the Hall effect sensor
 	pinMode(countPin, INPUT);
+	digitalWrite(countPin, HIGH);
 	count = 0;
 	lastPinState = digitalRead(countPin);
 }

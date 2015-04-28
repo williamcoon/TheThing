@@ -10,12 +10,9 @@
 Hand* MoveFinger::hand = Hand::getInstance();
 
 MoveFinger::MoveFinger(int fingerIndex, int targetPosition, int speed)
-:	m_fingerIndex(fingerIndex),
-	m_targetPosition(targetPosition),
-	m_speed(speed)
 {
 	finished = false;
-	hand->fingers[fingerIndex]->startMotion(m_targetPosition, m_speed);
+	hand->fingers[fingerIndex]->startMotion(targetPosition, speed);
 }
 
 MoveFinger::~MoveFinger() {
