@@ -37,6 +37,8 @@ bool CommandCreator::printSomething(Parameters *params){
 	if(params->getString(0, &str)&&params->getInt(1, &numberOfRepeats)){
 		CommandBase *command = new PrintCommand(str, numberOfRepeats);
 		commandCenter->addCommand(command);
+		delete params;
+		params = NULL;
 		return true;
 	}else{
 		return false;

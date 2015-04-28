@@ -47,7 +47,7 @@ void SerialHandler::parseCommand(){
 	buffer.remove(0, endIndex+1);
 	int paramStart = newCommand.indexOf("(");
 	int paramEnd = newCommand.indexOf(")");
-	Parameters *params;
+	Parameters *params = NULL;
 	if(paramStart>0){
 		//Get parameters
 		String paramString = newCommand.substring(paramStart+1, paramEnd);
@@ -56,6 +56,8 @@ void SerialHandler::parseCommand(){
 	}
 	if(!commandCreator.createCommand(newCommand, params)){
 		serial->println("Bad Command");
+		delete params;
+		params = NULL;
 	}
 }
 
@@ -76,6 +78,12 @@ Parameters* SerialHandler::getParameters(String paramString){
 		paramCount++;
 	}while(commaIndex>=0);
 	return params;
+}
+
+int freeRam () {
+  extern int __heap_start, *__brkval;
+  int v;
+  return (int) &v - (__brkval == 0 ? (int) &__heap_start : (int) __brkval);
 }
 
 void SerialHandler::update(){
