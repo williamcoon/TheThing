@@ -12,7 +12,6 @@
 
 class Hand {
 public:
-	Hand();
 	Finger pinky;
 	Finger ring;
 	Finger middle;
@@ -20,8 +19,11 @@ public:
 	Finger thumb;
 	bool isFinished();
 	void update();
+	static Hand* getInstance();
 private:
 	Finger *fingers[5];
+	Hand();
+	static Hand *instance;
 };
 
 #endif /* HAND_H_ */

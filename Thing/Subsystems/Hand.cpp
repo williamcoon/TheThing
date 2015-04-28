@@ -7,6 +7,8 @@
 
 #include <Hand.h>
 
+Hand* Hand::instance = NULL;
+
 Hand::Hand()
 	: pinky(PINKY_PWM_PIN, PINKY_COUNT_PIN),
 	  ring(RING_PWM_PIN, RING_COUNT_PIN),
@@ -19,6 +21,12 @@ Hand::Hand()
 	fingers[2] = &middle;
 	fingers[3] = &index;
 	fingers[4] = &thumb;
+}
+
+Hand* Hand::getInstance(){
+	if(!instance)
+		instance = new Hand();
+	return instance;
 }
 
 bool Hand::isFinished(){
