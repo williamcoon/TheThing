@@ -9,9 +9,6 @@
 #define FINGER_H_
 
 #include "Counter.h"
-#define CENTER_PWM 127
-#define MAX_PWM 127
-
 
 class Finger {
 public:

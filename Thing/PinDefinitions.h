@@ -22,5 +22,8 @@
 #define INDEX_COUNT_PIN 17
 #define THUMB_COUNT_PIN 18
 
+//DriveTrain Definitions
+#define TANK_LEFT_PWM 8
+#define TANK_RIGHT_PWM 9
 
 #endif /* PINDEFINITIONS_H_ */

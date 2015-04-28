@@ -6,6 +6,8 @@
  */
 
 #include <Finger.h>
+#define CENTER_PWM 127
+#define MAX_PWM 127
 
 Finger::Finger(int pwmPin, int counterPin):counter(counterPin) {
 	Finger::pwmPin = pwmPin;
