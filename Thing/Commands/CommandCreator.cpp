@@ -15,6 +15,7 @@ CommandCreator::CommandCreator() {
 	commandHash.put("moveFinger", moveFinger);
 	commandHash.put("moveHand", moveHand);
 	commandHash.put("drive", drive);
+	commandHash.put("7C0055F126FE", rfidDrive1);
 }
 
 CommandCreator::~CommandCreator() {
@@ -119,3 +120,12 @@ bool CommandCreator::drive(Parameters *params){
 	}
 }
 
+/*
+ * rfidDrive1(NULL)
+ * No Parameters, this responds to an rfid tag and drives forward full speed for 3 seconds
+ */
+bool CommandCreator::rfidDrive1(Parameters *params){
+	CommandBase *command = new Drive(100, 100, 3);
+	commandCenter->addCommand(command);
+	return true;
+}

@@ -22,6 +22,7 @@ public:
 	CommandCreator();
 	virtual ~CommandCreator();
 	bool createCommand(String command, Parameters *params);
+	bool createCommand(String command);
 private:
 	static CommandCenter *commandCenter;
 	StringHashTable commandHash;
@@ -29,6 +30,7 @@ private:
 	static bool moveFinger(Parameters *params);
 	static bool moveHand(Parameters *params);
 	static bool drive(Parameters *params);
+	static bool rfidDrive1(Parameters *params);
 };
 
 #endif /* COMMANDS_COMMANDCREATOR_H_ */

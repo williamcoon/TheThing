@@ -55,7 +55,8 @@ void SerialHandler::parseCommand(){
 		params = getParameters(paramString);
 	}
 	if(!commandCreator.createCommand(newCommand, params)){
-		serial->println("Bad Command");
+		serial->print("Bad Command: ");
+		serial->println(newCommand);
 		delete params;
 		params = NULL;
 	}

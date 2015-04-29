@@ -14,7 +14,7 @@
 
 class SerialHandler {
 public:
-	SerialHandler(HardwareSerial *s);
+	SerialHandler(HardwareSerial *);
 	void update();
 private:
 	String readSerial();
