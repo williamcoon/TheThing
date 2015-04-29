@@ -1,6 +1,7 @@
 Installing Software
 1. Download and Install Eclipse for C/C++ Developers
-2. Download and Install Arduino IDE
+2. Download and Install Arduino IDE- use version 1.0.6, the newest versions
+   don't quite work with the eclipse plugin
 3. Verify that you can upload example Blink sketch to the Mega from Arduino.
 4. Install Git
 
