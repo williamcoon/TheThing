@@ -6,17 +6,16 @@
  */
 
 #include <Finger.h>
-#define CENTER_PWM 127
-#define MAX_PWM 127
 
-Finger::Finger(int pwmPin, int counterPin):counter(counterPin) {
-	Finger::pwmPin = pwmPin;
-	pinMode(pwmPin, OUTPUT);
-	analogWrite(pwmPin, CENTER_PWM);
-	targetPos = 0;
-	currentPos = 0;
-	direction = FWD;
-	finished = true;
+Finger::Finger(int controlPin, int counterPin)
+	:	counter(counterPin),
+		fingerMotor(controlPin),
+		targetPos(0),
+		currentPos(0),
+		direction(FWD),
+		finished(true)
+{
+	fingerMotor.setSpeed(0);
 }
 
 void Finger::startMotion(int targetPosition, int motionSpeed){
@@ -25,19 +24,16 @@ void Finger::startMotion(int targetPosition, int motionSpeed){
 	finished = false;
 	targetPos = targetPosition;
 	direction = (targetPos>currentPos)?FWD:REV;
-	//Resolve speed/direction into a PWM duty cycle between 0 and 255;
-	int pwmVal;
 	if(direction==FWD){
-		pwmVal = CENTER_PWM + (int)((motionSpeed/100.0)*MAX_PWM);
+		fingerMotor.setSpeed(motionSpeed);
 	}else{
-		pwmVal = CENTER_PWM - (int)((motionSpeed/100.0)*MAX_PWM);
+		fingerMotor.setSpeed(-motionSpeed);
 	}
-	analogWrite(pwmPin, pwmVal);
 }
 
 void Finger::stopMotion(){
 	//Set motor speed to zero;
-	analogWrite(pwmPin, CENTER_PWM);
+	fingerMotor.setSpeed(0);
 	finished = true;
 }
 

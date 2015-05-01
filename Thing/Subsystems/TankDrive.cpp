@@ -6,19 +6,15 @@
  */
 
 #include <TankDrive.h>
-#define CENTER_PWM 127
-#define MAX_PWM 127
 
 TankDrive* TankDrive::instance = NULL;
 
 TankDrive::TankDrive()
-	:	leftPWM(TANK_LEFT_PWM),
-		rightPWM(TANK_RIGHT_PWM)
+	:	leftMotor(TANK_LEFT_PWM),
+		rightMotor(TANK_RIGHT_PWM)
 {
-	pinMode(leftPWM, OUTPUT);
-	pinMode(rightPWM, OUTPUT);
-	analogWrite(leftPWM, CENTER_PWM);
-	analogWrite(rightPWM, CENTER_PWM);
+	leftMotor.setSpeed(0);
+	rightMotor.setSpeed(0);
 }
 
 TankDrive::~TankDrive() {
@@ -37,14 +33,12 @@ TankDrive* TankDrive::getInstance(){
  * int rightSpeed: Integer between -100 and 100 corresponding to 0 to 100% power in FWD or REV
  */
 void TankDrive::drive(int leftSpeed, int rightSpeed){
-	int leftVal = CENTER_PWM + (int)((leftSpeed/100.0)*MAX_PWM);
-	int rightVal = CENTER_PWM + (int)((rightSpeed/100.0)*MAX_PWM);
-	analogWrite(leftPWM, leftVal);
-	analogWrite(rightPWM, rightVal);
+	leftMotor.setSpeed(leftSpeed);
+	rightMotor.setSpeed(rightSpeed);
 }
 
 void TankDrive::stop(){
-	analogWrite(leftPWM, CENTER_PWM);
-	analogWrite(rightPWM, CENTER_PWM);
+	leftMotor.setSpeed(0);
+	rightMotor.setSpeed(0);
 }
 

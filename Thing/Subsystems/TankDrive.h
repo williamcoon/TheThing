@@ -9,6 +9,7 @@
 #define SUBSYSTEMS_TANKDRIVE_H_
 
 #include "Arduino.h"
+#include "Victor.h"
 #include "PinDefinitions.h"
 
 class TankDrive {
@@ -20,8 +21,8 @@ public:
 private:
 	TankDrive();
 	static TankDrive *instance;
-	int leftPWM;
-	int rightPWM;
+	Victor leftMotor;
+	Victor rightMotor;
 };
 
 #endif /* SUBSYSTEMS_TANKDRIVE_H_ */

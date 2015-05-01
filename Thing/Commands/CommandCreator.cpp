@@ -16,6 +16,8 @@ CommandCreator::CommandCreator() {
 	commandHash.put("moveHand", moveHand);
 	commandHash.put("drive", drive);
 	commandHash.put("7C0055F126FE", rfidDrive1);
+	commandHash.put("2500ABCCBFFD", rfidDrive2);
+	commandHash.put("2500AC101188", rfidDrive3);
 }
 
 CommandCreator::~CommandCreator() {
@@ -126,6 +128,26 @@ bool CommandCreator::drive(Parameters *params){
  */
 bool CommandCreator::rfidDrive1(Parameters *params){
 	CommandBase *command = new Drive(100, 100, 3);
+	commandCenter->addCommand(command);
+	return true;
+}
+
+/*
+ * rfidDrive1(NULL)
+ * No Parameters, this responds to an rfid tag and drives reverse full speed for 3 seconds
+ */
+bool CommandCreator::rfidDrive2(Parameters *params){
+	CommandBase *command = new Drive(-100, -100, 3);
+	commandCenter->addCommand(command);
+	return true;
+}
+
+/*
+ * rfidDrive1(NULL)
+ * No Parameters, this responds to an rfid tag and spins full speed for 3 seconds
+ */
+bool CommandCreator::rfidDrive3(Parameters *params){
+	CommandBase *command = new Drive(-100, 100, 3);
 	commandCenter->addCommand(command);
 	return true;
 }

@@ -9,19 +9,20 @@
 #define FINGER_H_
 
 #include "Counter.h"
+#include "Victor.h"
 
 class Finger {
 public:
-	Finger(int pwmPin, int counterPin);
+	Finger(int controlPin, int counterPin);
 	void startMotion(int targetPosition, int motionSpeed);
 	void update();
 	bool isFinished();
 private:
 	Counter counter;
-	int pwmPin;
-	bool direction;
-	int currentPos;
+	Victor fingerMotor;
 	int targetPos;
+	int currentPos;
+	bool direction;
 	bool finished;
 	void stopMotion();
 };

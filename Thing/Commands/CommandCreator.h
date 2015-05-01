@@ -31,6 +31,8 @@ private:
 	static bool moveHand(Parameters *params);
 	static bool drive(Parameters *params);
 	static bool rfidDrive1(Parameters *params);
+	static bool rfidDrive2(Parameters *params);
+	static bool rfidDrive3(Parameters *params);
 };
 
 #endif /* COMMANDS_COMMANDCREATOR_H_ */
