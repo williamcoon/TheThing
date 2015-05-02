@@ -170,6 +170,7 @@ bool CommandCreator::calibrateVictor(Parameters *params){
 	int pin;
 	if(params->getInt(0,&pin)){
 		Victor victor(pin);
+		victor.startServo();
 		Serial.println("Calibrating...");
 		victor.calibrate();
 		Serial.println("Calibration Complete");
