@@ -15,6 +15,7 @@ CommandCreator::CommandCreator() {
 	commandHash.put("moveFinger", moveFinger);
 	commandHash.put("moveHand", moveHand);
 	commandHash.put("drive", drive);
+	commandHash.put("calibrate", calibrateVictor);
 	commandHash.put("7C0055F126FE", rfidDrive1);
 	commandHash.put("2500ABCCBFFD", rfidDrive2);
 	commandHash.put("2500AC101188", rfidDrive3);
@@ -127,27 +128,54 @@ bool CommandCreator::drive(Parameters *params){
  * No Parameters, this responds to an rfid tag and drives forward full speed for 3 seconds
  */
 bool CommandCreator::rfidDrive1(Parameters *params){
+	Serial.println("RFID Drive 1");
 	CommandBase *command = new Drive(100, 100, 3);
 	commandCenter->addCommand(command);
 	return true;
 }
 
 /*
- * rfidDrive1(NULL)
+ * rfidDrive2(NULL)
  * No Parameters, this responds to an rfid tag and drives reverse full speed for 3 seconds
  */
 bool CommandCreator::rfidDrive2(Parameters *params){
+	Serial.println("RFID Drive 2");
 	CommandBase *command = new Drive(-100, -100, 3);
 	commandCenter->addCommand(command);
 	return true;
 }
 
 /*
- * rfidDrive1(NULL)
+ * rfidDrive3(NULL)
  * No Parameters, this responds to an rfid tag and spins full speed for 3 seconds
  */
 bool CommandCreator::rfidDrive3(Parameters *params){
+	Serial.println("RFID Drive 3");
 	CommandBase *command = new Drive(-100, 100, 3);
 	commandCenter->addCommand(command);
 	return true;
 }
+
+/*
+ * calibrateVictor(int pin)
+ * pin: the control pin for the victor
+ * This command bypasses the command center and just executes here. It shouldn't
+ * be used during normal operation and will screw up any currently running commands.
+ * Before running this command, power up the victor and hold the "Cal" button
+ * down until it starts alternating RED/GREEN. Release the button after you see
+ * "Calibration Complete" printed to the console. The victor should then blink
+ * green to confirm successful calibration.
+ */
+bool CommandCreator::calibrateVictor(Parameters *params){
+	int pin;
+	if(params->getInt(0,&pin)){
+		Victor victor(pin);
+		Serial.println("Calibrating...");
+		victor.calibrate();
+		Serial.println("Calibration Complete");
+		return true;
+	}else{
+		return false;
+	}
+}
+

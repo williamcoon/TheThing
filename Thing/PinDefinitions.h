@@ -9,11 +9,11 @@
 #define PINDEFINITIONS_H_
 
 //PWM pin definitions
-#define PINKY_PWM_PIN 3
-#define RING_PWM_PIN 4
-#define MIDDLE_PWM_PIN 5
-#define INDEX_PWM_PIN 6
-#define THUMB_PWM_PIN 7
+#define PINKY_CONTROL_PIN 3
+#define RING_CONTROL_PIN 4
+#define MIDDLE_CONTROL_PIN 5
+#define INDEX_CONTROL_PIN 6
+#define THUMB_CONTROL_PIN 7
 
 //Counter pin definitions
 #define PINKY_COUNT_PIN 14
@@ -23,7 +23,7 @@
 #define THUMB_COUNT_PIN 18
 
 //DriveTrain Definitions
-#define TANK_LEFT_PWM 8
-#define TANK_RIGHT_PWM 9
+#define TANK_LEFT_CONTROL_PIN 8
+#define TANK_RIGHT_CONTROL_PIN 9
 
 #endif /* PINDEFINITIONS_H_ */

@@ -21,6 +21,7 @@ public:
 	bool isFinished();
 	void update();
 	static Hand* getInstance();
+	void init();
 private:
 	Hand();
 	static Hand *instance;

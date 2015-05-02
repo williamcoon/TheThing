@@ -17,6 +17,7 @@ public:
 	void startMotion(int targetPosition, int motionSpeed);
 	void update();
 	bool isFinished();
+	void init();
 private:
 	Counter counter;
 	Victor fingerMotor;

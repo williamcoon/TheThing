@@ -10,17 +10,23 @@
 Hand* Hand::instance = NULL;
 
 Hand::Hand()
-	: pinky(PINKY_PWM_PIN, PINKY_COUNT_PIN),
-	  ring(RING_PWM_PIN, RING_COUNT_PIN),
-	  middle(MIDDLE_PWM_PIN, MIDDLE_COUNT_PIN),
-	  index(INDEX_PWM_PIN, INDEX_COUNT_PIN),
-	  thumb(THUMB_PWM_PIN, THUMB_COUNT_PIN)
+	: pinky(PINKY_CONTROL_PIN, PINKY_COUNT_PIN),
+	  ring(RING_CONTROL_PIN, RING_COUNT_PIN),
+	  middle(MIDDLE_CONTROL_PIN, MIDDLE_COUNT_PIN),
+	  index(INDEX_CONTROL_PIN, INDEX_COUNT_PIN),
+	  thumb(THUMB_CONTROL_PIN, THUMB_COUNT_PIN)
 {
 	fingers[0] = &pinky;
 	fingers[1] = &ring;
 	fingers[2] = &middle;
 	fingers[3] = &index;
 	fingers[4] = &thumb;
+}
+
+void Hand::init(){
+	for(int i=0; i<5; i++){
+		fingers[i]->init();
+	}
 }
 
 Hand* Hand::getInstance(){
@@ -44,6 +50,7 @@ void Hand::update(){
 		fingers[i]->update();
 	}
 }
+
 
 
 

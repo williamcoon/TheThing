@@ -15,7 +15,7 @@ Finger::Finger(int controlPin, int counterPin)
 		direction(FWD),
 		finished(true)
 {
-	fingerMotor.setSpeed(0);
+
 }
 
 void Finger::startMotion(int targetPosition, int motionSpeed){
@@ -40,12 +40,18 @@ void Finger::stopMotion(){
 void Finger::update(){
 	counter.update(direction);
 	currentPos = counter.getCount();
-	if((direction&&currentPos>=targetPos)|(!direction&&currentPos<=targetPos)){
-		stopMotion();
+	if(!finished){
+		if((direction&&currentPos>=targetPos)|(!direction&&currentPos<=targetPos)){
+			stopMotion();
+		}
 	}
 }
 
 bool Finger::isFinished(){
 	return finished;
+}
+
+void Finger::init(){
+	fingerMotor.startServo();
 }
 

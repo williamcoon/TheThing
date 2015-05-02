@@ -7,23 +7,31 @@
 
 #include <Victor.h>
 
-Victor::Victor(uint8_t pin)
-	:	servoPin(pin)
+Victor::Victor(int pin)
+	:	servoPin(pin),
+		servo()
 {
-	// TODO Auto-generated constructor stub
-	servo.attach(servoPin);
+
 }
 
 Victor::~Victor() {
 	// TODO Auto-generated destructor stub
 }
 
+void Victor::startServo(){
+	//There was an issue with trying to do this in the constructor, it seemed some
+	//global variables were not being initialized before the Victor constructor so
+	//the servo wouldn't operate normally
+	servo.attach(servoPin);
+	servo.write(90);
+}
+
 /*
- * setSpeed(int8_t speed)
+ * setSpeed(int speed)
  * speed: Integer from -100 to 100 mapping full reverse to full forward
  */
 
-void Victor::setSpeed(int8_t speed){
+void Victor::setSpeed(int speed){
 	servo.write(map(speed,-100,100,0,180));
 }
 

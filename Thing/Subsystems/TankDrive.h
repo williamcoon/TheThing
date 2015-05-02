@@ -18,6 +18,7 @@ public:
 	virtual ~TankDrive();
 	void drive(int leftSpeed, int rightSpeed);
 	void stop();
+	void init();
 private:
 	TankDrive();
 	static TankDrive *instance;

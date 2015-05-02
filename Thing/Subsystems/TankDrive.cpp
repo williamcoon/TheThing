@@ -10,11 +10,10 @@
 TankDrive* TankDrive::instance = NULL;
 
 TankDrive::TankDrive()
-	:	leftMotor(TANK_LEFT_PWM),
-		rightMotor(TANK_RIGHT_PWM)
+	:	leftMotor(TANK_LEFT_CONTROL_PIN),
+		rightMotor(TANK_RIGHT_CONTROL_PIN)
 {
-	leftMotor.setSpeed(0);
-	rightMotor.setSpeed(0);
+
 }
 
 TankDrive::~TankDrive() {
@@ -25,6 +24,11 @@ TankDrive* TankDrive::getInstance(){
 	if(!instance)
 		instance = new TankDrive();
 	return instance;
+}
+
+void TankDrive::init(){
+	leftMotor.startServo();
+	rightMotor.startServo();
 }
 
 /*

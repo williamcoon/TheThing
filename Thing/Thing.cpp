@@ -4,6 +4,12 @@
 #include "RFID.h"
 #include "Hand.h"
 
+CommandCenter *commandCenter = CommandCenter::getInstance();
+Hand *hand = Hand::getInstance();
+TankDrive *tankDrive = TankDrive::getInstance();
+SerialHandler serialHandler(&Serial);
+RFID rfid(&Serial1);
+
 //The setup function is called once at startup of the sketch
 void setup()
 {
@@ -11,13 +17,10 @@ void setup()
 	pinMode(13, OUTPUT);
 	Serial.begin(115200);
 	Serial1.begin(9600);
-	delay(500);
+	delay(1000);
+	hand->init();
+	tankDrive->init();
 }
-
-CommandCenter *commandCenter = CommandCenter::getInstance();
-Hand *hand = Hand::getInstance();
-SerialHandler serialHandler(&Serial);
-RFID rfid(&Serial1);
 
 // The loop function is called in an endless loop
 void loop()
@@ -41,6 +44,8 @@ void loop()
 		lastBlink = current;
 	}
 }
+
+
 
 //Thing class functions will go here
 

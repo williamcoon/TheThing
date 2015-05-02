@@ -10,17 +10,18 @@
 #define SUBSYSTEMS_VICTOR_H_
 
 #include "Arduino.h"
-#include "Servo.h"
+#include <MegaServo.h>
 
 class Victor {
 public:
-	Victor(uint8_t pin);
+	Victor(int pin);
 	virtual ~Victor();
-	void setSpeed(int8_t speed);
+	void setSpeed(int speed);
+	void startServo();
 	void calibrate();
 private:
-	uint8_t servoPin;
-	Servo servo;
+	int servoPin;
+	MegaServo servo;
 };
 
 #endif /* SUBSYSTEMS_VICTOR_H_ */
