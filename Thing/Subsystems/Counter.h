@@ -7,10 +7,9 @@
 
 #ifndef COUNTER_H_
 #define COUNTER_H_
-#define FWD true
-#define REV false
 
 #include "Arduino.h"
+#include "PinDefinitions.h"
 
 class Counter {
 

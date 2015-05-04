@@ -8,12 +8,17 @@
 #ifndef PINDEFINITIONS_H_
 #define PINDEFINITIONS_H_
 
+#define FWD true
+#define REV false
+
 //PWM pin definitions
 #define PINKY_CONTROL_PIN 3
 #define RING_CONTROL_PIN 4
 #define MIDDLE_CONTROL_PIN 5
 #define INDEX_CONTROL_PIN 6
 #define THUMB_CONTROL_PIN 7
+
+#define WRIST_CONTROL_PIN 10
 
 //Counter pin definitions
 #define PINKY_COUNT_PIN 14
