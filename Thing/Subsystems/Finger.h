@@ -18,6 +18,7 @@ public:
 	void update();
 	bool isFinished();
 	void init();
+	void readCounter();
 private:
 	Counter counter;
 	Victor fingerMotor;
