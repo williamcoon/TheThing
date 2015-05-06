@@ -33,7 +33,7 @@ void loop()
 	static unsigned long lastSerial = 0UL;
 
 	unsigned long current = millis();
-	if((current - lastUpdate) > 20){
+	if((current - lastUpdate) > 5){
 		/*
 		 * These are all the tasks that update at a 20ms interval.
 		 */

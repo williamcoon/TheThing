@@ -17,6 +17,7 @@
 #include "MoveHand.h"
 #include "Drive.h"
 #include "Victor.h"
+#include "BackAndForth.h"
 
 class CommandCreator {
 public:
@@ -35,6 +36,7 @@ private:
 	static bool rfidDrive2(Parameters *params);
 	static bool rfidDrive3(Parameters *params);
 	static bool calibrateVictor(Parameters *params);
+	static bool backAndForth(Parameters *params);
 };
 
 #endif /* COMMANDS_COMMANDCREATOR_H_ */

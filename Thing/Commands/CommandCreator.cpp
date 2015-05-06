@@ -15,6 +15,7 @@ CommandCreator::CommandCreator() {
 	commandHash.put("moveFinger", moveFinger);
 	commandHash.put("moveHand", moveHand);
 	commandHash.put("drive", drive);
+	commandHash.put("bnf", backAndForth);
 	commandHash.put("calibrate", calibrateVictor);
 	commandHash.put("7C0055F126FE", rfidDrive1);
 	commandHash.put("2500ABCCBFFD", rfidDrive2);
@@ -174,6 +175,21 @@ bool CommandCreator::calibrateVictor(Parameters *params){
 		Serial.println("Calibrating...");
 		victor.calibrate();
 		Serial.println("Calibration Complete");
+		return true;
+	}else{
+		return false;
+	}
+}
+
+bool CommandCreator::backAndForth(Parameters *params){
+	int fingerIndex;
+	int speed;
+	int cycles;
+	if(params->getInt(0, &fingerIndex)&&params->getInt(1, &speed)&&params->getInt(2, &cycles)){
+		CommandBase *command = new BackAndForth(fingerIndex, speed, cycles);
+		commandCenter->addCommand(command);
+		delete params;
+		params = NULL;
 		return true;
 	}else{
 		return false;
