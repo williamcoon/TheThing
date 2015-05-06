@@ -38,13 +38,16 @@ void Finger::stopMotion(){
 }
 
 void Finger::update(){
-	counter.update(direction);
 	currentPos = counter.getCount();
 	if(!finished){
 		if((direction&&currentPos>=targetPos)|(!direction&&currentPos<=targetPos)){
 			stopMotion();
 		}
 	}
+}
+
+void Finger::readCounter(){
+	counter.update(direction);
 }
 
 bool Finger::isFinished(){

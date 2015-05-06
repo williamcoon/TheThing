@@ -12,16 +12,17 @@
 
 class Hand {
 public:
-	Finger pinky;
-	Finger ring;
-	Finger middle;
-	Finger index;
-	Finger thumb;
-	Finger *fingers[5];
+	static Finger pinky;
+	static Finger ring;
+	static Finger middle;
+	static Finger index;
+	static Finger thumb;
+	static Finger *fingers[];
 	bool isFinished();
 	void update();
 	static Hand* getInstance();
 	void init();
+	static void readCounters();
 private:
 	Hand();
 	static Hand *instance;
