@@ -8,39 +8,30 @@
 #include <Hand.h>
 
 Hand* Hand::instance = NULL;
-Finger Hand::pinky(PINKY_CONTROL_PIN, PINKY_COUNT_PIN);
-Finger Hand::ring(RING_CONTROL_PIN, RING_COUNT_PIN);
-Finger Hand::middle(MIDDLE_CONTROL_PIN, MIDDLE_COUNT_PIN);
-Finger Hand::index(INDEX_CONTROL_PIN, INDEX_COUNT_PIN);
-Finger Hand::thumb(THUMB_CONTROL_PIN, THUMB_COUNT_PIN);
+Finger Hand::pinky(PINKY_CONTROL_PIN);
+Finger Hand::ring(RING_CONTROL_PIN);
+Finger Hand::middle(MIDDLE_CONTROL_PIN);
+Finger Hand::index(INDEX_CONTROL_PIN);
+Finger Hand::thumb(THUMB_CONTROL_PIN);
 Finger* Hand::fingers[] = {&pinky, &ring, &middle, &index, &thumb};
 
 Hand::Hand()
 {
-	/*
-	 * Setup Timer3 for triggering interrupt to check counters
-	 */
-	double sampleRate = 1000.0; //Sample at 1kHz
-	noInterrupts();
-    TCCR3A = 0;// set entire TCCR1A register to 0
-    TCCR3B = 0;// same for TCCR1B
-    TCNT3  = 0;//initialize counter value to 0
-    // set compare match register (clock speed)/(sampleRate*prescaler) - 1 - must be <65536
-    long comp = (long)(16000000)/(sampleRate) - 1;
-    OCR3A = comp;
-    // turn on CTC mode
-    TCCR3B |= (1 << WGM12);
-    // Set CS10 bit for no prescaler (CS11 + CS00 = 64 prescaler)
-    TCCR3B |=  (1 << CS10); // (1 << CS11) |
-    // enable timer compare interrupt
-    TIMSK3 |= (1 << OCIE3A);
-    interrupts();
+
 }
 
 void Hand::init(){
 	for(int i=0; i<5; i++){
 		fingers[i]->init();
 	}
+	/*
+	 * Attach external interrupts for rotary encoders
+	 */
+	attachInterrupt(0, &Hand::handleInterrupt0, CHANGE);
+	attachInterrupt(1, &Hand::handleInterrupt1, CHANGE);
+	attachInterrupt(2, &Hand::handleInterrupt2, CHANGE);
+	attachInterrupt(3, &Hand::handleInterrupt3, CHANGE);
+	attachInterrupt(4, &Hand::handleInterrupt4, CHANGE);
 }
 
 Hand* Hand::getInstance(){
@@ -65,17 +56,30 @@ void Hand::update(){
 	}
 }
 
-void Hand::readCounters(){
-	for(int i=0; i<5; i++){
-		fingers[i]->readCounter();
-	}
+void Hand::handleInterrupt0(){
+	//Interrupt on pin 2
+	fingers[0]->incrementCount();
 }
 
-//timer3 interrupt
-ISR(TIMER3_COMPA_vect){
-	Hand::readCounters();
+void Hand::handleInterrupt1(){
+	//Interrupt on pin 3
+	fingers[1]->incrementCount();
 }
 
+void Hand::handleInterrupt2(){
+	//Interrupt on pin 21
+	fingers[2]->incrementCount();
+}
+
+void Hand::handleInterrupt3(){
+	//Interrupt on pin 20
+	fingers[3]->incrementCount();
+}
+
+void Hand::handleInterrupt4(){
+	//Interrupt on pin 19
+	fingers[4]->incrementCount();
+}
 
 
 

@@ -18,11 +18,15 @@ public:
 	static Finger index;
 	static Finger thumb;
 	static Finger *fingers[];
+	static Hand* getInstance();
+	static void handleInterrupt0();
+	static void handleInterrupt1();
+	static void handleInterrupt2();
+	static void handleInterrupt3();
+	static void handleInterrupt4();
+	void init();
 	bool isFinished();
 	void update();
-	static Hand* getInstance();
-	void init();
-	static void readCounters();
 private:
 	Hand();
 	static Hand *instance;

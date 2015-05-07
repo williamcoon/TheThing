@@ -8,22 +8,21 @@
 #ifndef FINGER_H_
 #define FINGER_H_
 
-#include "Counter.h"
+#include "PinDefinitions.h"
 #include "Victor.h"
 
 class Finger {
 public:
-	Finger(int controlPin, int counterPin);
+	Finger(int controlPin);
 	void startMotion(int targetPosition, int motionSpeed);
 	void update();
 	bool isFinished();
 	void init();
-	void readCounter();
+	void incrementCount();
 private:
-	Counter counter;
 	Victor fingerMotor;
 	int targetPos;
-	int currentPos;
+	volatile int currentPos;
 	bool direction;
 	bool finished;
 	void stopMotion();

@@ -7,9 +7,8 @@
 
 #include <Finger.h>
 
-Finger::Finger(int controlPin, int counterPin)
-	:	counter(counterPin),
-		fingerMotor(controlPin),
+Finger::Finger(int controlPin)
+	:	fingerMotor(controlPin),
 		targetPos(0),
 		currentPos(0),
 		direction(FWD),
@@ -38,16 +37,12 @@ void Finger::stopMotion(){
 }
 
 void Finger::update(){
-	currentPos = counter.getCount();
+	//Check if we're at the target position
 	if(!finished){
 		if((direction&&currentPos>=targetPos)|(!direction&&currentPos<=targetPos)){
 			stopMotion();
 		}
 	}
-}
-
-void Finger::readCounter(){
-	counter.update(direction);
 }
 
 bool Finger::isFinished(){
@@ -56,5 +51,9 @@ bool Finger::isFinished(){
 
 void Finger::init(){
 	fingerMotor.startServo();
+}
+
+void Finger::incrementCount(){
+	currentPos += (direction==FWD) ? 1:-1; //Increment or decrement based on fwd/rev direction
 }
 

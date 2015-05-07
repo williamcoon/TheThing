@@ -25,6 +25,8 @@ void setup()
 	wrist->init();
 }
 
+long count = 0;
+
 // The loop function is called in an endless loop
 void loop()
 {
@@ -33,9 +35,9 @@ void loop()
 	static unsigned long lastSerial = 0UL;
 
 	unsigned long current = millis();
-	if((current - lastUpdate) > 5){
+	if((current - lastUpdate) > 20){
 		/*
-		 * These are all the tasks that update at a 20ms interval.
+		 * Tasks that update at a 20ms interval.
 		 */
 		hand->update();
 		commandCenter->update();
