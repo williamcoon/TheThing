@@ -25,7 +25,10 @@ private:
 	volatile int currentPos;
 	bool direction;
 	bool finished;
+	volatile unsigned long lastTickTime;
+	bool enabled;
 	void stopMotion();
+	void disableMotor();
 };
 
 #endif /* FINGER_H_ */

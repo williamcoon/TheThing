@@ -6,13 +6,16 @@
  */
 
 #include <Finger.h>
+#define TICK_TIMEOUT 100 //TODO: Calculate timeout based on speed
 
 Finger::Finger(int controlPin)
 	:	fingerMotor(controlPin),
 		targetPos(0),
 		currentPos(0),
 		direction(FWD),
-		finished(true)
+		finished(true),
+		lastTickTime(0),
+		enabled(true)
 {
 
 }
@@ -20,13 +23,18 @@ Finger::Finger(int controlPin)
 void Finger::startMotion(int targetPosition, int motionSpeed){
 	//int targetPosition: The desired counter value to move to
 	//double motionSpeed: The speed to move (number between 0 and 100)
-	finished = false;
-	targetPos = targetPosition;
-	direction = (targetPos>currentPos)?FWD:REV;
-	if(direction==FWD){
-		fingerMotor.setSpeed(motionSpeed);
+	if(enabled){
+		finished = false;
+		targetPos = targetPosition;
+		direction = (targetPos>currentPos)?FWD:REV;
+		lastTickTime = millis();
+		if(direction==FWD){
+			fingerMotor.setSpeed(motionSpeed);
+		}else{
+			fingerMotor.setSpeed(-motionSpeed);
+		}
 	}else{
-		fingerMotor.setSpeed(-motionSpeed);
+		Serial.print("Motor has been disabled due to no readings from hall effect sensor.");
 	}
 }
 
@@ -36,9 +44,21 @@ void Finger::stopMotion(){
 	finished = true;
 }
 
+void Finger::disableMotor(){
+	//Call this if we're not seeing any sensor "ticks" even though we are powering the motor.
+	//This is to prevent destroying a finger in the case that there is a fault in the hall effect sensor
+	fingerMotor.setSpeed(0);
+	finished = true;
+	enabled = false;
+	Serial.println("Motor has been disabled");
+}
+
 void Finger::update(){
 	//Check if we're at the target position
 	if(!finished){
+		if((millis()-lastTickTime)>TICK_TIMEOUT){
+			disableMotor();
+		}
 		if((direction&&currentPos>=targetPos)|(!direction&&currentPos<=targetPos)){
 			stopMotion();
 		}
@@ -55,5 +75,6 @@ void Finger::init(){
 
 void Finger::incrementCount(){
 	currentPos += (direction==FWD) ? 1:-1; //Increment or decrement based on fwd/rev direction
+	lastTickTime = millis(); //Reset counter to detect sensor malfunction
 }
 
