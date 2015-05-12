@@ -51,6 +51,7 @@ bool Hand::isFinished(){
 }
 
 void Hand::update(){
+	// Update all of the fingers
 	for(int i=0; i<5; i++){
 		fingers[i]->update();
 	}

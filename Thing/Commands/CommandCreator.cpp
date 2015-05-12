@@ -42,14 +42,16 @@ bool CommandCreator::createCommand(String command, Parameters *params){
 bool CommandCreator::printSomething(Parameters *params){
 	String str;
 	int numberOfRepeats;
-	if(params->getString(0, &str)&&params->getInt(1, &numberOfRepeats)){
+	if(!params->getString(0, &str)){
+		return false;
+	}else if(!params->getInt(1, &numberOfRepeats)){
+		return false;
+	}else{
 		CommandBase *command = new PrintCommand(str, numberOfRepeats);
 		commandCenter->addCommand(command);
 		delete params;
 		params = NULL;
 		return true;
-	}else{
-		return false;
 	}
 }
 

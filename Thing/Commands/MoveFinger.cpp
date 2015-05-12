@@ -10,6 +10,7 @@
 Hand* MoveFinger::hand = Hand::getInstance();
 
 MoveFinger::MoveFinger(int fingerIndex, int targetPosition, int speed)
+	: fingerIndex(fingerIndex)
 {
 	finished = false;
 	hand->fingers[fingerIndex]->startMotion(targetPosition, speed);
@@ -21,7 +22,7 @@ MoveFinger::~MoveFinger() {
 
 void MoveFinger::execute(){
 	//This command will be called periodically while the command is running
-	if(hand->isFinished()){
+	if(hand->fingers[fingerIndex]->isFinished()){
 		finished = true;
 	}
 }
