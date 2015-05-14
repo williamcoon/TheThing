@@ -8,14 +8,16 @@
 #include <Finger.h>
 #define TICK_TIMEOUT 500 //TODO: Calculate timeout based on speed
 
-Finger::Finger(int controlPin)
+Finger::Finger(int controlPin, int reed_pin, String name)
 	:	fingerMotor(controlPin),
 		targetPos(0),
 		currentPos(0),
 		direction(FWD),
 		finished(true),
 		lastTickTime(0),
-		enabled(true)
+		enabled(true),
+		reed_pin(reed_pin),
+		name(name)
 {
 
 }
@@ -34,7 +36,8 @@ void Finger::startMotion(int targetPosition, int motionSpeed){
 			fingerMotor.setSpeed(-motionSpeed);
 		}
 	}else{
-		Serial.print("Motor has been disabled due to no readings from hall effect sensor.");
+		Serial.print(name);
+		Serial.println(" is disabled.");
 	}
 }
 
@@ -50,7 +53,8 @@ void Finger::disableMotor(){
 	fingerMotor.setSpeed(0);
 	finished = true;
 	enabled = false;
-	Serial.println("Motor has been disabled");
+	Serial.print(name);
+	Serial.println(" has been disabled due to bad hall reading");
 }
 
 void Finger::update(){
@@ -61,6 +65,12 @@ void Finger::update(){
 		}
 		if((direction&&currentPos>=targetPos)|(!direction&&currentPos<=targetPos)){
 			stopMotion();
+		}
+		if(direction==REV&&!digitalRead(reed_pin)){
+			stopMotion();
+			Serial.print(name);
+			Serial.println(" stopped motion due to reed limit");
+			setHomePosition();
 		}
 	}
 }
@@ -76,7 +86,9 @@ void Finger::init(){
 void Finger::incrementCount(){
 	currentPos += (direction==FWD) ? 1:-1; //Increment or decrement based on fwd/rev direction
 	lastTickTime = millis(); //Reset counter to detect sensor malfunction
-//	Serial.print("Count: ");
-//	Serial.println(currentPos);
+}
+
+void Finger::setHomePosition(){
+	currentPos = 0;
 }
 

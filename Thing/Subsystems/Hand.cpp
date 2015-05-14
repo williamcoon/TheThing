@@ -8,11 +8,11 @@
 #include <Hand.h>
 
 Hand* Hand::instance = NULL;
-Finger Hand::pinky(PINKY_CONTROL_PIN);
-Finger Hand::ring(RING_CONTROL_PIN);
-Finger Hand::middle(MIDDLE_CONTROL_PIN);
-Finger Hand::index(INDEX_CONTROL_PIN);
-Finger Hand::thumb(THUMB_CONTROL_PIN);
+Finger Hand::pinky(PINKY_CONTROL_PIN, PINKY_REED_PIN, "Pinky");
+Finger Hand::ring(RING_CONTROL_PIN, RING_REED_PIN, "Ring");
+Finger Hand::middle(MIDDLE_CONTROL_PIN, MIDDLE_REED_PIN, "Middle");
+Finger Hand::index(INDEX_CONTROL_PIN, INDEX_REED_PIN, "Index");
+Finger Hand::thumb(THUMB_CONTROL_PIN, THUMB_REED_PIN, "Thumb");
 Finger* Hand::fingers[] = {&pinky, &ring, &middle, &index, &thumb};
 
 Hand::Hand()
@@ -21,14 +21,9 @@ Hand::Hand()
 }
 
 void Hand::init(){
-	for(int i=0; i<5; i++){
-		fingers[i]->init();
-	}
-
 	/*
 	 * Set all of the sensor pins to inputs w/ pullup resistors
 	 */
-
 	pinMode(PINKY_COUNT_PIN, INPUT_PULLUP);
 	pinMode(RING_COUNT_PIN, INPUT_PULLUP);
 	pinMode(MIDDLE_COUNT_PIN, INPUT_PULLUP);
@@ -49,6 +44,11 @@ void Hand::init(){
 	attachInterrupt(2, &Hand::handleInterrupt2, CHANGE);
 	attachInterrupt(3, &Hand::handleInterrupt3, CHANGE);
 	attachInterrupt(4, &Hand::handleInterrupt4, CHANGE);
+
+	//Initialize all of the fingers
+	for(int i=0; i<5; i++){
+		fingers[i]->init();
+	}
 }
 
 Hand* Hand::getInstance(){

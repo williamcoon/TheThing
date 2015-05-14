@@ -11,12 +11,16 @@ CommandCenter* CommandCreator::commandCenter = CommandCenter::getInstance();
 
 CommandCreator::CommandCreator() {
 	commandHash = StringHashTable();
+	//Serial commands
 	commandHash.put("print", printSomething);
 	commandHash.put("moveFinger", moveFinger);
 	commandHash.put("moveHand", moveHand);
 	commandHash.put("drive", drive);
 	commandHash.put("bnf", backAndForth);
 	commandHash.put("calibrate", calibrateVictor);
+	commandHash.put("findHome", findHome);
+
+	//RFID tags
 	commandHash.put("7C0055F126FE", rfidDrive1);
 	commandHash.put("2500ABCCBFFD", rfidDrive2);
 	commandHash.put("2500AC101188", rfidDrive3);
@@ -190,6 +194,19 @@ bool CommandCreator::backAndForth(Parameters *params){
 	int cycles;
 	if(params->getInt(0, &fingerIndex)&&params->getInt(1, &speed)&&params->getInt(2, &cycles)){
 		CommandBase *command = new BackAndForth(fingerIndex, speed, cycles);
+		commandCenter->addCommand(command);
+		delete params;
+		params = NULL;
+		return true;
+	}else{
+		return false;
+	}
+}
+
+bool CommandCreator::findHome(Parameters *params){
+	int speed;
+	if(params->getInt(0, &speed)){
+		CommandBase *command = new FindHome(speed);
 		commandCenter->addCommand(command);
 		delete params;
 		params = NULL;
