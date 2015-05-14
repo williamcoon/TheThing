@@ -6,7 +6,7 @@
  */
 
 #include <Finger.h>
-#define TICK_TIMEOUT 100 //TODO: Calculate timeout based on speed
+#define TICK_TIMEOUT 500 //TODO: Calculate timeout based on speed
 
 Finger::Finger(int controlPin)
 	:	fingerMotor(controlPin),
@@ -76,5 +76,7 @@ void Finger::init(){
 void Finger::incrementCount(){
 	currentPos += (direction==FWD) ? 1:-1; //Increment or decrement based on fwd/rev direction
 	lastTickTime = millis(); //Reset counter to detect sensor malfunction
+//	Serial.print("Count: ");
+//	Serial.println(currentPos);
 }
 

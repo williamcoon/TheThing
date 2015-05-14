@@ -27,6 +27,13 @@
 #define INDEX_COUNT_PIN 20 //Interrupt 3
 #define THUMB_COUNT_PIN 19 //Interrupt 4
 
+//Reed switch pin definitions
+#define PINKY_REED_PIN 22
+#define RING_REED_PIN 23
+#define MIDDLE_REED_PIN 24
+#define INDEX_REED_PIN 25
+#define THUMB_REED_PIN 26
+
 //DriveTrain Definitions
 #define TANK_LEFT_CONTROL_PIN 9
 #define TANK_RIGHT_CONTROL_PIN 10

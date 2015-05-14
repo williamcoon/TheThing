@@ -27,6 +27,12 @@ void Hand::init(){
 	/*
 	 * Attach external interrupts for rotary encoders
 	 */
+	pinMode(PINKY_COUNT_PIN, INPUT_PULLUP);
+	pinMode(RING_COUNT_PIN, INPUT_PULLUP);
+	pinMode(MIDDLE_COUNT_PIN, INPUT_PULLUP);
+	pinMode(INDEX_COUNT_PIN, INPUT_PULLUP);
+	pinMode(THUMB_COUNT_PIN, INPUT_PULLUP);
+
 	attachInterrupt(0, &Hand::handleInterrupt0, CHANGE);
 	attachInterrupt(1, &Hand::handleInterrupt1, CHANGE);
 	attachInterrupt(2, &Hand::handleInterrupt2, CHANGE);

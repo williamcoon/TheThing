@@ -20,6 +20,7 @@ CommandCreator::CommandCreator() {
 	commandHash.put("7C0055F126FE", rfidDrive1);
 	commandHash.put("2500ABCCBFFD", rfidDrive2);
 	commandHash.put("2500AC101188", rfidDrive3);
+	commandHash.put("2500AC27E749", rfidDrive3);
 }
 
 CommandCreator::~CommandCreator() {
