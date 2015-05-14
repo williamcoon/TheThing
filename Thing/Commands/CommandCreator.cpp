@@ -19,6 +19,7 @@ CommandCreator::CommandCreator() {
 	commandHash.put("bnf", backAndForth);
 	commandHash.put("calibrate", calibrateVictor);
 	commandHash.put("findHome", findHome);
+	commandHash.put("cycleFingers", cycleFingers);
 
 	//RFID tags
 	commandHash.put("7C0055F126FE", rfidDrive1);
@@ -207,6 +208,31 @@ bool CommandCreator::findHome(Parameters *params){
 	int speed;
 	if(params->getInt(0, &speed)){
 		CommandBase *command = new FindHome(speed);
+		commandCenter->addCommand(command);
+		delete params;
+		params = NULL;
+		return true;
+	}else{
+		return false;
+	}
+}
+
+/*
+ * cycleFingers(int minPosition, int maxPosition, int period, int offset, int repeats)
+ */
+bool CommandCreator::cycleFingers(Parameters *params){
+	int minPosition;
+	int maxPosition;
+	int period;
+	int offset;
+	int repeats;
+	if(params->getInt(0, &minPosition)
+			&&params->getInt(1, &maxPosition)
+			&&params->getInt(2, &period)
+			&&params->getInt(3, &offset)
+			&&params->getInt(4, &repeats))
+	{
+		CommandBase *command = new CycleFingers(minPosition, maxPosition, period, offset, repeats);
 		commandCenter->addCommand(command);
 		delete params;
 		params = NULL;
