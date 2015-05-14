@@ -24,15 +24,26 @@ void Hand::init(){
 	for(int i=0; i<5; i++){
 		fingers[i]->init();
 	}
+
 	/*
-	 * Attach external interrupts for rotary encoders
+	 * Set all of the sensor pins to inputs w/ pullup resistors
 	 */
+
 	pinMode(PINKY_COUNT_PIN, INPUT_PULLUP);
 	pinMode(RING_COUNT_PIN, INPUT_PULLUP);
 	pinMode(MIDDLE_COUNT_PIN, INPUT_PULLUP);
 	pinMode(INDEX_COUNT_PIN, INPUT_PULLUP);
 	pinMode(THUMB_COUNT_PIN, INPUT_PULLUP);
 
+	pinMode(PINKY_REED_PIN, INPUT_PULLUP);
+	pinMode(RING_REED_PIN, INPUT_PULLUP);
+	pinMode(MIDDLE_REED_PIN, INPUT_PULLUP);
+	pinMode(INDEX_REED_PIN, INPUT_PULLUP);
+	pinMode(THUMB_REED_PIN, INPUT_PULLUP);
+
+	/*
+	 * Attach external interrupts for rotary encoders
+	 */
 	attachInterrupt(0, &Hand::handleInterrupt0, CHANGE);
 	attachInterrupt(1, &Hand::handleInterrupt1, CHANGE);
 	attachInterrupt(2, &Hand::handleInterrupt2, CHANGE);
