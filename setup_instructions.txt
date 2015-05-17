@@ -94,7 +94,7 @@ avrdude finished
 Windows Paths
 
 Arduino IDE Path: <ARDUINOPATH>
-AVRDude config file: <ARDUINOPATH>\hardware\tools\avr\doc\avrdude\avrdude.pdf
+AVRDude config file: <ARDUINOPATH>\hardware\tools\avr\etc\avrdude.conf
 AVR GGC: <ARDUINOPATH>\hardware\tools\avr\bin
 GNU make: <ARDUINOPATH>\hardware\tools\avr\utils\bin
 AVR Header File: <ARDUINOPATH>\hardware\tools\avr\avr\include
