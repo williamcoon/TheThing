@@ -18,7 +18,7 @@ There are a few different options on how to do this, I’m using the plugin from
 2. Go to Help>Install New Software
 3. In the “Work With:” field, type in: http://www.baeyens.it/eclipse/update
 4. Select the most recent version (I’m using 1.2.4) and install it.
-5. Open Eclipse>Preferences
+5. Open Eclipse>Preferences (Windows: Window>Preferences)
 6. Under Arduino>Arduino you will need to fill in the Arduino IDE path and the Private Library path. Replace the <ARDUINOPATH> with wherever you installed Arduino (on a mac it’s usually /Applications/Arduino.app/)
 	Arduino IDE Path: <ARDUINOPATH>/Contents/Resources/Java
 	Private Library Path: Browse to and select the libraries folder for Arduino (on a mac its /Users/<username>/Documents/Arduino/libraries)
@@ -90,3 +90,12 @@ avrdude done.  Thank you.
 avrdude finished
 
 ———————————————————————————————
+
+Windows Paths
+
+Arduino IDE Path: <ARDUINOPATH>
+AVRDude config file: <ARDUINOPATH>\hardware\tools\avr\doc\avrdude\avrdude.pdf
+AVR GGC: <ARDUINOPATH>\hardware\tools\avr\bin
+GNU make: <ARDUINOPATH>\hardware\tools\avr\utils\bin
+AVR Header File: <ARDUINOPATH>\hardware\tools\avr\avr\include
+AVRDude: <ARDUINOPATH>\hardware\tools\avr\bin
