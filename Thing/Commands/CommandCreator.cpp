@@ -11,15 +11,21 @@ CommandCenter* CommandCreator::commandCenter = CommandCenter::getInstance();
 
 CommandCreator::CommandCreator() {
 	commandHash = StringHashTable();
+	//Serial commands
 	commandHash.put("print", printSomething);
 	commandHash.put("moveFinger", moveFinger);
 	commandHash.put("moveHand", moveHand);
 	commandHash.put("drive", drive);
 	commandHash.put("bnf", backAndForth);
 	commandHash.put("calibrate", calibrateVictor);
+	commandHash.put("findHome", findHome);
+	commandHash.put("cycleFingers", cycleFingers);
+
+	//RFID tags
 	commandHash.put("7C0055F126FE", rfidDrive1);
 	commandHash.put("2500ABCCBFFD", rfidDrive2);
 	commandHash.put("2500AC101188", rfidDrive3);
+	commandHash.put("2500AC27E749", rfidDrive3);
 }
 
 CommandCreator::~CommandCreator() {
@@ -42,14 +48,16 @@ bool CommandCreator::createCommand(String command, Parameters *params){
 bool CommandCreator::printSomething(Parameters *params){
 	String str;
 	int numberOfRepeats;
-	if(params->getString(0, &str)&&params->getInt(1, &numberOfRepeats)){
+	if(!params->getString(0, &str)){
+		return false;
+	}else if(!params->getInt(1, &numberOfRepeats)){
+		return false;
+	}else{
 		CommandBase *command = new PrintCommand(str, numberOfRepeats);
 		commandCenter->addCommand(command);
 		delete params;
 		params = NULL;
 		return true;
-	}else{
-		return false;
 	}
 }
 
@@ -187,6 +195,44 @@ bool CommandCreator::backAndForth(Parameters *params){
 	int cycles;
 	if(params->getInt(0, &fingerIndex)&&params->getInt(1, &speed)&&params->getInt(2, &cycles)){
 		CommandBase *command = new BackAndForth(fingerIndex, speed, cycles);
+		commandCenter->addCommand(command);
+		delete params;
+		params = NULL;
+		return true;
+	}else{
+		return false;
+	}
+}
+
+bool CommandCreator::findHome(Parameters *params){
+	int speed;
+	if(params->getInt(0, &speed)){
+		CommandBase *command = new FindHome(speed);
+		commandCenter->addCommand(command);
+		delete params;
+		params = NULL;
+		return true;
+	}else{
+		return false;
+	}
+}
+
+/*
+ * cycleFingers(int minPosition, int maxPosition, int period, int offset, int repeats)
+ */
+bool CommandCreator::cycleFingers(Parameters *params){
+	int minPosition;
+	int maxPosition;
+	int period;
+	int offset;
+	int repeats;
+	if(params->getInt(0, &minPosition)
+			&&params->getInt(1, &maxPosition)
+			&&params->getInt(2, &period)
+			&&params->getInt(3, &offset)
+			&&params->getInt(4, &repeats))
+	{
+		CommandBase *command = new CycleFingers(minPosition, maxPosition, period, offset, repeats);
 		commandCenter->addCommand(command);
 		delete params;
 		params = NULL;

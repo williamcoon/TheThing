@@ -21,6 +21,7 @@ public:
 private:
 	bool finished;
 	static Hand *hand;
+	int fingerIndex;
 };
 
 #endif /* COMMANDS_MOVEFINGER_H_ */

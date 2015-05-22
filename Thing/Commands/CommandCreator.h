@@ -18,6 +18,8 @@
 #include "Drive.h"
 #include "Victor.h"
 #include "BackAndForth.h"
+#include "FindHome.h"
+#include "CycleFingers.h"
 
 class CommandCreator {
 public:
@@ -37,6 +39,8 @@ private:
 	static bool rfidDrive3(Parameters *params);
 	static bool calibrateVictor(Parameters *params);
 	static bool backAndForth(Parameters *params);
+	static bool findHome(Parameters *params);
+	static bool cycleFingers(Parameters *params);
 };
 
 #endif /* COMMANDS_COMMANDCREATOR_H_ */

@@ -13,19 +13,25 @@
 
 class Finger {
 public:
-	Finger(int controlPin);
+	Finger(int controlPin, int reedPin, String name);
 	void startMotion(int targetPosition, int motionSpeed);
 	void update();
 	bool isFinished();
 	void init();
 	void incrementCount();
+	void setHomePosition();
+	void stopMotion();
 private:
 	Victor fingerMotor;
 	int targetPos;
 	volatile int currentPos;
 	bool direction;
 	bool finished;
-	void stopMotion();
+	volatile unsigned long lastTickTime;
+	bool enabled;
+	int reed_pin;
+	String name;
+	void disableMotor();
 };
 
 #endif /* FINGER_H_ */
