@@ -24,7 +24,9 @@ public:
 private:
 	Victor fingerMotor;
 	int targetPos;
+	int startPos;
 	volatile int currentPos;
+	int targetSpeed;
 	bool direction;
 	bool finished;
 	volatile unsigned long lastTickTime;
