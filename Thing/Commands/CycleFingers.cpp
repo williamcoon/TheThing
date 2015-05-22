@@ -30,7 +30,7 @@ CycleFingers::CycleFingers(int minPosition, int maxPosition, int period, int off
 	double middle = valRange/2.0;
 	Serial.print("Sine Wave: ");
 	for(int i=0; i<SAMPLES; i++){
-		sineWave[i] = (uint8_t)((valRange/2.0)*sin(2*PI*i*(1.0/SAMPLES) - PI/2.0) + middle);
+		sineWave[i] = (uint8_t)(((valRange/2.0)*sin(2*PI*i*(1.0/SAMPLES) - PI/2.0)) + middle + minPosition);
 		Serial.print(sineWave[i]);
 		Serial.print(", ");
 	}
@@ -49,6 +49,7 @@ void CycleFingers::execute(){
 		if(hand->isFinished()){
 			minAchieved = true;
 			lastIndexUpdate = millis();
+			Serial.println("Min achieved");
 		}
 	}else{
 		long current = millis();
@@ -57,23 +58,25 @@ void CycleFingers::execute(){
 			if(index>=SAMPLES){
 				index = 0;
 				cycleCount++;
+				Serial.print("Starting Cycle ");
+				Serial.println(cycleCount);
+			}
+			if(cycleCount <= repeats){
+				for(int i=0; i<5; i++){
+					int myIndex = index - offset*i;
+					if((myIndex < 0) && (cycleCount == 0)){
+						//If we are in the first cycle, i.e. cycleCount==0, then don't start
+						//this finger until it gets to the first positive index
+						continue;
+					}else if(myIndex < 0){
+						myIndex+=SAMPLES;
+					}
+					hand->fingers[i]->startMotion(sineWave[myIndex], 90);
+				}
+			}else{
+				stop();
 			}
 			lastIndexUpdate = current;
-		}
-		if(cycleCount <= repeats){
-			for(int i=0; i<5; i++){
-				int myIndex = index - offset;
-				if((myIndex < 0) && (cycleCount > 0)){
-					myIndex+=SAMPLES;
-				}else{
-					//If we are in the first cycle, i.e. cycleCount==0, then don't start
-					//this finger until it gets to the first positive index
-					continue;
-				}
-				hand->fingers[i]->startMotion(sineWave[myIndex], 50);
-			}
-		}else{
-			stop();
 		}
 	}
 }
