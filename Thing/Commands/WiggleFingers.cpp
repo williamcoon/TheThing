@@ -10,22 +10,23 @@
 Hand* WiggleFingers::hand = Hand::getInstance();
 
 
-WiggleFingers::WiggleFingers(int minPosition, int maxPosition, int delay, int speed, int repeats)
+WiggleFingers::WiggleFingers(int minPosition, int maxPosition, int fingerDelay, int cycleDelay, int speed, int repeats)
 	:	finished(false),
-		cycleCount(0),
-		delay(delay),
+		fingerDelay(fingerDelay),
 		speed(speed),
 		repeats(repeats),
 		minAchieved(false),
 		direction(FWD),
 		minPosition(minPosition),
 		maxPosition(maxPosition),
-		cycleStart(0)
+		cycleStart(0),
+		cycleDelay(cycleDelay)
 {
 	//Tell hand to start at minValues
 	for(int i=0; i<5;i++){
 		hand->fingers[i]->startMotion(minPosition, speed);
 		state[i] = REV;
+		cycleCount[i] = 0;
 	}
 }
 
@@ -39,29 +40,31 @@ void WiggleFingers::execute(){
 	if(!minAchieved){
 		if(hand->isFinished()){
 			minAchieved = true;
-		}
-	}else if(cycleCount < repeats){
-		unsigned long current = millis();
-		for(int i=0; i<5; i++){
-			if(state[i] != direction){
-				if((current-cycleStart)>=(delay*i)){
-					if(direction == FWD){
-						hand->fingers[i]->startMotion(maxPosition, speed);
-					}else{
-						hand->fingers[i]->startMotion(minPosition, speed);
-					}
-					state[i] = direction;
-				}
-			}
-		}
-		if(hand->fingers[0]->isFinished()){
-			if(direction == REV){
-				cycleCount++;
-			}
-			direction = !direction;
-			cycleStart = current;
+			cycleStart = millis();
 		}
 	}else{
+		unsigned long current = millis();
+		for(int i=0; i<5; i++){
+			if((state[i] == REV) && (cycleCount[i]<repeats)){
+				if((current-cycleStart)>=(fingerDelay*i + cycleDelay*cycleCount[i])){
+					hand->fingers[i]->startMotion(maxPosition, speed);
+					state[i] = FWD;
+				}
+			}
+			if((hand->fingers[i]->isFinished()) && (state[i]==FWD)){
+				hand->fingers[i]->startMotion(minPosition, speed);
+				state[i] = REV;
+				cycleCount[i]++;
+			}
+		}
+	}
+	bool done = true;
+	for(int i=0; i<5;i++){
+		if(cycleCount[i]<repeats){
+			done = false;
+		}
+	}
+	if(done){
 		stop();
 	}
 }

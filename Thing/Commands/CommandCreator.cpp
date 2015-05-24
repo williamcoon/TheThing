@@ -19,7 +19,7 @@ CommandCreator::CommandCreator() {
 	commandHash.put("bnf", backAndForth);
 	commandHash.put("calibrate", calibrateVictor);
 	commandHash.put("findHome", findHome);
-	commandHash.put("cycleFingers", cycleFingers);
+	commandHash.put("wiggle", wiggleFingers);
 
 	//RFID tags
 	commandHash.put("7C0055F126FE", rfidDrive1);
@@ -218,21 +218,23 @@ bool CommandCreator::findHome(Parameters *params){
 }
 
 /*
- * cycleFingers(int minPosition, int maxPosition, int period, int offset, int repeats)
+ * wiggleFingers(int minPosition, int maxPosition, int fingerDelay, int cycleDelay, int speed, int repeats)
  */
-bool CommandCreator::cycleFingers(Parameters *params){
+bool CommandCreator::wiggleFingers(Parameters *params){
 	int minPosition;
 	int maxPosition;
-	int period;
-	int offset;
+	int fingerDelay;
+	int cycleDelay;
+	int speed;
 	int repeats;
 	if(params->getInt(0, &minPosition)
 			&&params->getInt(1, &maxPosition)
-			&&params->getInt(2, &period)
-			&&params->getInt(3, &offset)
-			&&params->getInt(4, &repeats))
+			&&params->getInt(2, &fingerDelay)
+			&&params->getInt(3, &cycleDelay)
+			&&params->getInt(4, &speed)
+			&&params->getInt(5, &repeats))
 	{
-		CommandBase *command = new CycleFingers(minPosition, maxPosition, period, offset, repeats);
+		CommandBase *command = new WiggleFingers(minPosition, maxPosition, fingerDelay, cycleDelay, speed, repeats);
 		commandCenter->addCommand(command);
 		delete params;
 		params = NULL;

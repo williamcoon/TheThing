@@ -14,7 +14,7 @@
 
 class WiggleFingers: public CommandBase {
 public:
-	WiggleFingers(int minPosition, int maxPosition, int rate, int delay, int repeats);
+	WiggleFingers(int minPosition, int maxPosition, int fingerDelay, int cycleDelay, int speed, int repeats);
 	virtual ~WiggleFingers();
 	void execute();
 	bool isFinished();
@@ -22,8 +22,9 @@ public:
 private:
 	bool finished;
 	static Hand *hand;
-	int cycleCount;
-	int delay;
+	int cycleCount[5];
+	int fingerDelay;
+	int cycleDelay;
 	int speed;
 	int repeats;
 	bool minAchieved;
