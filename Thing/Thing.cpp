@@ -48,7 +48,7 @@ void loop()
 		 * Tasks that update on a 200ms interval
 		 */
 		serialHandler.update();
-		rfid.update();
+//		rfid.update();
 		lastSerial = current;
 	}
 	if((current-lastBlink) > 1000){
