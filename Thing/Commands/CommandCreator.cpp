@@ -20,6 +20,7 @@ CommandCreator::CommandCreator() {
 	commandHash.put("calibrate", calibrateVictor);
 	commandHash.put("findHome", findHome);
 	commandHash.put("wiggle", wiggleFingers);
+	commandHash.put("testParallel", testParallel);
 
 	//RFID tags
 	commandHash.put("7C0055F126FE", rfidDrive1);
@@ -38,7 +39,10 @@ bool CommandCreator::createCommand(String command, Parameters *params){
 		Serial.println("Unrecognized Command");
 		return false;
 	}else{
-		return cmdPtr(params);
+		bool success = cmdPtr(params);
+		delete params;
+		params = NULL;
+		return success;
 	}
 }
 
@@ -55,8 +59,6 @@ bool CommandCreator::printSomething(Parameters *params){
 	}else{
 		CommandBase *command = new PrintCommand(str, numberOfRepeats);
 		commandCenter->addCommand(command);
-		delete params;
-		params = NULL;
 		return true;
 	}
 }
@@ -71,8 +73,6 @@ bool CommandCreator::moveFinger(Parameters *params){
 	if(params->getInt(0, &fingerIndex)&&params->getInt(1, &targetPosition)&&params->getInt(2, &speed)){
 		CommandBase *command = new MoveFinger(fingerIndex, targetPosition, speed);
 		commandCenter->addCommand(command);
-		delete params;
-		params = NULL;
 		return true;
 	}else{
 		return false;
@@ -103,8 +103,6 @@ bool CommandCreator::moveHand(Parameters *params){
 											thumbPosition,
 											speed);
 		commandCenter->addCommand(command);
-		delete params;
-		params = NULL;
 		return true;
 	}else{
 		return false;
@@ -124,8 +122,6 @@ bool CommandCreator::drive(Parameters *params){
 	if(params->getInt(0, &leftSpeed)&&params->getInt(1, &rightSpeed)&&params->getInt(2, &driveTime)){
 		CommandBase *command = new Drive(leftSpeed, rightSpeed, driveTime);
 		commandCenter->addCommand(command);
-		delete params;
-		params = NULL;
 		return true;
 	}else{
 		return false;
@@ -196,8 +192,6 @@ bool CommandCreator::backAndForth(Parameters *params){
 	if(params->getInt(0, &fingerIndex)&&params->getInt(1, &speed)&&params->getInt(2, &cycles)){
 		CommandBase *command = new BackAndForth(fingerIndex, speed, cycles);
 		commandCenter->addCommand(command);
-		delete params;
-		params = NULL;
 		return true;
 	}else{
 		return false;
@@ -209,8 +203,6 @@ bool CommandCreator::findHome(Parameters *params){
 	if(params->getInt(0, &speed)){
 		CommandBase *command = new FindHome(speed);
 		commandCenter->addCommand(command);
-		delete params;
-		params = NULL;
 		return true;
 	}else{
 		return false;
@@ -236,11 +228,29 @@ bool CommandCreator::wiggleFingers(Parameters *params){
 	{
 		CommandBase *command = new WiggleFingers(minPosition, maxPosition, fingerDelay, cycleDelay, speed, repeats);
 		commandCenter->addCommand(command);
-		delete params;
-		params = NULL;
 		return true;
 	}else{
 		return false;
 	}
+}
+
+bool CommandCreator::testParallel(Parameters *params){
+	CommandBase *command1 = new PrintCommand("Command 1 - ", 2);
+	command1->setParallel(true);
+	CommandBase *command2 = new PrintCommand("Command 2 - ", 4);
+	command2->setParallel(true);
+	CommandBase *command3 = new PrintCommand("Command 3 - ", 3);
+	CommandBase *command4 = new PrintCommand("Command 4 - ", 5);
+	command4->setParallel(true);
+	CommandBase *command5 = new PrintCommand("Command 5 - ", 4);
+	command5->setParallel(true);
+	CommandBase *command6 = new PrintCommand("Command 6 - ", 3);
+	commandCenter->addCommand(command1);
+	commandCenter->addCommand(command2);
+	commandCenter->addCommand(command3);
+	commandCenter->addCommand(command4);
+	commandCenter->addCommand(command5);
+	commandCenter->addCommand(command6);
+	return true;
 }
 
