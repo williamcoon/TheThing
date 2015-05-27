@@ -41,6 +41,7 @@ private:
 	static bool backAndForth(Parameters *params);
 	static bool findHome(Parameters *params);
 	static bool wiggleFingers(Parameters *params);
+	static bool testParallel(Parameters *params);
 };
 
 #endif /* COMMANDS_COMMANDCREATOR_H_ */

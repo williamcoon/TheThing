@@ -18,9 +18,12 @@ public:
 	static CommandCenter* getInstance();
 private:
 	QueueList <CommandBase *> commands;
-	CommandBase *currentCommand;
+	CommandBase **currentCommands;
+	int currentSize;
 	CommandCenter();
 	static CommandCenter *instance;
+	void stageCommands();
+	void executeRunningCommands();
 };
 
 #endif /* COMMANDCENTER_H_ */

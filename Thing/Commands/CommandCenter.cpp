@@ -10,8 +10,8 @@
 CommandCenter* CommandCenter::instance = NULL;
 
 CommandCenter::CommandCenter() {
-	// TODO Create list of commands for parallel execution
-	currentCommand = NULL;
+	currentCommands = NULL;
+	currentSize = 0;
 }
 
 CommandCenter::~CommandCenter() {
@@ -33,22 +33,53 @@ void CommandCenter::addCommand(CommandBase *command){
 	commands.push(command);
 }
 
-void CommandCenter::update(){
-	if(currentCommand == NULL){
-		//Check if there is a new command on the queue
-		if(!commands.isEmpty()){
-			currentCommand = commands.pop();
-			//Serial.println("Starting new command");
+void CommandCenter::stageCommands(){
+	//Check if there is a new command on the queue
+	if(!commands.isEmpty()){
+		QueueList <CommandBase*>commandStage;
+		bool popNext = true;
+		while(popNext){
+			//Pop all of the commands into a new queue until you find one that isn't parallel
+			CommandBase *newCommand = commands.pop();
+			commandStage.push(newCommand);
+			if(!newCommand->isParallel()){
+				popNext = false;
+			}
+		}
+		//Allocate an array and put the new commands into it
+		currentSize = commandStage.count();
+		currentCommands = new CommandBase*[currentSize];
+		for(int i=0; i<currentSize; i++){
+			currentCommands[i] = commandStage.pop();
 		}
 	}
-	if(currentCommand!= NULL){
-		if(currentCommand->isFinished()){
-			//If the command is finished, set current to NULL and delete it
-			//Serial.println("Command Finished");
-			delete currentCommand;
-			currentCommand = NULL;
-		}else{
-			currentCommand->execute();
+}
+
+void CommandCenter::executeRunningCommands(){
+	bool allFinished = true;
+	for(int i=0; i<currentSize; i++){
+		if(!currentCommands[i]->isFinished()){
+			currentCommands[i]->execute();
+			allFinished = false;
 		}
+	}
+	if(allFinished){
+		//Delete all of the commands and clear the currentCommands array
+		Serial.println("All finished");
+		for(int i=0; i<currentSize; i++){
+			delete currentCommands[i];
+		}
+		currentSize = 0;
+		delete[] currentCommands;
+		currentCommands = NULL;
+	}
+}
+
+void CommandCenter::update(){
+	if(currentCommands == NULL){
+		stageCommands();
+	}
+	if(currentCommands!= NULL){
+		executeRunningCommands();
 	}
 }

@@ -46,7 +46,7 @@ void WiggleFingers::execute(){
 		unsigned long current = millis();
 		for(int i=0; i<5; i++){
 			if((state[i] == REV) && (cycleCount[i]<repeats)){
-				if((current-cycleStart)>=(fingerDelay*i + cycleDelay*cycleCount[i])){
+				if((current-cycleStart)>=(unsigned long)(fingerDelay*i + cycleDelay*cycleCount[i])){
 					hand->fingers[i]->startMotion(maxPosition, speed);
 					state[i] = FWD;
 				}

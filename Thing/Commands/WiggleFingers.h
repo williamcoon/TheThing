@@ -24,7 +24,6 @@ private:
 	static Hand *hand;
 	int cycleCount[5];
 	int fingerDelay;
-	int cycleDelay;
 	int speed;
 	int repeats;
 	bool minAchieved;
@@ -33,6 +32,7 @@ private:
 	int minPosition;
 	int maxPosition;
 	unsigned long cycleStart;
+	int cycleDelay;
 };
 
 #endif /* COMMANDS_WIGGLEFINGERS_H_ */
