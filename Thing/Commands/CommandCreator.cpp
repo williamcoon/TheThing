@@ -26,7 +26,7 @@ CommandCreator::CommandCreator() {
 	commandHash.put("7C0055F126FE", rfidDrive1);
 	commandHash.put("2500ABCCBFFD", rfidDrive2);
 	commandHash.put("2500AC101188", rfidDrive3);
-	commandHash.put("2500AC27E749", rfidDrive3);
+	commandHash.put("2500AC27E749", smallPoof);
 }
 
 CommandCreator::~CommandCreator() {
@@ -257,6 +257,14 @@ bool CommandCreator::testParallel(Parameters *params){
 	commandCenter->addCommand(command4);
 	commandCenter->addCommand(command5);
 	commandCenter->addCommand(command6);
+	return true;
+}
+
+bool CommandCreator::smallPoof(Parameters *params){
+	CommandBase *command = new Poof(100UL);
+	commandCenter->addCommand(command);
+	CommandBase *ejectCommand = new EjectBlock();
+	commandCenter->addCommand(ejectCommand);
 	return true;
 }
 

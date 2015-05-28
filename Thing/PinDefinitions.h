@@ -39,6 +39,8 @@
 #define TANK_RIGHT_CONTROL_PIN 10
 
 //Other Pins
+#define STATUS_PIN 13
 #define EJECTOR_PIN 12
+#define POOFER_PIN 14
 
 #endif /* PINDEFINITIONS_H_ */
