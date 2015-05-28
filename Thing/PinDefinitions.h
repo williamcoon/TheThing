@@ -38,4 +38,7 @@
 #define TANK_LEFT_CONTROL_PIN 9
 #define TANK_RIGHT_CONTROL_PIN 10
 
+//Other Pins
+#define EJECTOR_PIN 12
+
 #endif /* PINDEFINITIONS_H_ */
