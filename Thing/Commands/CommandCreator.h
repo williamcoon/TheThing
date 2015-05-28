@@ -20,6 +20,7 @@
 #include "BackAndForth.h"
 #include "FindHome.h"
 #include "WiggleFingers.h"
+#include "EjectBlock.h"
 
 class CommandCreator {
 public:

@@ -136,6 +136,8 @@ bool CommandCreator::rfidDrive1(Parameters *params){
 	Serial.println("RFID Drive 1");
 	CommandBase *command = new Drive(100, 100, 3);
 	commandCenter->addCommand(command);
+	CommandBase *ejectCommand = new EjectBlock();
+	commandCenter->addCommand(ejectCommand);
 	return true;
 }
 
@@ -147,6 +149,8 @@ bool CommandCreator::rfidDrive2(Parameters *params){
 	Serial.println("RFID Drive 2");
 	CommandBase *command = new Drive(-100, -100, 3);
 	commandCenter->addCommand(command);
+	CommandBase *ejectCommand = new EjectBlock();
+	commandCenter->addCommand(ejectCommand);
 	return true;
 }
 
@@ -158,6 +162,8 @@ bool CommandCreator::rfidDrive3(Parameters *params){
 	Serial.println("RFID Drive 3");
 	CommandBase *command = new Drive(-100, 100, 3);
 	commandCenter->addCommand(command);
+	CommandBase *ejectCommand = new EjectBlock();
+	commandCenter->addCommand(ejectCommand);
 	return true;
 }
 
