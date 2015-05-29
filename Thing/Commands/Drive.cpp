@@ -10,7 +10,20 @@
 TankDrive* Drive::tankDrive = TankDrive::getInstance();
 
 Drive::Drive(int leftSpeed, int rightSpeed, int time)
+	: finished(false),
+	  leftSpeed(leftSpeed),
+	  rightSpeed(rightSpeed),
+	  time(time),
+	  driveTime(0),
+	  startTime(0)
 {
+}
+
+Drive::~Drive() {
+	// TODO Auto-generated destructor stub
+}
+
+void Drive::init(){
 	tankDrive->drive(leftSpeed, rightSpeed);
 	if(time<0){
 		//Don't keep time, just set speed forever. Drivetrain will continue until
@@ -21,10 +34,6 @@ Drive::Drive(int leftSpeed, int rightSpeed, int time)
 		startTime = millis();
 		finished = false;
 	}
-}
-
-Drive::~Drive() {
-	// TODO Auto-generated destructor stub
 }
 
 void Drive::execute(){

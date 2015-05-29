@@ -10,6 +10,8 @@
 
 #include "Arduino.h"
 #include "CommandCreator.h"
+#include "StopAll.h"
+#include "CommandBase.h"
 
 class CommandCreator;
 

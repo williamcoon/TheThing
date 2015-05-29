@@ -74,6 +74,12 @@ void Hand::update(){
 	}
 }
 
+void Hand::stop(){
+	for(int i=0; i<5; i++){
+		fingers[i]->stopMotion();
+	}
+}
+
 void Hand::handleInterrupt0(){
 	//Interrupt on pin 2
 	fingers[0]->incrementCount();

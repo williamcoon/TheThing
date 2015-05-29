@@ -20,12 +20,19 @@ public:
 			int thumbPosition,
 			int speed);
 	virtual ~MoveHand();
+	void init();
 	void execute();
 	bool isFinished();
 	void stop();
 private:
 	bool finished;
 	static Hand* hand;
+	int pinkyP;
+	int ringP;
+	int middleP;
+	int indexP;
+	int thumbP;
+	int speed;
 };
 
 #endif /* COMMANDS_MOVEHAND_H_ */

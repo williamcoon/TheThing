@@ -86,6 +86,7 @@ void RFID::update(){
 				//No new blocks to read, stop reading
 				reading = false;
 				//TODO: Stop Everything??
+				commandCreator->createCommand("stop", NULL);
 			}
 		}
 	}

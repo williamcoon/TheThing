@@ -10,15 +10,19 @@
 Poofer* Poof::poofer = Poofer::getInstance();
 
 Poof::Poof(unsigned long poofLength)
-	: poofLength(poofLength){
-	// TODO Auto-generated constructor stub
-	finished = false;
-	startTime = millis();
-	poofer->openFire();
+	: finished(false),
+	  poofLength(poofLength),
+	  startTime(0)
+{
 }
 
 Poof::~Poof() {
 	// TODO Auto-generated destructor stub
+}
+
+void Poof::init(){
+	startTime = millis();
+	poofer->openFire();
 }
 
 void Poof::execute(){

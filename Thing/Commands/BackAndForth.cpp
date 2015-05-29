@@ -17,11 +17,14 @@ BackAndForth::BackAndForth(int fingerIndex, int speed, int cycles)
 		count(0),
 		cycles(cycles)
 {
-	hand->fingers[fingerIndex]->startMotion(0, speed);
 }
 
 BackAndForth::~BackAndForth() {
 	// TODO Auto-generated destructor stub
+}
+
+void BackAndForth::init(){
+	hand->fingers[finger]->startMotion(0, speed);
 }
 
 void BackAndForth::execute(){

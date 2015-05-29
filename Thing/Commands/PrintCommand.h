@@ -14,6 +14,7 @@
 class PrintCommand: public CommandBase {
 public:
 	PrintCommand(String s, int repeats);
+	void init();
 	void execute();
 	bool isFinished();
 	void stop();

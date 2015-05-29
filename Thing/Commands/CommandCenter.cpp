@@ -41,6 +41,7 @@ void CommandCenter::stageCommands(){
 		while(popNext){
 			//Pop all of the commands into a new queue until you find one that isn't parallel
 			CommandBase *newCommand = commands.pop();
+			newCommand->init();
 			commandStage.push(newCommand);
 			if(!newCommand->isParallel()){
 				popNext = false;
@@ -82,4 +83,15 @@ void CommandCenter::update(){
 	if(currentCommands!= NULL){
 		executeRunningCommands();
 	}
+}
+
+void CommandCenter::stopAll(){
+	for(int i=0; i<currentSize; i++){
+		currentCommands[i]->stop();
+		delete currentCommands[i];
+	}
+	delete[] currentCommands;
+	currentCommands = new CommandBase*[1];
+	currentCommands[0] = new StopAll();
+	currentSize = 1;
 }

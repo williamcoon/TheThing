@@ -12,15 +12,21 @@ Ejector* EjectBlock::ejector = Ejector::getInstance();
 RFID* EjectBlock::rfidReader = RFID::getInstance();
 
 EjectBlock::EjectBlock()
+	:	finished(false),
+		startTime(0)
 {
 	// TODO Auto-generated constructor stub
-	finished = false;
-	startTime = millis();
-	ejector->extend();
+
 }
 
 EjectBlock::~EjectBlock() {
 	// TODO Auto-generated destructor stub
+}
+
+void EjectBlock::init(){
+	finished = false;
+	startTime = millis();
+	ejector->extend();
 }
 
 void EjectBlock::execute(){

@@ -15,6 +15,7 @@ class MoveFinger: public CommandBase {
 public:
 	MoveFinger(int fingerIndex, int targetPosition, int speed);
 	virtual ~MoveFinger();
+	void init();
 	void execute();
 	bool isFinished();
 	void stop();
@@ -22,6 +23,8 @@ private:
 	bool finished;
 	static Hand *hand;
 	int fingerIndex;
+	int targetPosition;
+	int speed;
 };
 
 #endif /* COMMANDS_MOVEFINGER_H_ */

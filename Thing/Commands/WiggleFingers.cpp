@@ -22,17 +22,21 @@ WiggleFingers::WiggleFingers(int minPosition, int maxPosition, int fingerDelay, 
 		cycleStart(0),
 		cycleDelay(cycleDelay)
 {
+
+}
+
+WiggleFingers::~WiggleFingers() {
+	// TODO Auto-generated destructor stub
+
+}
+
+void WiggleFingers::init(){
 	//Tell hand to start at minValues
 	for(int i=0; i<5;i++){
 		hand->fingers[i]->startMotion(minPosition, speed);
 		state[i] = REV;
 		cycleCount[i] = 0;
 	}
-}
-
-WiggleFingers::~WiggleFingers() {
-	// TODO Auto-generated destructor stub
-
 }
 
 void WiggleFingers::execute(){

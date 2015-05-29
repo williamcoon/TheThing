@@ -17,6 +17,7 @@ class FindHome: public CommandBase {
 public:
 	FindHome(int speed);
 	virtual ~FindHome();
+	void init();
 	void execute();
 	bool isFinished();
 	void stop();
@@ -24,6 +25,7 @@ private:
 	bool finished;
 	static Hand *hand;
 	int reed_pins[5];
+	int speed;
 };
 
 #endif /* COMMANDS_FINDHOME_H_ */

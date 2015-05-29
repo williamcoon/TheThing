@@ -16,6 +16,7 @@ class BackAndForth: public CommandBase {
 public:
 	BackAndForth(int fingerIndex, int speed, int cycles);
 	virtual ~BackAndForth();
+	void init();
 	void execute();
 	bool isFinished();
 	void stop();

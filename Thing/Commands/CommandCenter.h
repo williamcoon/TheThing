@@ -9,12 +9,14 @@
 #define COMMANDCENTER_H_
 #include "QueueList.h"
 #include "CommandBase.h"
+#include "StopAll.h"
 
 class CommandCenter {
 public:
 	virtual ~CommandCenter();
 	void addCommand(CommandBase *command);
 	void update();
+	void stopAll();
 	static CommandCenter* getInstance();
 private:
 	QueueList <CommandBase *> commands;

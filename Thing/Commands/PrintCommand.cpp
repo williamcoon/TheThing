@@ -15,6 +15,10 @@ PrintCommand::PrintCommand(String s, int timesToRepeat) {
     finished = false;
 }
 
+void PrintCommand::init(){
+
+}
+
 void PrintCommand::execute(){
 	//This command will be called periodically while the command is running
 	if(count<=repeats){

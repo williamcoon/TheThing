@@ -15,17 +15,27 @@ MoveHand::MoveHand(int pinkyPosition,
 					int indexPosition,
 					int thumbPosition,
 					int speed)
+	: finished(false),
+	  pinkyP(pinkyPosition),
+	  ringP(ringPosition),
+	  middleP(middlePosition),
+	  indexP(indexPosition),
+	  thumbP(thumbPosition),
+	  speed(speed)
 {
-	finished = false;
-	hand->pinky.startMotion(pinkyPosition, speed);
-	hand->ring.startMotion(ringPosition, speed);
-	hand->middle.startMotion(middlePosition, speed);
-	hand->index.startMotion(indexPosition, speed);
-	hand->thumb.startMotion(thumbPosition, speed);
+
 }
 
 MoveHand::~MoveHand() {
 	// TODO Auto-generated destructor stub
+}
+
+void MoveHand::init(){
+	hand->pinky.startMotion(pinkyP, speed);
+	hand->ring.startMotion(ringP, speed);
+	hand->middle.startMotion(middleP, speed);
+	hand->index.startMotion(indexP, speed);
+	hand->thumb.startMotion(thumbP, speed);
 }
 
 void MoveHand::execute(){

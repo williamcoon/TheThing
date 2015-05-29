@@ -10,14 +10,19 @@
 Hand* MoveFinger::hand = Hand::getInstance();
 
 MoveFinger::MoveFinger(int fingerIndex, int targetPosition, int speed)
-	: fingerIndex(fingerIndex)
+	: finished(false),
+	  fingerIndex(fingerIndex),
+	  targetPosition(targetPosition),
+	  speed(speed)
 {
-	finished = false;
-	hand->fingers[fingerIndex]->startMotion(targetPosition, speed);
 }
 
 MoveFinger::~MoveFinger() {
 	// TODO Auto-generated destructor stub
+}
+
+void MoveFinger::init(){
+	hand->fingers[fingerIndex]->startMotion(targetPosition, speed);
 }
 
 void MoveFinger::execute(){

@@ -12,6 +12,7 @@ class CommandBase {
 public:
 	CommandBase();
 	virtual ~CommandBase(){};
+	virtual void init() = 0;
 	virtual void execute() = 0;
 	virtual void stop() = 0;
 	virtual bool isFinished() = 0;

@@ -16,14 +16,15 @@ class Poof: public CommandBase {
 public:
 	Poof(unsigned long poofLength);
 	virtual ~Poof();
+	void init();
 	void execute();
 	bool isFinished();
 	void stop();
 private:
 	bool finished;
 	static Poofer *poofer;
-	unsigned long startTime;
 	unsigned long poofLength;
+	unsigned long startTime;
 };
 
 #endif /* COMMANDS_POOF_H_ */

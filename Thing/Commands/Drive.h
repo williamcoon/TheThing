@@ -15,11 +15,15 @@ class Drive: public CommandBase {
 public:
 	Drive(int leftSpeed, int rightSpeed, int time);
 	virtual ~Drive();
+	void init();
 	void execute();
 	bool isFinished();
 	void stop();
 private:
 	bool finished;
+	int leftSpeed;
+	int rightSpeed;
+	int time;
 	unsigned long driveTime;
 	unsigned long startTime;
 	static TankDrive *tankDrive;

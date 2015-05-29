@@ -10,6 +10,7 @@
 Hand* FindHome::hand = Hand::getInstance();
 
 FindHome::FindHome(int speed)
+	: speed(speed)
 {
 	finished = false;
 	reed_pins[0] = PINKY_REED_PIN;
@@ -17,13 +18,16 @@ FindHome::FindHome(int speed)
 	reed_pins[2] = MIDDLE_REED_PIN;
 	reed_pins[3] = INDEX_REED_PIN;
 	reed_pins[4] = THUMB_REED_PIN;
-	for(int i=0; i<5; i++){
-		hand->fingers[i]->startMotion(-1000, speed);
-	}
 }
 
 FindHome::~FindHome() {
 	// TODO Auto-generated destructor stub
+}
+
+void FindHome::init(){
+	for(int i=0; i<5; i++){
+		hand->fingers[i]->startMotion(-1000, speed);
+	}
 }
 
 void FindHome::execute(){

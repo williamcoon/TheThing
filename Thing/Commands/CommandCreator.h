@@ -22,6 +22,7 @@
 #include "WiggleFingers.h"
 #include "EjectBlock.h"
 #include "Poof.h"
+#include "StopAll.h"
 
 class CommandCreator {
 public:
@@ -47,6 +48,7 @@ private:
 	static bool wiggleFingers(Parameters *params);
 	static bool testParallel(Parameters *params);
 	static bool smallPoof(Parameters *params);
+	static bool stopAll(Parameters *params);
 };
 
 #endif /* COMMANDS_COMMANDCREATOR_H_ */

@@ -22,6 +22,7 @@ CommandCreator::CommandCreator() {
 	commandHash.put("findHome", findHome);
 	commandHash.put("wiggle", wiggleFingers);
 	commandHash.put("testParallel", testParallel);
+	commandHash.put("stop", stopAll);
 
 	//RFID tags
 	commandHash.put("7C0055F126FE", rfidDrive1);
@@ -272,6 +273,12 @@ bool CommandCreator::smallPoof(Parameters *params){
 	commandCenter->addCommand(command);
 	CommandBase *ejectCommand = new EjectBlock();
 	commandCenter->addCommand(ejectCommand);
+	return true;
+}
+
+bool CommandCreator::stopAll(Parameters *params){
+	CommandBase *command = new StopAll();
+	commandCenter->addCommand(command);
 	return true;
 }
 

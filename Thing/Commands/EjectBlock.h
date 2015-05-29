@@ -19,6 +19,7 @@ class EjectBlock: public CommandBase {
 public:
 	EjectBlock();
 	virtual ~EjectBlock();
+	void init();
 	void execute();
 	bool isFinished();
 	void stop();
