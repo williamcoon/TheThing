@@ -16,6 +16,7 @@ class SerialHandler {
 public:
 	SerialHandler(HardwareSerial *);
 	void update();
+	void init();
 private:
 	String readSerial();
 	Parameters *getParameters(String paramString);
@@ -23,7 +24,7 @@ private:
 	HardwareSerial *serial;
 	const unsigned int MAX_SIZE;
 	String buffer;
-	CommandCreator commandCreator;
+	static CommandCreator *commandCreator;
 };
 
 #endif /* INPUTS_SERIALHANDLER_H_ */

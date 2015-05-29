@@ -11,16 +11,28 @@
 #include "Arduino.h"
 #include "CommandCreator.h"
 
+class CommandCreator;
+
 class RFID {
 public:
-	RFID(HardwareSerial *);
+	static RFID* getInstance();
 	void update();
+	void init();
+	void startReading();
+	void setLastEjectTime();
 private:
+	RFID();
+	static RFID *instance;
 	HardwareSerial *serial;
 	String readSerial();
+	void clearSerial();
+	void resetReader();
 	String tagID;
 	void createTagCommand(String string);
-	CommandCreator commandCreator;
+	static CommandCreator *commandCreator;
+	bool reading;
+	unsigned long lastEjectTime;
+	unsigned long lastReadTime;
 };
 
 #endif /* INPUTS_RFID_H_ */

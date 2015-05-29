@@ -25,11 +25,13 @@
 
 class CommandCreator {
 public:
-	CommandCreator();
+	static CommandCreator* getInstance();
 	virtual ~CommandCreator();
 	bool createCommand(String command, Parameters *params);
 	bool createCommand(String command);
 private:
+	CommandCreator();
+	static CommandCreator* instance;
 	static CommandCenter *commandCenter;
 	StringHashTable commandHash;
 	static bool printSomething(Parameters *params);

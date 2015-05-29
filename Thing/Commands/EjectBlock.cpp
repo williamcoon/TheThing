@@ -9,6 +9,7 @@
 
 #define EJECT_TIME 500UL //Amount of time(ms) to extend for ejection
 Ejector* EjectBlock::ejector = Ejector::getInstance();
+RFID* EjectBlock::rfidReader = RFID::getInstance();
 
 EjectBlock::EjectBlock()
 {
@@ -30,6 +31,7 @@ void EjectBlock::execute(){
 }
 
 bool EjectBlock::isFinished(){
+	rfidReader->setLastEjectTime();
 	return finished;
 }
 

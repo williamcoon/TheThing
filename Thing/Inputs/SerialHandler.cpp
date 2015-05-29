@@ -7,13 +7,18 @@
 
 #include <SerialHandler.h>
 
+CommandCreator *SerialHandler::commandCreator = CommandCreator::getInstance();
+
 SerialHandler::SerialHandler(HardwareSerial *s)
-	:	MAX_SIZE(50),
-		commandCreator()
+	:	MAX_SIZE(50)
 {
 	// TODO Auto-generated constructor stub
 	serial = s;
 	buffer = "";
+}
+
+void SerialHandler::init(){
+	serial->begin(115200);
 }
 
 /*
@@ -54,7 +59,7 @@ void SerialHandler::parseCommand(){
 		newCommand.remove(paramStart);
 		params = getParameters(paramString);
 	}
-	if(!commandCreator.createCommand(newCommand, params)){
+	if(!commandCreator->createCommand(newCommand, params)){
 		serial->print("Bad Command: ");
 		serial->println(newCommand);
 		delete params;

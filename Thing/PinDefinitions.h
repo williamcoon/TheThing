@@ -42,5 +42,6 @@
 #define STATUS_PIN 13
 #define EJECTOR_PIN 12
 #define POOFER_PIN 14
+#define RFID_RESET_PIN 15
 
 #endif /* PINDEFINITIONS_H_ */

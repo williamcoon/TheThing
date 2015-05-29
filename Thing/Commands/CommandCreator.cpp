@@ -8,6 +8,7 @@
 #include <CommandCreator.h>
 
 CommandCenter* CommandCreator::commandCenter = CommandCenter::getInstance();
+CommandCreator* CommandCreator::instance = NULL;
 
 CommandCreator::CommandCreator() {
 	commandHash = StringHashTable();
@@ -31,6 +32,12 @@ CommandCreator::CommandCreator() {
 
 CommandCreator::~CommandCreator() {
 	// TODO Auto-generated destructor stub
+}
+
+CommandCreator* CommandCreator::getInstance(){
+	if(!instance)
+		instance = new CommandCreator();
+	return instance;
 }
 
 bool CommandCreator::createCommand(String command, Parameters *params){
