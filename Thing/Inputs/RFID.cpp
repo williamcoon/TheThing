@@ -83,9 +83,8 @@ void RFID::update(){
 			tagID = "";
 		}else if(lastEjectTime>lastReadTime){
 			if((millis() - lastEjectTime)>TIMEOUT){
-				//No new blocks to read, stop reading
+				//No new blocks to read, stop reading and stop everything
 				reading = false;
-				//TODO: Stop Everything??
 				commandCreator->createCommand("stop", NULL);
 			}
 		}

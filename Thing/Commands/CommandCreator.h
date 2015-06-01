@@ -49,6 +49,7 @@ private:
 	static bool testParallel(Parameters *params);
 	static bool smallPoof(Parameters *params);
 	static bool stopAll(Parameters *params);
+	static bool ejectBlock(Parameters *params);
 };
 
 #endif /* COMMANDS_COMMANDCREATOR_H_ */

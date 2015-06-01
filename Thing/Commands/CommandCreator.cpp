@@ -23,6 +23,7 @@ CommandCreator::CommandCreator() {
 	commandHash.put("wiggle", wiggleFingers);
 	commandHash.put("testParallel", testParallel);
 	commandHash.put("stop", stopAll);
+	commandHash.put("eject", ejectBlock);
 
 	//RFID tags
 	commandHash.put("7C0055F126FE", rfidDrive1);
@@ -45,6 +46,7 @@ bool CommandCreator::createCommand(String command, Parameters *params){
 	fptr cmdPtr = commandHash.get(command);
 	if(cmdPtr==NULL){
 		Serial.println("Unrecognized Command");
+		ejectBlock(NULL);
 		return false;
 	}else{
 		bool success = cmdPtr(params);
@@ -144,8 +146,7 @@ bool CommandCreator::rfidDrive1(Parameters *params){
 	Serial.println("RFID Drive 1");
 	CommandBase *command = new Drive(100, 100, 3);
 	commandCenter->addCommand(command);
-	CommandBase *ejectCommand = new EjectBlock();
-	commandCenter->addCommand(ejectCommand);
+	ejectBlock(NULL);
 	return true;
 }
 
@@ -157,8 +158,7 @@ bool CommandCreator::rfidDrive2(Parameters *params){
 	Serial.println("RFID Drive 2");
 	CommandBase *command = new Drive(-100, -100, 3);
 	commandCenter->addCommand(command);
-	CommandBase *ejectCommand = new EjectBlock();
-	commandCenter->addCommand(ejectCommand);
+	ejectBlock(NULL);
 	return true;
 }
 
@@ -170,8 +170,7 @@ bool CommandCreator::rfidDrive3(Parameters *params){
 	Serial.println("RFID Drive 3");
 	CommandBase *command = new Drive(-100, 100, 3);
 	commandCenter->addCommand(command);
-	CommandBase *ejectCommand = new EjectBlock();
-	commandCenter->addCommand(ejectCommand);
+	ejectBlock(NULL);
 	return true;
 }
 
@@ -212,6 +211,10 @@ bool CommandCreator::backAndForth(Parameters *params){
 	}
 }
 
+/*
+ * findHome(int speed)
+ * On startup, this calibrates the home position using the reed switches
+ */
 bool CommandCreator::findHome(Parameters *params){
 	int speed;
 	if(params->getInt(0, &speed)){
@@ -248,6 +251,11 @@ bool CommandCreator::wiggleFingers(Parameters *params){
 	}
 }
 
+/*
+ * testParallel()
+ * This is for testing/demonstrating how parallel and non-parallel
+ * commands execute in the Command Center
+ */
 bool CommandCreator::testParallel(Parameters *params){
 	CommandBase *command1 = new PrintCommand("Command 1 - ", 2);
 	command1->setParallel(true);
@@ -268,17 +276,35 @@ bool CommandCreator::testParallel(Parameters *params){
 	return true;
 }
 
+/*
+ * smallPoof()
+ * A 100 millisecond pulse to the poofer solenoid
+ */
 bool CommandCreator::smallPoof(Parameters *params){
 	CommandBase *command = new Poof(100UL);
 	commandCenter->addCommand(command);
-	CommandBase *ejectCommand = new EjectBlock();
-	commandCenter->addCommand(ejectCommand);
+	ejectBlock(NULL);
 	return true;
 }
 
+/*
+ * stopAll()
+ * Stops everything. This will stop and clear any running or queued commands
+ * and turn off every subsystem
+ */
 bool CommandCreator::stopAll(Parameters *params){
 	CommandBase *command = new StopAll();
 	commandCenter->addCommand(command);
+	return true;
+}
+
+/*
+ * ejectBlock()
+ * Eject an RFID block
+ */
+bool CommandCreator::ejectBlock(Parameters *params){
+	CommandBase *ejectCommand = new EjectBlock();
+	commandCenter->addCommand(ejectCommand);
 	return true;
 }
 
