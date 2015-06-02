@@ -24,9 +24,10 @@ CommandCreator::CommandCreator() {
 	commandHash.put("testParallel", testParallel);
 	commandHash.put("stop", stopAll);
 	commandHash.put("eject", ejectBlock);
+	commandHash.put("start", startReadingRFID);
 
 	//RFID tags
-	commandHash.put("7C0055F126FE", rfidDrive1);
+	commandHash.put("7600889AE783", rfidDrive1);
 	commandHash.put("2500ABCCBFFD", rfidDrive2);
 	commandHash.put("2500AC101188", rfidDrive3);
 	commandHash.put("2500AC27E749", smallPoof);
@@ -46,7 +47,6 @@ bool CommandCreator::createCommand(String command, Parameters *params){
 	fptr cmdPtr = commandHash.get(command);
 	if(cmdPtr==NULL){
 		Serial.println("Unrecognized Command");
-		ejectBlock(NULL);
 		return false;
 	}else{
 		bool success = cmdPtr(params);
@@ -281,6 +281,7 @@ bool CommandCreator::testParallel(Parameters *params){
  * A 100 millisecond pulse to the poofer solenoid
  */
 bool CommandCreator::smallPoof(Parameters *params){
+	Serial.println("Small Poof");
 	CommandBase *command = new Poof(100UL);
 	commandCenter->addCommand(command);
 	ejectBlock(NULL);
@@ -307,4 +308,14 @@ bool CommandCreator::ejectBlock(Parameters *params){
 	commandCenter->addCommand(ejectCommand);
 	return true;
 }
+
+/*
+ *
+ */
+bool CommandCreator::startReadingRFID(Parameters *params){
+	CommandBase *command = new StartReading();
+	commandCenter->addCommand(command);
+	return true;
+}
+
 

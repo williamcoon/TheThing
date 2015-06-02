@@ -26,6 +26,7 @@ EjectBlock::~EjectBlock() {
 void EjectBlock::init(){
 	finished = false;
 	startTime = millis();
+	Serial.println("Ejecting");
 	ejector->extend();
 }
 

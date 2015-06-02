@@ -15,15 +15,16 @@ TankDrive *tankDrive = TankDrive::getInstance();
 Wrist *wrist = Wrist::getInstance();
 Ejector *ejector = Ejector::getInstance();
 Poofer *poofer = Poofer::getInstance();
-SerialHandler *serialHandler = new SerialHandler(&Serial1);
+SerialHandler *serialHandler = new SerialHandler(&Serial);
 
 
 //The setup function is called once at startup of the sketch
 void setup()
 {
 	pinMode(STATUS_PIN, OUTPUT);
+	Serial.begin(115200);
+	Serial1.begin(9600);
 	rfid->init();
-	serialHandler->init();
 	hand->init();
 	tankDrive->init();
 	wrist->init();

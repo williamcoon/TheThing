@@ -23,6 +23,7 @@
 #include "EjectBlock.h"
 #include "Poof.h"
 #include "StopAll.h"
+#include "StartReading.h"
 
 class CommandCreator {
 public:
@@ -50,6 +51,7 @@ private:
 	static bool smallPoof(Parameters *params);
 	static bool stopAll(Parameters *params);
 	static bool ejectBlock(Parameters *params);
+	static bool startReadingRFID(Parameters *params);
 };
 
 #endif /* COMMANDS_COMMANDCREATOR_H_ */

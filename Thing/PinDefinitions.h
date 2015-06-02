@@ -38,6 +38,10 @@
 #define TANK_LEFT_CONTROL_PIN 9
 #define TANK_RIGHT_CONTROL_PIN 10
 
+//Buttons
+#define START_BUTTON 16
+#define STOP_BUTTON 17
+
 //Other Pins
 #define STATUS_PIN 13
 #define EJECTOR_PIN 12

@@ -7,7 +7,7 @@
 
 #include <RFID.h>
 
-#define TIMEOUT 1000
+#define TIMEOUT 5000
 
 CommandCreator* RFID::commandCreator = CommandCreator::getInstance();
 RFID* RFID::instance = NULL;
@@ -28,7 +28,6 @@ RFID* RFID::getInstance(){
 }
 
 void RFID::init(){
-	serial->begin(9600);
 	pinMode(RFID_RESET_PIN, OUTPUT);
 	digitalWrite(RFID_RESET_PIN, HIGH);
 }
@@ -69,24 +68,30 @@ void RFID::createTagCommand(String tag){
 		Serial.println("RFID tag does not have a matching function");
 		Serial.print("Tag ID: ");
 		Serial.println(tag);
+		commandCreator->createCommand("eject", NULL);
 	}
 }
 
 void RFID::update(){
-	if(reading){
-		tagID += readSerial();
-		//TODO: This should be more robust. Could check for beginning/end of tag,
-		//and I think the last two bytes are a checksum too
-		if(tagID.length() >= 16){
-			lastReadTime = millis();
+	tagID += readSerial();
+	//TODO: This should be more robust. Could check for beginning/end of tag,
+	//and I think the last two bytes are a checksum too
+	if(tagID.length() >= 16){
+		lastReadTime = millis();
+		if(reading){
 			createTagCommand(tagID.substring(1,13));
-			tagID = "";
-		}else if(lastEjectTime>lastReadTime){
-			if((millis() - lastEjectTime)>TIMEOUT){
-				//No new blocks to read, stop reading and stop everything
-				reading = false;
-				commandCreator->createCommand("stop", NULL);
-			}
+		}else{
+			Serial.print("Tag ID: ");
+			Serial.print(tagID.substring(1,13));
+			Serial.println(" (RFID execution currently not enabled)");
+		}
+		tagID = "";
+	}else if(lastEjectTime>lastReadTime && reading){
+		if((millis() - lastEjectTime)>TIMEOUT){
+			//No new blocks to read, stop reading and stop everything
+			reading = false;
+			Serial.println("No more blocks");
+			commandCreator->createCommand("stop", NULL);
 		}
 	}
 }
