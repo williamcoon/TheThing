@@ -9,32 +9,21 @@
 #define INPUTS_RFID_H_
 
 #include "Arduino.h"
-#include "CommandCreator.h"
-#include "StopAll.h"
-#include "CommandBase.h"
-
-class CommandCreator;
+#include "PinDefinitions.h"
 
 class RFID {
 public:
-	static RFID* getInstance();
-	void update();
+	RFID(HardwareSerial *, unsigned long);
 	void init();
-	void startReading();
-	void setLastEjectTime();
-private:
-	RFID();
-	static RFID *instance;
-	HardwareSerial *serial;
-	String readSerial();
 	void clearSerial();
 	void resetReader();
+	String getCurrentTag();
+	static const char* NO_TAG;
+private:
+	HardwareSerial *serial;
+	String readSerial();
 	String tagID;
-	void createTagCommand(String string);
-	static CommandCreator *commandCreator;
-	bool reading;
-	unsigned long lastEjectTime;
-	unsigned long lastReadTime;
+	unsigned long baud;
 };
 
 #endif /* INPUTS_RFID_H_ */

@@ -1,38 +1,13 @@
 #include "Thing.h"
-#include "PinDefinitions.h"
-#include "CommandCenter.h"
-#include "SerialHandler.h"
-#include "RFID.h"
-#include "Hand.h"
-#include "Wrist.h"
-#include "Ejector.h"
-#include "Poofer.h"
 
-RFID *rfid = RFID::getInstance();
-CommandCenter *commandCenter = CommandCenter::getInstance();
-Hand *hand = Hand::getInstance();
-TankDrive *tankDrive = TankDrive::getInstance();
-Wrist *wrist = Wrist::getInstance();
-Ejector *ejector = Ejector::getInstance();
-Poofer *poofer = Poofer::getInstance();
-SerialHandler *serialHandler = new SerialHandler(&Serial);
-
+const unsigned long Thing::RFID_TIMEOUT = 1000;
 
 //The setup function is called once at startup of the sketch
 void setup()
 {
 	pinMode(STATUS_PIN, OUTPUT);
-	Serial.begin(115200);
-	Serial1.begin(9600);
-	rfid->init();
-	hand->init();
-	tankDrive->init();
-	wrist->init();
-	ejector->init();
-	poofer->init();
+	thing.init();
 }
-
-long count = 0;
 
 // The loop function is called in an endless loop
 void loop()
@@ -46,16 +21,15 @@ void loop()
 		/*
 		 * Tasks that update at a 20ms interval.
 		 */
-		hand->update();
-		commandCenter->update();
+		thing.updateExecution();
 		lastUpdate = current;
 	}
 	if((current-lastSerial) > 200){
 		/*
 		 * Tasks that update on a 200ms interval
 		 */
-		serialHandler->update();
-		rfid->update();
+		thing.checkSerial();
+		thing.checkRFID();
 		lastSerial = current;
 	}
 	if((current-lastBlink) > 1000){
@@ -67,10 +41,97 @@ void loop()
 	}
 }
 
-
-
-//Thing class functions will go here
-
 Thing::Thing(){
+	rfid = new RFID(&Serial2, 9600);
+	serialHandler = new SerialHandler(&Serial, 115200);
+	commandCenter = CommandCenter::getInstance();
+	hand = Hand::getInstance();
+	tankDrive = TankDrive::getInstance();
+	wrist = Wrist::getInstance();
+	ejector = Ejector::getInstance();
+	poofer = Poofer::getInstance();
+	commandCreator = new CommandCreator();
+	startButton = new LedButton(START_BUTTON, START_LED);
+	stopButton = new LedButton(STOP_BUTTON, STOP_LED);
+	executingRFID = false;
+	lastRFIDTime = 0;
+}
 
+void Thing::init(){
+	serialHandler->init();
+	rfid->init();
+	hand->init();
+	tankDrive->init();
+	wrist->init();
+	ejector->init();
+	poofer->init();
+	startButton->init();
+	stopButton->init();
+}
+
+void Thing::updateExecution(){
+	hand->update();
+	commandCenter->update();
+	startButton->poll();
+	stopButton->poll();
+	thing.checkButtonStates();
+}
+
+void Thing::checkSerial(){
+	String command = serialHandler->checkForCommand();
+	if(!command.equals(SerialHandler::NO_COMMAND)){
+		stopButton->enable();
+		commandCreator->createCommand(command);
+	}
+}
+
+void Thing::checkRFID(){
+	String rfidCommand = rfid->getCurrentTag();
+	if(!rfidCommand.equals(RFID::NO_TAG)){
+		if(executingRFID){
+			lastRFIDTime = millis();
+			commandCreator->createCommand(rfidCommand);
+		}else{
+			Serial.print("Tag ID: ");
+			Serial.println(rfidCommand);
+			startButton->enable();
+			rfid->resetReader();
+		}
+	}else{
+		if(executingRFID){
+			if(ejector->getLastRetractTime() >= lastRFIDTime){
+				if((millis()-ejector->getLastRetractTime()) > RFID_TIMEOUT){
+					executingRFID = false;
+					stopAllSubsystems();
+				}
+			}
+		}else{
+			startButton->disable();
+		}
+	}
+}
+
+void Thing::checkButtonStates(){
+	if(stopButton->readButton()){
+		stopButton->disable();
+		stopAllSubsystems();
+	}
+	if(startButton->readButton()){
+		startButton->disable();
+		executingRFID = true;
+		stopButton->enable();
+	}
+}
+
+void Thing::stopAllSubsystems(){
+	commandCenter->clearCommands();
+	tankDrive->stop();
+	hand->stop();
+	poofer->ceaseFire();
+	wrist->stopMotion();
+	ejector->turnOff();
+	stopButton->disable();
+	executingRFID = false;
+	rfid->resetReader();
+	Serial.println("All subsystems stopped");
 }

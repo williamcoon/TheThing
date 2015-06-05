@@ -9,22 +9,20 @@
 #define INPUTS_SERIALHANDLER_H_
 
 #include "Arduino.h"
-#include "Parameters.h"
-#include "CommandCreator.h"
 
 class SerialHandler {
 public:
-	SerialHandler(HardwareSerial *);
-	void update();
+	SerialHandler(HardwareSerial *, unsigned long);
 	void init();
+	String checkForCommand();
+	static const char* NO_COMMAND;
 private:
 	String readSerial();
-	Parameters *getParameters(String paramString);
-	void parseCommand();
+	String parseCommand();
 	HardwareSerial *serial;
 	const unsigned int MAX_SIZE;
 	String buffer;
-	static CommandCreator *commandCreator;
+	unsigned long baud;
 };
 
 #endif /* INPUTS_SERIALHANDLER_H_ */

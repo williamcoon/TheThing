@@ -7,10 +7,14 @@
 
 #include <SerialHandler.h>
 
-CommandCreator *SerialHandler::commandCreator = CommandCreator::getInstance();
+const char* SerialHandler::NO_COMMAND = "NOCOMMAND";
+const char* COMMAND_START = "<";
+const char* COMMAND_END = ">";
 
-SerialHandler::SerialHandler(HardwareSerial *s)
-	:	MAX_SIZE(50)
+
+SerialHandler::SerialHandler(HardwareSerial *s, unsigned long baud)
+	:	MAX_SIZE(50),
+		baud(baud)
 {
 	// TODO Auto-generated constructor stub
 	serial = s;
@@ -18,7 +22,7 @@ SerialHandler::SerialHandler(HardwareSerial *s)
 }
 
 void SerialHandler::init(){
-	serial->begin(115200);
+	serial->begin(baud);
 }
 
 /*
@@ -37,54 +41,27 @@ String SerialHandler::readSerial(){
 	return string;
 }
 
-void SerialHandler::parseCommand(){
-	int startIndex = buffer.indexOf("<"); // Find the beginning of the new command
+/*
+ * parseCommand(String *command, Parameters *params)
+ * Parse the current buffer to get any new commands and parameters.
+ * We are looking for a command of the format <commandName(param1,param2, ...)>
+ */
+String SerialHandler::parseCommand(){
+	int startIndex = buffer.indexOf(COMMAND_START); // Find the beginning of the new command
 	if(startIndex < 0){
 		//No Commands are available
-		return;
+		return NO_COMMAND;
 	}
-	int endIndex = buffer.indexOf(">"); //Find the end of the new command
+	int endIndex = buffer.indexOf(COMMAND_END); //Find the end of the new command
 	if(endIndex < 0){
 		//Command is incomplete
-		return;
+		return NO_COMMAND;
 	}
 	String newCommand = buffer.substring(startIndex+1, endIndex);
 	buffer.remove(0, endIndex+1);
-	int paramStart = newCommand.indexOf("(");
-	int paramEnd = newCommand.indexOf(")");
-	Parameters *params = NULL;
-	if(paramStart>0){
-		//Get parameters
-		String paramString = newCommand.substring(paramStart+1, paramEnd);
-		newCommand.remove(paramStart);
-		params = getParameters(paramString);
-	}
-	if(!commandCreator->createCommand(newCommand, params)){
-		serial->print("Bad Command: ");
-		serial->println(newCommand);
-		delete params;
-		params = NULL;
-	}
+	return newCommand;
 }
 
-Parameters* SerialHandler::getParameters(String paramString){
-	Parameters *params = new Parameters();
-	int commaIndex = paramString.indexOf(",");
-	int paramCount = 0;
-	do{
-		String parameter = "";
-		commaIndex = paramString.indexOf(",");
-		if(commaIndex>0){
-			parameter = paramString.substring(0,commaIndex);
-			paramString.remove(0, commaIndex+1);
-		}else{
-			parameter = paramString;
-		}
-		params->setValue(paramCount, parameter);
-		paramCount++;
-	}while(commaIndex>=0);
-	return params;
-}
 
 int freeRam () {
   extern int __heap_start, *__brkval;
@@ -92,12 +69,18 @@ int freeRam () {
   return (int) &v - (__brkval == 0 ? (int) &__heap_start : (int) __brkval);
 }
 
-void SerialHandler::update(){
+String SerialHandler::checkForCommand(){
 	buffer += readSerial();
 	if(buffer.length() > 0){
-		serial->print("Free RAM: ");
-		serial->println(freeRam());
-		parseCommand();
+		String cmd = parseCommand();
+		if(cmd.equals("")){
+			Serial.print("Free RAM: ");
+			Serial.println(freeRam());
+			return NO_COMMAND;
+		}else
+			return cmd;
+	}else{
+		return NO_COMMAND;
 	}
 }
 

@@ -85,13 +85,15 @@ void CommandCenter::update(){
 	}
 }
 
-void CommandCenter::stopAll(){
+void CommandCenter::clearCommands(){
+	Serial.println("clearing");
 	for(int i=0; i<currentSize; i++){
 		currentCommands[i]->stop();
 		delete currentCommands[i];
 	}
-	delete[] currentCommands;
-	currentCommands = new CommandBase*[1];
-	currentCommands[0] = new StopAll();
-	currentSize = 1;
+	if(currentSize>0){
+		delete[] currentCommands;
+		currentCommands = NULL;
+		currentSize = 0;
+	}
 }

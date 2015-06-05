@@ -8,7 +8,16 @@
 #define Thing_H_
 
 #include "Arduino.h"
-//add your includes for the project Thing here
+#include "PinDefinitions.h"
+#include "CommandCenter.h"
+#include "CommandCreator.h"
+#include "SerialHandler.h"
+#include "RFID.h"
+#include "Hand.h"
+#include "Wrist.h"
+#include "Ejector.h"
+#include "Poofer.h"
+#include "LedButton.h"
 
 //end of add your includes here
 #ifdef __cplusplus
@@ -25,6 +34,27 @@ void setup();
 class Thing{
 public:
 	Thing();
+	void init();
+	void checkSerial();
+	void checkRFID();
+	void updateExecution();
+	void checkButtonStates();
+	void stopAllSubsystems();
+private:
+	RFID *rfid;
+	SerialHandler *serialHandler;
+	CommandCenter *commandCenter;
+	Hand *hand;
+	TankDrive *tankDrive;
+	Wrist *wrist;
+	Ejector *ejector;
+	Poofer *poofer;
+	CommandCreator *commandCreator;
+	LedButton *startButton;
+	LedButton *stopButton;
+	bool executingRFID;
+	unsigned long lastRFIDTime;
+	static const unsigned long RFID_TIMEOUT;
 }thing;
 
 

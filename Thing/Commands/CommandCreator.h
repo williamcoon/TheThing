@@ -22,20 +22,16 @@
 #include "WiggleFingers.h"
 #include "EjectBlock.h"
 #include "Poof.h"
-#include "StopAll.h"
-#include "StartReading.h"
 
 class CommandCreator {
 public:
-	static CommandCreator* getInstance();
+	CommandCreator();
 	virtual ~CommandCreator();
-	bool createCommand(String command, Parameters *params);
 	bool createCommand(String command);
 private:
-	CommandCreator();
-	static CommandCreator* instance;
 	static CommandCenter *commandCenter;
 	StringHashTable commandHash;
+	Parameters *parseParameters(String);
 	static bool printSomething(Parameters *params);
 	static bool moveFinger(Parameters *params);
 	static bool moveHand(Parameters *params);
@@ -51,7 +47,6 @@ private:
 	static bool smallPoof(Parameters *params);
 	static bool stopAll(Parameters *params);
 	static bool ejectBlock(Parameters *params);
-	static bool startReadingRFID(Parameters *params);
 };
 
 #endif /* COMMANDS_COMMANDCREATOR_H_ */

@@ -39,13 +39,18 @@
 #define TANK_RIGHT_CONTROL_PIN 10
 
 //Buttons
-#define START_BUTTON 16
-#define STOP_BUTTON 17
+#define START_BUTTON A8
+#define START_LED 28
+#define STOP_BUTTON A9
+#define STOP_LED 29
+
 
 //Other Pins
 #define STATUS_PIN 13
-#define EJECTOR_PIN 12
-#define POOFER_PIN 14
-#define RFID_RESET_PIN 15
+#define EJECTOR_EXTEND_PIN 12
+#define EJECTOR_RETRACT_PIN 14
+#define POOFER_PIN 15
+#define RFID_RESET_PIN 27
+#define RFID_RX_PIN 17
 
 #endif /* PINDEFINITIONS_H_ */

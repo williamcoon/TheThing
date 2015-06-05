@@ -10,6 +10,7 @@
 
 #include "Arduino.h"
 #include "PinDefinitions.h"
+#include "Solenoid.h"
 
 class Ejector {
 public:
@@ -18,10 +19,13 @@ public:
 	void init();
 	void extend();
 	void retract();
+	void turnOff();
+	unsigned long getLastRetractTime();
 private:
 	Ejector();
 	static Ejector* instance;
-	int ejectorPin;
+	Solenoid *solenoid;
+	unsigned long lastRetractTime;
 };
 
 #endif /* SUBSYSTEMS_EJECTOR_H_ */

@@ -6,9 +6,9 @@
  */
 
 #include <CommandCreator.h>
-
+const char* PARAM_START = "(";
+const char* PARAM_END = ")";
 CommandCenter* CommandCreator::commandCenter = CommandCenter::getInstance();
-CommandCreator* CommandCreator::instance = NULL;
 
 CommandCreator::CommandCreator() {
 	commandHash = StringHashTable();
@@ -22,9 +22,7 @@ CommandCreator::CommandCreator() {
 	commandHash.put("findHome", findHome);
 	commandHash.put("wiggle", wiggleFingers);
 	commandHash.put("testParallel", testParallel);
-	commandHash.put("stop", stopAll);
 	commandHash.put("eject", ejectBlock);
-	commandHash.put("start", startReadingRFID);
 
 	//RFID tags
 	commandHash.put("7600889AE783", rfidDrive1);
@@ -37,14 +35,19 @@ CommandCreator::~CommandCreator() {
 	// TODO Auto-generated destructor stub
 }
 
-CommandCreator* CommandCreator::getInstance(){
-	if(!instance)
-		instance = new CommandCreator();
-	return instance;
-}
-
-bool CommandCreator::createCommand(String command, Parameters *params){
-	fptr cmdPtr = commandHash.get(command);
+bool CommandCreator::createCommand(String commandString){
+	Parameters *params = NULL;
+	int paramStart = commandString.indexOf(PARAM_START);
+	int paramEnd = commandString.indexOf(PARAM_END);
+	if(paramStart>0){
+		//Get parameters
+		String paramString = commandString.substring(paramStart+1, paramEnd);
+		commandString.remove(paramStart);
+		params = parseParameters(paramString);
+	}
+	Serial.print("New command: ");
+	Serial.println(commandString);
+	fptr cmdPtr = commandHash.get(commandString);
 	if(cmdPtr==NULL){
 		Serial.println("Unrecognized Command");
 		return false;
@@ -54,6 +57,30 @@ bool CommandCreator::createCommand(String command, Parameters *params){
 		params = NULL;
 		return success;
 	}
+}
+
+/*
+ * parseParameters(String)
+ * Parse a string of the format "param1,param2,param3,..." and create
+ * a parameters object from them
+ */
+Parameters* CommandCreator::parseParameters(String paramString){
+	Parameters *params = new Parameters();
+	int commaIndex = paramString.indexOf(",");
+	int paramCount = 0;
+	do{
+		String parameter = "";
+		commaIndex = paramString.indexOf(",");
+		if(commaIndex>0){
+			parameter = paramString.substring(0,commaIndex);
+			paramString.remove(0, commaIndex+1);
+		}else{
+			parameter = paramString;
+		}
+		params->setValue(paramCount, parameter);
+		paramCount++;
+	}while(commaIndex>=0);
+	return params;
 }
 
 /*
@@ -289,32 +316,12 @@ bool CommandCreator::smallPoof(Parameters *params){
 }
 
 /*
- * stopAll()
- * Stops everything. This will stop and clear any running or queued commands
- * and turn off every subsystem
- */
-bool CommandCreator::stopAll(Parameters *params){
-	CommandBase *command = new StopAll();
-	commandCenter->addCommand(command);
-	return true;
-}
-
-/*
  * ejectBlock()
  * Eject an RFID block
  */
 bool CommandCreator::ejectBlock(Parameters *params){
 	CommandBase *ejectCommand = new EjectBlock();
 	commandCenter->addCommand(ejectCommand);
-	return true;
-}
-
-/*
- *
- */
-bool CommandCreator::startReadingRFID(Parameters *params){
-	CommandBase *command = new StartReading();
-	commandCenter->addCommand(command);
 	return true;
 }
 

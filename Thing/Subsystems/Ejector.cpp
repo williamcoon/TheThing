@@ -7,11 +7,13 @@
 
 #include <Ejector.h>
 
+
 Ejector * Ejector::instance = NULL;
 
 Ejector::Ejector()
-	:ejectorPin(EJECTOR_PIN) {
-	// TODO Auto-generated constructor stub
+	:	solenoid(new Solenoid(EJECTOR_EXTEND_PIN, EJECTOR_RETRACT_PIN)),
+		lastRetractTime(0)
+{
 }
 
 Ejector::~Ejector() {
@@ -25,15 +27,23 @@ Ejector* Ejector::getInstance(){
 }
 
 void Ejector::init(){
-	pinMode(ejectorPin, OUTPUT);
-	digitalWrite(ejectorPin, LOW);
+	solenoid->init();
 }
 
 void Ejector::extend(){
-	digitalWrite(ejectorPin, HIGH);
+	solenoid->extend();
 }
 
 void Ejector::retract(){
-	digitalWrite(ejectorPin, LOW);
+	solenoid->retract();
+	lastRetractTime = millis();
+}
+
+void Ejector::turnOff(){
+	solenoid->turnOff();
+}
+
+unsigned long Ejector::getLastRetractTime(){
+	return lastRetractTime;
 }
 
