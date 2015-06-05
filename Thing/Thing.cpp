@@ -133,5 +133,4 @@ void Thing::stopAllSubsystems(){
 	stopButton->disable();
 	executingRFID = false;
 	rfid->resetReader();
-	Serial.println("All subsystems stopped");
 }

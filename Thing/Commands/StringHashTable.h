@@ -1,8 +1,6 @@
 /*
  * StringHashTable.h
  *
- *  Created on: Apr 27, 2015
- *      Author: williamcoon
  */
 
 #ifndef COMMANDS_STRINGHASHTABLE_H_
