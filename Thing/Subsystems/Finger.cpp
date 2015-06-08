@@ -6,11 +6,11 @@
  */
 
 #include <Finger.h>
-#define TICK_TIMEOUT 500 //TODO: Calculate timeout based on speed
+#define TICK_TIMEOUT 5000 //TODO: Calculate timeout based on speed
 #define MIN_SPEED 20
-#define EASE_FACTOR_1 0.4
-#define EASE_FACTOR_2 0.5
-#define EASE_FACTOR_3 0.6
+#define EASE_FACTOR_1 1.0
+#define EASE_FACTOR_2 1.0
+#define EASE_FACTOR_3 1.0
 
 #define EASE_DIST_1 1
 #define EASE_DIST_2 2
@@ -82,45 +82,6 @@ void Finger::update(){
 		}
 		else if((direction&&currentPos>=targetPos)|(!direction&&currentPos<=targetPos)){
 			stopMotion();
-		}
-		else if(direction==REV&&!digitalRead(reed_pin)){
-			stopMotion();
-			Serial.print(name);
-			Serial.println(" stopped motion due to reed limit");
-			setHomePosition();
-		}else if((targetDist == EASE_DIST_1)||(elapsedDist == EASE_DIST_1 - 1)){
-			//Use Ease Factor one to slow the motor
-			int adjustedSpeed = (int)(targetSpeed*EASE_FACTOR_1);
-			int setSpeed = adjustedSpeed > MIN_SPEED ? adjustedSpeed:MIN_SPEED;
-			if(direction==FWD){
-				fingerMotor.setSpeed(setSpeed);
-			}else{
-				fingerMotor.setSpeed(-setSpeed);
-			}
-		}else if((targetDist==EASE_DIST_2)||(elapsedDist == EASE_DIST_2 - 1)){
-			//Use Ease Factor 2 to slow the motor
-			int adjustedSpeed = (int)(targetSpeed*EASE_FACTOR_2);
-			int setSpeed = adjustedSpeed > MIN_SPEED ? adjustedSpeed:MIN_SPEED;
-			if(direction==FWD){
-				fingerMotor.setSpeed(setSpeed);
-			}else{
-				fingerMotor.setSpeed(-setSpeed);
-			}
-		}else if((targetDist==EASE_DIST_3)||(elapsedDist == EASE_DIST_3 - 1)){
-			//Use Ease Factor 2 to slow the motor
-			int adjustedSpeed = (int)(targetSpeed*EASE_FACTOR_3);
-			int setSpeed = adjustedSpeed > MIN_SPEED ? adjustedSpeed:MIN_SPEED;
-			if(direction==FWD){
-				fingerMotor.setSpeed(setSpeed);
-			}else{
-				fingerMotor.setSpeed(-setSpeed);
-			}
-		}else{
-			if(direction==FWD){
-				fingerMotor.setSpeed(targetSpeed);
-			}else{
-				fingerMotor.setSpeed(-targetSpeed);
-			}
 		}
 	}
 }

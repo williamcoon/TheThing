@@ -86,7 +86,6 @@ void CommandCenter::update(){
 }
 
 void CommandCenter::clearCommands(){
-	Serial.println("clearing");
 	for(int i=0; i<currentSize; i++){
 		currentCommands[i]->stop();
 		delete currentCommands[i];

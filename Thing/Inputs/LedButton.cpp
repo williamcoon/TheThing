@@ -45,7 +45,6 @@ void LedButton::poll(){
 }
 
 bool LedButton::readButton(){
-
 	bool ret = latched;
 	latched = false;
 	return ret;
