@@ -63,6 +63,6 @@
 #define INDEX_FWD_SPEED 30
 #define INDEX_REV_SPEED 70
 #define THUMB_FWD_SPEED 30
-#define THUMB_REV_SPEED 70
+#define THUMB_REV_SPEED 60
 
 #endif /* PINDEFINITIONS_H_ */

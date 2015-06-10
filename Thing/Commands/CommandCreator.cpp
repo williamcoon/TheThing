@@ -15,6 +15,7 @@ CommandCreator::CommandCreator() {
 	//Serial commands
 	commandHash.put("print", printSomething);
 	commandHash.put("moveFinger", moveFinger);
+	commandHash.put("moveFingerSpeed", moveFingerWithSpeed);
 	commandHash.put("moveHand", moveHand);
 	commandHash.put("drive", drive);
 	commandHash.put("bnf", backAndForth);
@@ -266,7 +267,7 @@ bool CommandCreator::findHome(Parameters *params){
 }
 
 /*
- * wiggleFingers(int minPosition, int maxPosition, int fingerDelay, int cycleDelay, int speed, int repeats)
+ * wiggleFingers(int minPosition, int maxPosition, int thumbMin, int thumbMax, int fingerDelay, int cycleDelay, int repeats)
  */
 bool CommandCreator::wiggleFingers(Parameters *params){
 	int minPosition;
