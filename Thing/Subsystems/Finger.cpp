@@ -16,7 +16,7 @@
 #define EASE_DIST_2 2
 #define EASE_DIST_3 3
 
-Finger::Finger(int controlPin, int reed_pin, String name)
+Finger::Finger(int controlPin, int reed_pin, int forwardSpeed, int reverseSpeed, String name)
 	:	fingerMotor(controlPin),
 		targetPos(0),
 		startPos(0),
@@ -27,6 +27,8 @@ Finger::Finger(int controlPin, int reed_pin, String name)
 		lastTickTime(0),
 		enabled(true),
 		reed_pin(reed_pin),
+		forwardSpeed(forwardSpeed),
+		reverseSpeed(reverseSpeed),
 		name(name)
 {
 
@@ -41,6 +43,29 @@ void Finger::startMotion(int targetPosition, int motionSpeed){
 		targetSpeed = motionSpeed;
 		startPos = currentPos;
 		direction = (targetPos>startPos)?FWD:REV;
+		int adjustedSpeed = (int)(targetSpeed*EASE_FACTOR_1);
+		int setSpeed = adjustedSpeed > MIN_SPEED ? adjustedSpeed:MIN_SPEED;
+		lastTickTime = millis();
+		if(direction==FWD){
+			fingerMotor.setSpeed(setSpeed);
+		}else{
+			fingerMotor.setSpeed(-setSpeed);
+		}
+	}else{
+		Serial.print(name);
+		Serial.println(" is disabled.");
+	}
+}
+
+void Finger::startMotion(int targetPosition){
+	//int targetPosition: The desired counter value to move to
+	//Uses default set speed for motion
+	if(enabled){
+		finished = false;
+		targetPos = targetPosition;
+		startPos = currentPos;
+		direction = (targetPos>startPos)?FWD:REV;
+		targetSpeed = direction?forwardSpeed:reverseSpeed;
 		int adjustedSpeed = (int)(targetSpeed*EASE_FACTOR_1);
 		int setSpeed = adjustedSpeed > MIN_SPEED ? adjustedSpeed:MIN_SPEED;
 		lastTickTime = millis();

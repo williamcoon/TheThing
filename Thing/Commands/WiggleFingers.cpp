@@ -10,10 +10,9 @@
 Hand* WiggleFingers::hand = Hand::getInstance();
 
 
-WiggleFingers::WiggleFingers(int minPosition, int maxPosition, int fingerDelay, int cycleDelay, int speed, int repeats)
+WiggleFingers::WiggleFingers(int minPosition, int maxPosition, int fingerDelay, int cycleDelay, int repeats)
 	:	finished(false),
 		fingerDelay(fingerDelay),
-		speed(speed),
 		repeats(repeats),
 		minAchieved(false),
 		direction(FWD),
@@ -33,7 +32,7 @@ WiggleFingers::~WiggleFingers() {
 void WiggleFingers::init(){
 	//Tell hand to start at minValues
 	for(int i=0; i<5;i++){
-		hand->fingers[i]->startMotion(minPosition, speed);
+		hand->fingers[i]->startMotion(minPosition);
 		state[i] = REV;
 		cycleCount[i] = 0;
 	}
@@ -51,12 +50,12 @@ void WiggleFingers::execute(){
 		for(int i=0; i<5; i++){
 			if((state[i] == REV) && (cycleCount[i]<repeats)){
 				if((current-cycleStart)>=(unsigned long)(fingerDelay*i + cycleDelay*cycleCount[i])){
-					hand->fingers[i]->startMotion(maxPosition, speed);
+					hand->fingers[i]->startMotion(maxPosition);
 					state[i] = FWD;
 				}
 			}
 			if((hand->fingers[i]->isFinished()) && (state[i]==FWD)){
-				hand->fingers[i]->startMotion(minPosition, speed);
+				hand->fingers[i]->startMotion(minPosition);
 				state[i] = REV;
 				cycleCount[i]++;
 			}

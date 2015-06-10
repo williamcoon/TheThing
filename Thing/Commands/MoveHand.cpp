@@ -13,15 +13,13 @@ MoveHand::MoveHand(int pinkyPosition,
 					int ringPosition,
 					int middlePosition,
 					int indexPosition,
-					int thumbPosition,
-					int speed)
+					int thumbPosition)
 	: finished(false),
 	  pinkyP(pinkyPosition),
 	  ringP(ringPosition),
 	  middleP(middlePosition),
 	  indexP(indexPosition),
-	  thumbP(thumbPosition),
-	  speed(speed)
+	  thumbP(thumbPosition)
 {
 
 }
@@ -31,11 +29,11 @@ MoveHand::~MoveHand() {
 }
 
 void MoveHand::init(){
-	hand->pinky.startMotion(pinkyP, speed);
-	hand->ring.startMotion(ringP, speed);
-	hand->middle.startMotion(middleP, speed);
-	hand->index.startMotion(indexP, speed);
-	hand->thumb.startMotion(thumbP, speed);
+	hand->pinky.startMotion(pinkyP);
+	hand->ring.startMotion(ringP);
+	hand->middle.startMotion(middleP);
+	hand->index.startMotion(indexP);
+	hand->thumb.startMotion(thumbP);
 }
 
 void MoveHand::execute(){

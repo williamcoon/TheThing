@@ -34,6 +34,7 @@ private:
 	Parameters *parseParameters(String);
 	static bool printSomething(Parameters *params);
 	static bool moveFinger(Parameters *params);
+	static bool moveFingerWithSpeed(Parameters *params);
 	static bool moveHand(Parameters *params);
 	static bool drive(Parameters *params);
 	static bool rfidDrive1(Parameters *params);

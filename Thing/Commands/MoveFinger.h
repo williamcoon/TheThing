@@ -14,6 +14,7 @@
 class MoveFinger: public CommandBase {
 public:
 	MoveFinger(int fingerIndex, int targetPosition, int speed);
+	MoveFinger(int fingerIndex, int targetPosition);
 	virtual ~MoveFinger();
 	void init();
 	void execute();

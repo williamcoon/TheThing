@@ -13,8 +13,9 @@
 
 class Finger {
 public:
-	Finger(int controlPin, int reedPin, String name);
+	Finger(int controlPin, int reedPin, int forwardSpeed, int reverseSpeed, String name);
 	void startMotion(int targetPosition, int motionSpeed);
+	void startMotion(int targetPosition);
 	void update();
 	bool isFinished();
 	void init();
@@ -32,6 +33,8 @@ private:
 	volatile unsigned long lastTickTime;
 	bool enabled;
 	int reed_pin;
+	int forwardSpeed;
+	int reverseSpeed;
 	String name;
 	void disableMotor();
 };

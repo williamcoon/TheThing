@@ -17,12 +17,24 @@ MoveFinger::MoveFinger(int fingerIndex, int targetPosition, int speed)
 {
 }
 
+MoveFinger::MoveFinger(int fingerIndex, int targetPosition)
+	: finished(false),
+	  fingerIndex(fingerIndex),
+	  targetPosition(targetPosition),
+	  speed(-1)
+{
+}
+
 MoveFinger::~MoveFinger() {
 	// TODO Auto-generated destructor stub
 }
 
 void MoveFinger::init(){
-	hand->fingers[fingerIndex]->startMotion(targetPosition, speed);
+	if(speed>0){
+		hand->fingers[fingerIndex]->startMotion(targetPosition, speed);
+	}else{
+		hand->fingers[fingerIndex]->startMotion(targetPosition);
+	}
 }
 
 void MoveFinger::execute(){

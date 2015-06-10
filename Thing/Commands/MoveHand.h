@@ -17,8 +17,7 @@ public:
 			int ringPosition,
 			int middlePosition,
 			int indexPosition,
-			int thumbPosition,
-			int speed);
+			int thumbPosition);
 	virtual ~MoveHand();
 	void init();
 	void execute();
@@ -32,7 +31,6 @@ private:
 	int middleP;
 	int indexP;
 	int thumbP;
-	int speed;
 };
 
 #endif /* COMMANDS_MOVEHAND_H_ */

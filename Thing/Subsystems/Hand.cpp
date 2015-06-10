@@ -8,11 +8,11 @@
 #include <Hand.h>
 
 Hand* Hand::instance = NULL;
-Finger Hand::pinky(PINKY_CONTROL_PIN, PINKY_REED_PIN, "Pinky");
-Finger Hand::ring(RING_CONTROL_PIN, RING_REED_PIN, "Ring");
-Finger Hand::middle(MIDDLE_CONTROL_PIN, MIDDLE_REED_PIN, "Middle");
-Finger Hand::index(INDEX_CONTROL_PIN, INDEX_REED_PIN, "Index");
-Finger Hand::thumb(THUMB_CONTROL_PIN, THUMB_REED_PIN, "Thumb");
+Finger Hand::pinky(PINKY_CONTROL_PIN, PINKY_REED_PIN, PINKY_FWD_SPEED, PINKY_REV_SPEED, "Pinky");
+Finger Hand::ring(RING_CONTROL_PIN, RING_REED_PIN, RING_FWD_SPEED, RING_REV_SPEED, "Ring");
+Finger Hand::middle(MIDDLE_CONTROL_PIN, MIDDLE_REED_PIN, MIDDLE_FWD_SPEED, MIDDLE_REV_SPEED, "Middle");
+Finger Hand::index(INDEX_CONTROL_PIN, INDEX_REED_PIN, INDEX_FWD_SPEED, INDEX_REV_SPEED, "Index");
+Finger Hand::thumb(THUMB_CONTROL_PIN, THUMB_REED_PIN, THUMB_FWD_SPEED, THUMB_REV_SPEED, "Thumb");
 Finger* Hand::fingers[] = {&pinky, &ring, &middle, &index, &thumb};
 
 Hand::Hand()

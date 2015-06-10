@@ -53,4 +53,16 @@
 #define RFID_RESET_PIN 27
 #define RFID_RX_PIN 17
 
+//Speed Constants
+#define PINKY_FWD_SPEED 30
+#define PINKY_REV_SPEED 70
+#define RING_FWD_SPEED 40
+#define RING_REV_SPEED 80
+#define MIDDLE_FWD_SPEED 30
+#define MIDDLE_REV_SPEED 70
+#define INDEX_FWD_SPEED 30
+#define INDEX_REV_SPEED 70
+#define THUMB_FWD_SPEED 30
+#define THUMB_REV_SPEED 70
+
 #endif /* PINDEFINITIONS_H_ */

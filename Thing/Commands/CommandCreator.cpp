@@ -101,9 +101,9 @@ bool CommandCreator::printSomething(Parameters *params){
 }
 
 /*
- * moveFinger(int fingerIndex, int targetPosition, int speed)
+ * moveFingerWithSpeed(int fingerIndex, int targetPosition, int speed)
  */
-bool CommandCreator::moveFinger(Parameters *params){
+bool CommandCreator::moveFingerWithSpeed(Parameters *params){
 	int fingerIndex;
 	int targetPosition;
 	int speed;
@@ -117,7 +117,22 @@ bool CommandCreator::moveFinger(Parameters *params){
 }
 
 /*
- * moveHand(int pinkyPosition, int ringPosition, int middlePosition, int indexPosition, int thumbPosition, int speed)
+ * moveFinger(int fingerIndex, int targetPosition)
+ */
+bool CommandCreator::moveFinger(Parameters *params){
+	int fingerIndex;
+	int targetPosition;
+	if(params->getInt(0, &fingerIndex)&&params->getInt(1, &targetPosition)){
+		CommandBase *command = new MoveFinger(fingerIndex, targetPosition);
+		commandCenter->addCommand(command);
+		return true;
+	}else{
+		return false;
+	}
+}
+
+/*
+ * moveHand(int pinkyPosition, int ringPosition, int middlePosition, int indexPosition, int thumbPosition)
  */
 bool CommandCreator::moveHand(Parameters *params){
 	int pinkyPosition;
@@ -125,20 +140,17 @@ bool CommandCreator::moveHand(Parameters *params){
 	int middlePosition;
 	int indexPosition;
 	int thumbPosition;
-	int speed;
 	if(params->getInt(0, &pinkyPosition)
 			&&params->getInt(1, &ringPosition)
 			&&params->getInt(2, &middlePosition)
 			&&params->getInt(3, &indexPosition)
-			&&params->getInt(4, &thumbPosition)
-			&&params->getInt(5, &speed))
+			&&params->getInt(4, &thumbPosition))
 	{
 		CommandBase *command = new MoveHand(pinkyPosition,
 											ringPosition,
 											middlePosition,
 											indexPosition,
-											thumbPosition,
-											speed);
+											thumbPosition);
 		commandCenter->addCommand(command);
 		return true;
 	}else{
@@ -261,16 +273,14 @@ bool CommandCreator::wiggleFingers(Parameters *params){
 	int maxPosition;
 	int fingerDelay;
 	int cycleDelay;
-	int speed;
 	int repeats;
 	if(params->getInt(0, &minPosition)
 			&&params->getInt(1, &maxPosition)
 			&&params->getInt(2, &fingerDelay)
 			&&params->getInt(3, &cycleDelay)
-			&&params->getInt(4, &speed)
-			&&params->getInt(5, &repeats))
+			&&params->getInt(4, &repeats))
 	{
-		CommandBase *command = new WiggleFingers(minPosition, maxPosition, fingerDelay, cycleDelay, speed, repeats);
+		CommandBase *command = new WiggleFingers(minPosition, maxPosition, fingerDelay, cycleDelay, repeats);
 		commandCenter->addCommand(command);
 		return true;
 	}else{
