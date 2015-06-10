@@ -32,10 +32,10 @@ void Solenoid::extend(){
 
 void Solenoid::retract(){
 	digitalWrite(extendPin, LOW);
-	digitalWrite(extendPin, HIGH);
+	digitalWrite(retractPin, HIGH);
 }
 
 void Solenoid::turnOff(){
 	digitalWrite(extendPin, LOW);
-	digitalWrite(extendPin, LOW);
+	digitalWrite(retractPin, LOW);
 }

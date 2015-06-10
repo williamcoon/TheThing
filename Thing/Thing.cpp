@@ -1,6 +1,6 @@
 #include "Thing.h"
 
-const unsigned long Thing::RFID_TIMEOUT = 1000;
+const unsigned long Thing::RFID_TIMEOUT = 2000;
 
 //The setup function is called once at startup of the sketch
 void setup()
@@ -133,4 +133,5 @@ void Thing::stopAllSubsystems(){
 	stopButton->disable();
 	executingRFID = false;
 	rfid->resetReader();
+	Serial.println("Stopping Everything");
 }

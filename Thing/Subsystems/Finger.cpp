@@ -6,7 +6,7 @@
  */
 
 #include <Finger.h>
-#define TICK_TIMEOUT 5000 //TODO: Calculate timeout based on speed
+#define TICK_TIMEOUT 500 //TODO: Calculate timeout based on speed
 #define MIN_SPEED 20
 #define EASE_FACTOR_1 1.0
 #define EASE_FACTOR_2 1.0

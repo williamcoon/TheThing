@@ -32,11 +32,11 @@ void Ejector::init(){
 
 void Ejector::extend(){
 	solenoid->extend();
+	lastRetractTime = millis();
 }
 
 void Ejector::retract(){
 	solenoid->retract();
-	lastRetractTime = millis();
 }
 
 void Ejector::turnOff(){

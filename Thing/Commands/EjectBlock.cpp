@@ -41,6 +41,6 @@ bool EjectBlock::isFinished(){
 }
 
 void EjectBlock::stop(){
-	ejector->retract();
+	ejector->turnOff();
 	finished = true;
 }
