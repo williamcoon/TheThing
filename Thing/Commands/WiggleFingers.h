@@ -14,7 +14,7 @@
 
 class WiggleFingers: public CommandBase {
 public:
-	WiggleFingers(int minPosition, int maxPosition, int fingerDelay, int cycleDelay, int repeats);
+	WiggleFingers(int minPosition, int maxPosition, int thumbMin, int thumbMax, int fingerDelay, int cycleDelay, int repeats);
 	virtual ~WiggleFingers();
 	void init();
 	void execute();
@@ -31,6 +31,8 @@ private:
 	bool state[5];
 	int minPosition;
 	int maxPosition;
+	int thumbMin;
+	int thumbMax;
 	unsigned long cycleStart;
 	int cycleDelay;
 };

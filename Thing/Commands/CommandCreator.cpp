@@ -271,16 +271,26 @@ bool CommandCreator::findHome(Parameters *params){
 bool CommandCreator::wiggleFingers(Parameters *params){
 	int minPosition;
 	int maxPosition;
+	int thumbMin;
+	int thumbMax;
 	int fingerDelay;
 	int cycleDelay;
 	int repeats;
 	if(params->getInt(0, &minPosition)
 			&&params->getInt(1, &maxPosition)
-			&&params->getInt(2, &fingerDelay)
-			&&params->getInt(3, &cycleDelay)
-			&&params->getInt(4, &repeats))
+			&&params->getInt(2, &thumbMin)
+			&&params->getInt(3, &thumbMax)
+			&&params->getInt(4, &fingerDelay)
+			&&params->getInt(5, &cycleDelay)
+			&&params->getInt(6, &repeats))
 	{
-		CommandBase *command = new WiggleFingers(minPosition, maxPosition, fingerDelay, cycleDelay, repeats);
+		CommandBase *command = new WiggleFingers(minPosition,
+												maxPosition,
+												thumbMin,
+												thumbMax,
+												fingerDelay,
+												cycleDelay,
+												repeats);
 		commandCenter->addCommand(command);
 		return true;
 	}else{
