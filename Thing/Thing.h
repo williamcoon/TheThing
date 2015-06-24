@@ -8,6 +8,7 @@
 #define Thing_H_
 
 #include "Arduino.h"
+#include <avr/wdt.h>
 #include "PinDefinitions.h"
 #include "CommandCenter.h"
 #include "CommandCreator.h"

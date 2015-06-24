@@ -62,6 +62,8 @@ bool CommandCreator::createCommand(String commandString){
 	fptr cmdPtr = commandHash.get(commandString);
 	if(cmdPtr==NULL){
 		Serial.println("Unrecognized Command");
+		delete params;
+		params = NULL;
 		return false;
 	}else{
 		bool success = cmdPtr(params);

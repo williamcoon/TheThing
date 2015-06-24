@@ -6,6 +6,7 @@ const unsigned long Thing::RFID_TIMEOUT = 2000;
 void setup()
 {
 	pinMode(STATUS_PIN, OUTPUT);
+	wdt_enable(WDTO_1S); //Setup watchdog timer to reset after 1 second
 	thing.init();
 }
 
@@ -30,6 +31,7 @@ void loop()
 		 */
 		thing.checkSerial();
 		thing.checkRFID();
+		wdt_reset(); //reset watchdog timer
 		lastSerial = current;
 	}
 	if((current-lastBlink) > 1000){
