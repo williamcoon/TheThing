@@ -10,6 +10,8 @@ const char* PARAM_START = "(";
 const char* PARAM_END = ")";
 CommandCenter* CommandCreator::commandCenter = CommandCenter::getInstance();
 
+int driveSpeed = 80;
+
 CommandCreator::CommandCreator() {
 	commandHash = StringHashTable();
 	//Serial commands
@@ -24,12 +26,21 @@ CommandCreator::CommandCreator() {
 	commandHash.put("wiggle", wiggleFingers);
 	commandHash.put("testParallel", testParallel);
 	commandHash.put("eject", ejectBlock);
+	commandHash.put("reset", resetFingers);
+
 
 	//RFID tags
-	commandHash.put("7600889AE783", rfidDrive1);
-	commandHash.put("2500ABCCBFFD", rfidDrive2);
-	commandHash.put("2500AC101188", rfidDrive3);
-	commandHash.put("2500AC27E749", smallPoof);
+	commandHash.put("770097AA4D07", rfidDrive1);
+	commandHash.put("770097F51207", rfidDrive2);
+	commandHash.put("78007C51A9FC", rfidDrive3);
+	commandHash.put("78007C7EA1DB", rfidDrive4);
+	commandHash.put("7600889AE783", resetFingers);
+	commandHash.put("770097BC5509", rfidDrive5);
+	commandHash.put("770097AADA90", turnLeft);
+	commandHash.put("78007C900B9F", turnRight);
+	commandHash.put("78007C56E2B0", loveSign);
+	commandHash.put("77000EBE33F4", shocker);
+	commandHash.put("78007C716F1A", highFive);
 }
 
 CommandCreator::~CommandCreator() {
@@ -184,8 +195,12 @@ bool CommandCreator::drive(Parameters *params){
  */
 bool CommandCreator::rfidDrive1(Parameters *params){
 	Serial.println("RFID Drive 1");
-	CommandBase *command = new Drive(100, 100, 3);
+	CommandBase *handCommand = new MoveHand(0,0,0,-13,0);
+	commandCenter->addCommand(handCommand);
+	CommandBase *command = new Drive(driveSpeed, driveSpeed, 30);
 	commandCenter->addCommand(command);
+	CommandBase *handCommand2 = new MoveHand(0,0,0,0,0);
+	commandCenter->addCommand(handCommand2);
 	ejectBlock(NULL);
 	return true;
 }
@@ -196,7 +211,9 @@ bool CommandCreator::rfidDrive1(Parameters *params){
  */
 bool CommandCreator::rfidDrive2(Parameters *params){
 	Serial.println("RFID Drive 2");
-	CommandBase *command = new Drive(-100, -100, 3);
+	CommandBase *handCommand = new MoveHand(0,0,0,0,0);
+	commandCenter->addCommand(handCommand);
+	CommandBase *command = new Drive(-50, -50, 30);
 	commandCenter->addCommand(command);
 	ejectBlock(NULL);
 	return true;
@@ -208,12 +225,98 @@ bool CommandCreator::rfidDrive2(Parameters *params){
  */
 bool CommandCreator::rfidDrive3(Parameters *params){
 	Serial.println("RFID Drive 3");
-	CommandBase *command = new Drive(-100, 100, 3);
+	CommandBase *wiggleCommand = new WiggleFingers(-12,0,-6,0,300,3000,4);
+	wiggleCommand->setParallel(true);
+	commandCenter->addCommand(wiggleCommand);
+	CommandBase *drive = new Drive(driveSpeed, driveSpeed, 30);
+	commandCenter->addCommand(drive);
+	ejectBlock(NULL);
+	return true;
+}
+
+/*
+ * rfidDrive1(NULL)
+ * No Parameters, this responds to an rfid tag and drives forward full speed for 3 seconds
+ */
+bool CommandCreator::rfidDrive4(Parameters *params){
+	Serial.println("RFID Drive 4");
+	CommandBase *handCommand = new MoveHand(0,0,-13,0,0);
+	commandCenter->addCommand(handCommand);
+	CommandBase *command = new Drive(driveSpeed, driveSpeed, 30);
+	commandCenter->addCommand(command);
+	CommandBase *handCommand2 = new MoveHand(0,0,0,0,0);
+	commandCenter->addCommand(handCommand2);
+	ejectBlock(NULL);
+	return true;
+}
+
+/*
+ * rfidDrive1(NULL)
+ * No Parameters, this responds to an rfid tag and drives forward full speed for 3 seconds
+ */
+bool CommandCreator::rfidDrive5(Parameters *params){
+	Serial.println("RFID Drive 4");
+	CommandBase *handCommand = new MoveHand(0,0,-13,-13,0);
+	commandCenter->addCommand(handCommand);
+	CommandBase *command = new Drive(driveSpeed, driveSpeed, 30);
+	commandCenter->addCommand(command);
+	CommandBase *handCommand2 = new MoveHand(0,0,0,0,0);
+	commandCenter->addCommand(handCommand2);
+	ejectBlock(NULL);
+	return true;
+}
+
+bool CommandCreator::turnLeft(Parameters *params){
+	Serial.println("Turn left");
+	CommandBase *command = new Drive(20, 80, 5);
 	commandCenter->addCommand(command);
 	ejectBlock(NULL);
 	return true;
 }
 
+bool CommandCreator::turnRight(Parameters *params){
+	Serial.println("Turn right");
+	CommandBase *command = new Drive(80, 20, 5);
+	commandCenter->addCommand(command);
+	ejectBlock(NULL);
+	return true;
+}
+
+bool CommandCreator::loveSign(Parameters *params){
+	Serial.println("Love");
+	CommandBase *handCommand = new MoveHand(-12,0,0,-13,0);
+	commandCenter->addCommand(handCommand);
+	CommandBase *command = new Drive(driveSpeed, driveSpeed, 30);
+	commandCenter->addCommand(command);
+	CommandBase *handCommand2 = new MoveHand(0,0,0,0,0);
+	commandCenter->addCommand(handCommand2);
+	ejectBlock(NULL);
+	return true;
+}
+
+bool CommandCreator::shocker(Parameters *params){
+	Serial.println("Shocker");
+	CommandBase *handCommand = new MoveHand(-12,0,-13,-13,0);
+	commandCenter->addCommand(handCommand);
+	CommandBase *command = new Drive(driveSpeed, driveSpeed, 30);
+	commandCenter->addCommand(command);
+	CommandBase *handCommand2 = new MoveHand(0,0,0,0,0);
+	commandCenter->addCommand(handCommand2);
+	ejectBlock(NULL);
+	return true;
+}
+
+bool CommandCreator::highFive(Parameters *params){
+	Serial.println("High Five");
+	CommandBase *handCommand = new MoveHand(-12,-14,-13,-13,-5);
+	commandCenter->addCommand(handCommand);
+	CommandBase *command = new Drive(driveSpeed, driveSpeed, 30);
+	commandCenter->addCommand(command);
+	CommandBase *handCommand2 = new MoveHand(0,0,0,0,0);
+	commandCenter->addCommand(handCommand2);
+	ejectBlock(NULL);
+	return true;
+}
 /*
  * calibrateVictor(int pin)
  * pin: the control pin for the victor
@@ -346,4 +449,16 @@ bool CommandCreator::ejectBlock(Parameters *params){
 	return true;
 }
 
+bool CommandCreator::resetFingers(Parameters *params){
+	Serial.println("Reset");
+	CommandBase *command = new FindHome(0);
+	commandCenter->addCommand(command);
+	CommandBase *command2 = new MoveHand(20,20,24,24,15);
+	commandCenter->addCommand(command2);
+	CommandBase *reset = new FindHome(-1);
+	commandCenter->addCommand(reset);
+	ejectBlock(NULL);
+	return true;
+}
+//<moveHand(-12,-14,-13,-13,-5)>
 

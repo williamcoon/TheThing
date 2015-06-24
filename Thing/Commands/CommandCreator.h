@@ -40,6 +40,13 @@ private:
 	static bool rfidDrive1(Parameters *params);
 	static bool rfidDrive2(Parameters *params);
 	static bool rfidDrive3(Parameters *params);
+	static bool rfidDrive4(Parameters *params);
+	static bool rfidDrive5(Parameters *params);
+	static bool turnLeft(Parameters *params);
+	static bool turnRight(Parameters *params);
+	static bool loveSign(Parameters *params);
+	static bool shocker(Parameters *params);
+	static bool highFive(Parameters *params);
 	static bool calibrateVictor(Parameters *params);
 	static bool backAndForth(Parameters *params);
 	static bool findHome(Parameters *params);
@@ -48,6 +55,8 @@ private:
 	static bool smallPoof(Parameters *params);
 	static bool stopAll(Parameters *params);
 	static bool ejectBlock(Parameters *params);
+	static bool pointAndMove(Parameters *params);
+	static bool resetFingers(Parameters *params);
 };
 
 #endif /* COMMANDS_COMMANDCREATOR_H_ */

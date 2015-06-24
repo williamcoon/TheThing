@@ -28,6 +28,7 @@ public:
 	bool isFinished();
 	void update();
 	void stop();
+	void setHome();
 private:
 	Hand();
 	static Hand *instance;

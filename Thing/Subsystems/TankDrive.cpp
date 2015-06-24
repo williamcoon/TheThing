@@ -38,7 +38,7 @@ void TankDrive::init(){
  */
 void TankDrive::drive(int leftSpeed, int rightSpeed){
 	leftMotor.setSpeed(leftSpeed);
-	rightMotor.setSpeed(rightSpeed);
+	rightMotor.setSpeed(-rightSpeed);
 }
 
 void TankDrive::stop(){

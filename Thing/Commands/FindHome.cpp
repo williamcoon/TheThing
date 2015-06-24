@@ -13,11 +13,6 @@ FindHome::FindHome(int speed)
 	: speed(speed)
 {
 	finished = false;
-	reed_pins[0] = PINKY_REED_PIN;
-	reed_pins[1] = RING_REED_PIN;
-	reed_pins[2] = MIDDLE_REED_PIN;
-	reed_pins[3] = INDEX_REED_PIN;
-	reed_pins[4] = THUMB_REED_PIN;
 }
 
 FindHome::~FindHome() {
@@ -25,8 +20,12 @@ FindHome::~FindHome() {
 }
 
 void FindHome::init(){
-	for(int i=0; i<5; i++){
-		hand->fingers[i]->startMotion(-1000, speed);
+	if(speed<0){
+		hand->setHome();
+	}else{
+		for(int i=0; i<5; i++){
+			hand->fingers[i]->startMotion(-100);
+		}
 	}
 }
 
@@ -34,13 +33,11 @@ void FindHome::execute(){
 	//This command will be called periodically while the command is running
 	finished = true;
 	for(int i=0; i<5; i++){
-		if(!hand->fingers[i]->isFinished()){
-			if(!digitalRead(reed_pins[i])){
-				hand->fingers[i]->stopMotion();
-				hand->fingers[i]->setHomePosition();
-			}else{
+		if(hand->fingers[i]->isFinished()){
+			hand->fingers[i]->stopMotion();
+			hand->fingers[i]->setHomePosition();
+		}else{
 				finished = false;
-			}
 		}
 	}
 }

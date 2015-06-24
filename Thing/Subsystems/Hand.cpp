@@ -105,5 +105,11 @@ void Hand::handleInterrupt4(){
 	fingers[4]->incrementCount();
 }
 
+void Hand::setHome(){
+	for(int i=0; i<5; i++){
+		fingers[i]->setHomePosition();
+	}
+}
+
 
 

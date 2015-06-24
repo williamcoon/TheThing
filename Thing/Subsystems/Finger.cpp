@@ -72,7 +72,12 @@ void Finger::startMotion(int targetPosition){
 		if(direction==FWD){
 			fingerMotor.setSpeed(setSpeed);
 		}else{
-			fingerMotor.setSpeed(-setSpeed);
+			if(digitalRead(reed_pin)){
+				fingerMotor.setSpeed(-setSpeed);
+			}else{
+				Serial.print(name);
+				Serial.println(" hit reed limit.");
+			}
 		}
 	}else{
 		Serial.print(name);
@@ -91,7 +96,7 @@ void Finger::disableMotor(){
 	//This is to prevent destroying a finger in the case that there is a fault in the hall effect sensor
 	fingerMotor.setSpeed(0);
 	finished = true;
-	enabled = false;
+	//enabled = false;
 	Serial.print(name);
 	Serial.println(" has been disabled due to bad hall reading");
 }
@@ -106,6 +111,10 @@ void Finger::update(){
 			disableMotor();
 		}
 		else if((direction&&currentPos>=targetPos)|(!direction&&currentPos<=targetPos)){
+			stopMotion();
+		}else if(!digitalRead(reed_pin)&&!direction){
+			Serial.print(name);
+			Serial.println(" hit reed limit.");
 			stopMotion();
 		}
 	}
