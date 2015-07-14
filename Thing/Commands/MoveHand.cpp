@@ -13,13 +13,16 @@ MoveHand::MoveHand(int pinkyPosition,
 					int ringPosition,
 					int middlePosition,
 					int indexPosition,
-					int thumbPosition)
+					int thumbPosition,
+					unsigned long delay)
 	: finished(false),
 	  pinkyP(pinkyPosition),
 	  ringP(ringPosition),
 	  middleP(middlePosition),
 	  indexP(indexPosition),
-	  thumbP(thumbPosition)
+	  thumbP(thumbPosition),
+	  delay(delay),
+	  startTime(0)
 {
 
 }
@@ -34,12 +37,15 @@ void MoveHand::init(){
 	hand->middle.startMotion(middleP);
 	hand->index.startMotion(indexP);
 	hand->thumb.startMotion(thumbP);
+	startTime = millis();
 }
 
 void MoveHand::execute(){
 	//This command will be called periodically while the command is running
 	if(hand->isFinished()){
-		finished = true;
+		if((millis()-startTime) >= delay){
+			finished = true;
+		}
 	}
 }
 

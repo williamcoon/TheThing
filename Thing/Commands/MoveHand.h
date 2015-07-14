@@ -17,7 +17,8 @@ public:
 			int ringPosition,
 			int middlePosition,
 			int indexPosition,
-			int thumbPosition);
+			int thumbPosition,
+			unsigned long delay=5000);
 	virtual ~MoveHand();
 	void init();
 	void execute();
@@ -31,6 +32,8 @@ private:
 	int middleP;
 	int indexP;
 	int thumbP;
+	unsigned long delay;
+	unsigned long startTime;
 };
 
 #endif /* COMMANDS_MOVEHAND_H_ */

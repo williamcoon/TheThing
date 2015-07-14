@@ -10,7 +10,7 @@ const char* PARAM_START = "(";
 const char* PARAM_END = ")";
 CommandCenter* CommandCreator::commandCenter = CommandCenter::getInstance();
 
-int driveSpeed = 80;
+int driveSpeed = 50;
 
 CommandCreator::CommandCreator() {
 	commandHash = StringHashTable();
@@ -39,8 +39,11 @@ CommandCreator::CommandCreator() {
 	commandHash.put("770097AADA90", turnLeft);
 	commandHash.put("78007C900B9F", turnRight);
 	commandHash.put("78007C56E2B0", loveSign);
-	commandHash.put("77000EBE33F4", shocker);
+	//commandHash.put("77000EBE33F4", shocker);
 	commandHash.put("78007C716F1A", highFive);
+	commandHash.put("78007C64CCAC", driveForward);
+	commandHash.put("78007C649BFB", driveForwardThirty);
+
 }
 
 CommandCreator::~CommandCreator() {
@@ -199,10 +202,10 @@ bool CommandCreator::rfidDrive1(Parameters *params){
 	Serial.println("RFID Drive 1");
 	CommandBase *handCommand = new MoveHand(0,0,0,-13,0);
 	commandCenter->addCommand(handCommand);
-	CommandBase *command = new Drive(driveSpeed, driveSpeed, 30);
-	commandCenter->addCommand(command);
-	CommandBase *handCommand2 = new MoveHand(0,0,0,0,0);
-	commandCenter->addCommand(handCommand2);
+//	CommandBase *command = new Drive(driveSpeed, driveSpeed, 30);
+//	commandCenter->addCommand(command);
+//	CommandBase *handCommand2 = new MoveHand(0,0,0,0,0);
+//	commandCenter->addCommand(handCommand2);
 	ejectBlock(NULL);
 	return true;
 }
@@ -215,7 +218,7 @@ bool CommandCreator::rfidDrive2(Parameters *params){
 	Serial.println("RFID Drive 2");
 	CommandBase *handCommand = new MoveHand(0,0,0,0,0);
 	commandCenter->addCommand(handCommand);
-	CommandBase *command = new Drive(-50, -50, 30);
+	CommandBase *command = new Drive(-40, -40, 10);
 	commandCenter->addCommand(command);
 	ejectBlock(NULL);
 	return true;
@@ -227,11 +230,21 @@ bool CommandCreator::rfidDrive2(Parameters *params){
  */
 bool CommandCreator::rfidDrive3(Parameters *params){
 	Serial.println("RFID Drive 3");
-	CommandBase *wiggleCommand = new WiggleFingers(-12,0,-6,0,300,3000,4);
-	wiggleCommand->setParallel(true);
-	commandCenter->addCommand(wiggleCommand);
-	CommandBase *drive = new Drive(driveSpeed, driveSpeed, 30);
-	commandCenter->addCommand(drive);
+	CommandBase *wiggleCommand;
+	CommandBase *drive;
+	CommandBase *handUp;
+	handUp = new MoveHand(-12,-14,-13,-13,-5, 0);
+	commandCenter->addCommand(handUp);
+	for(int i=0;i<3;i++){
+		wiggleCommand = new WiggleFingers(-12,0,-5,0,300,3000,1);
+		wiggleCommand->setParallel(true);
+		commandCenter->addCommand(wiggleCommand);
+		drive = new Drive(driveSpeed, driveSpeed, 3);
+		commandCenter->addCommand(drive);
+		handUp = new MoveHand(-12,-14,-13,-13,-5, 0);
+		commandCenter->addCommand(handUp);
+	}
+	resetFingers(NULL);
 	ejectBlock(NULL);
 	return true;
 }
@@ -244,10 +257,10 @@ bool CommandCreator::rfidDrive4(Parameters *params){
 	Serial.println("RFID Drive 4");
 	CommandBase *handCommand = new MoveHand(0,0,-13,0,0);
 	commandCenter->addCommand(handCommand);
-	CommandBase *command = new Drive(driveSpeed, driveSpeed, 30);
-	commandCenter->addCommand(command);
-	CommandBase *handCommand2 = new MoveHand(0,0,0,0,0);
-	commandCenter->addCommand(handCommand2);
+//	CommandBase *command = new Drive(driveSpeed, driveSpeed, 30);
+//	commandCenter->addCommand(command);
+//	CommandBase *handCommand2 = new MoveHand(0,0,0,0,0);
+//	commandCenter->addCommand(handCommand2);
 	ejectBlock(NULL);
 	return true;
 }
@@ -260,17 +273,17 @@ bool CommandCreator::rfidDrive5(Parameters *params){
 	Serial.println("RFID Drive 4");
 	CommandBase *handCommand = new MoveHand(0,0,-13,-13,0);
 	commandCenter->addCommand(handCommand);
-	CommandBase *command = new Drive(driveSpeed, driveSpeed, 30);
-	commandCenter->addCommand(command);
-	CommandBase *handCommand2 = new MoveHand(0,0,0,0,0);
-	commandCenter->addCommand(handCommand2);
+//	CommandBase *command = new Drive(driveSpeed, driveSpeed, 30);
+//	commandCenter->addCommand(command);
+//	CommandBase *handCommand2 = new MoveHand(0,0,0,0,0);
+//	commandCenter->addCommand(handCommand2);
 	ejectBlock(NULL);
 	return true;
 }
 
 bool CommandCreator::turnLeft(Parameters *params){
 	Serial.println("Turn left");
-	CommandBase *command = new Drive(20, 80, 5);
+	CommandBase *command = new Drive(20, 80, 4);
 	commandCenter->addCommand(command);
 	ejectBlock(NULL);
 	return true;
@@ -278,7 +291,7 @@ bool CommandCreator::turnLeft(Parameters *params){
 
 bool CommandCreator::turnRight(Parameters *params){
 	Serial.println("Turn right");
-	CommandBase *command = new Drive(80, 20, 5);
+	CommandBase *command = new Drive(70, 20, 4);
 	commandCenter->addCommand(command);
 	ejectBlock(NULL);
 	return true;
@@ -288,10 +301,10 @@ bool CommandCreator::loveSign(Parameters *params){
 	Serial.println("Love");
 	CommandBase *handCommand = new MoveHand(-12,0,0,-13,0);
 	commandCenter->addCommand(handCommand);
-	CommandBase *command = new Drive(driveSpeed, driveSpeed, 30);
-	commandCenter->addCommand(command);
-	CommandBase *handCommand2 = new MoveHand(0,0,0,0,0);
-	commandCenter->addCommand(handCommand2);
+//	CommandBase *command = new Drive(driveSpeed, driveSpeed, 30);
+//	commandCenter->addCommand(command);
+//	CommandBase *handCommand2 = new MoveHand(0,0,0,0,0);
+//	commandCenter->addCommand(handCommand2);
 	ejectBlock(NULL);
 	return true;
 }
@@ -300,10 +313,10 @@ bool CommandCreator::shocker(Parameters *params){
 	Serial.println("Shocker");
 	CommandBase *handCommand = new MoveHand(-12,0,-13,-13,0);
 	commandCenter->addCommand(handCommand);
-	CommandBase *command = new Drive(driveSpeed, driveSpeed, 30);
-	commandCenter->addCommand(command);
-	CommandBase *handCommand2 = new MoveHand(0,0,0,0,0);
-	commandCenter->addCommand(handCommand2);
+//	CommandBase *command = new Drive(driveSpeed, driveSpeed, 30);
+//	commandCenter->addCommand(command);
+//	CommandBase *handCommand2 = new MoveHand(0,0,0,0,0);
+//	commandCenter->addCommand(handCommand2);
 	ejectBlock(NULL);
 	return true;
 }
@@ -312,10 +325,10 @@ bool CommandCreator::highFive(Parameters *params){
 	Serial.println("High Five");
 	CommandBase *handCommand = new MoveHand(-12,-14,-13,-13,-5);
 	commandCenter->addCommand(handCommand);
-	CommandBase *command = new Drive(driveSpeed, driveSpeed, 30);
-	commandCenter->addCommand(command);
-	CommandBase *handCommand2 = new MoveHand(0,0,0,0,0);
-	commandCenter->addCommand(handCommand2);
+//	CommandBase *command = new Drive(driveSpeed, driveSpeed, 30);
+//	commandCenter->addCommand(command);
+//	CommandBase *handCommand2 = new MoveHand(0,0,0,0,0);
+//	commandCenter->addCommand(handCommand2);
 	ejectBlock(NULL);
 	return true;
 }
@@ -459,6 +472,22 @@ bool CommandCreator::resetFingers(Parameters *params){
 	commandCenter->addCommand(command2);
 	CommandBase *reset = new FindHome(-1);
 	commandCenter->addCommand(reset);
+	ejectBlock(NULL);
+	return true;
+}
+
+bool CommandCreator::driveForward(Parameters *params){
+	Serial.println("Drive Forward");
+	CommandBase *command = new Drive(driveSpeed, driveSpeed, -1);
+	commandCenter->addCommand(command);
+	ejectBlock(NULL);
+	return true;
+}
+
+bool CommandCreator::driveForwardThirty(Parameters *params){
+	Serial.println("Drive Forward");
+	CommandBase *command = new Drive(driveSpeed, driveSpeed, 30);
+	commandCenter->addCommand(command);
 	ejectBlock(NULL);
 	return true;
 }

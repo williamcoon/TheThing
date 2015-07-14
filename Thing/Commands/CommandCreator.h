@@ -57,6 +57,10 @@ private:
 	static bool ejectBlock(Parameters *params);
 	static bool pointAndMove(Parameters *params);
 	static bool resetFingers(Parameters *params);
+	static bool driveForward(Parameters *params);
+	static bool driveForwardThirty(Parameters *params);
+
+
 };
 
 #endif /* COMMANDS_COMMANDCREATOR_H_ */
