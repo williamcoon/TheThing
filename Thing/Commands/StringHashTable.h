@@ -85,7 +85,7 @@ public:
 	}
 
 private:
-	const static int TABLE_SIZE = 24;
+	const static int TABLE_SIZE = 48;
 	StringHashEntry table[TABLE_SIZE];
 
 };
