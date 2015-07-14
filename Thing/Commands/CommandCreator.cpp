@@ -216,7 +216,7 @@ bool CommandCreator::rfidDrive1(Parameters *params){
  */
 bool CommandCreator::rfidDrive2(Parameters *params){
 	Serial.println("RFID Drive 2");
-	CommandBase *handCommand = new MoveHand(0,0,0,0,0);
+	CommandBase *handCommand = new MoveHand(0,0,0,0,0,0);
 	commandCenter->addCommand(handCommand);
 	CommandBase *command = new Drive(-40, -40, 10);
 	commandCenter->addCommand(command);
@@ -466,11 +466,11 @@ bool CommandCreator::ejectBlock(Parameters *params){
 
 bool CommandCreator::resetFingers(Parameters *params){
 	Serial.println("Reset");
-	CommandBase *command = new FindHome(0);
+	CommandBase *command = new FindHome(0); //This tells the hand to run to reed limits
 	commandCenter->addCommand(command);
-	CommandBase *command2 = new MoveHand(20,20,24,24,15);
+	CommandBase *command2 = new MoveHand(20,20,24,24,15,0);
 	commandCenter->addCommand(command2);
-	CommandBase *reset = new FindHome(-1);
+	CommandBase *reset = new FindHome(-1); //This actually sets the home position
 	commandCenter->addCommand(reset);
 	ejectBlock(NULL);
 	return true;
