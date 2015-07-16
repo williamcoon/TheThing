@@ -35,6 +35,7 @@ CommandCreator::CommandCreator() {
 	commandHash.put("78007C7EA1DB", middleFinger);
 	commandHash.put("7600889AE783", resetFingers);
 	commandHash.put("770097BC5509", peaceSign);
+	commandHash.put("i have absolutely no idea what to put here", hangTenSign);
 	commandHash.put("770097AADA90", turnLeft);
 	commandHash.put("78007C900B9F", turnRight);
 	commandHash.put("78007C56E2B0", metalSign);
@@ -152,9 +153,22 @@ bool CommandCreator::middleFinger(Parameters *params){
 }
 
 /*
+ * HangTenFinger(NULL)
+ * Extend thumb and pinky
+ */
+bool CommandCreator::hangTenSign(Parameters *params){
+	Serial.println("Hang Ten Sign");
+	CommandBase *handCommand = new MoveHand(-13,0,0,0,-5);
+	commandCenter->addCommand(handCommand);
+	ejectBlock(NULL);
+	return true;
+}
+
+/*
  * peaceSign(NULL)
  * Makes a peace sign
  */
+
 bool CommandCreator::peaceSign(Parameters *params){
 	Serial.println("Peace");
 	CommandBase *handCommand = new MoveHand(0,0,-13,-13,0);

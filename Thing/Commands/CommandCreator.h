@@ -41,6 +41,7 @@ private:
 	static bool reverse(Parameters *params);
 	static bool crawlForward(Parameters *params);
 	static bool middleFinger(Parameters *params);
+	static bool hangTenSign(Parameters *params);
 	static bool peaceSign(Parameters *params);
 	static bool turnLeft(Parameters *params);
 	static bool turnRight(Parameters *params);
