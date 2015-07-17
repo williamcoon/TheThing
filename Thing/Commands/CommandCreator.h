@@ -1,5 +1,4 @@
-/*
- * CommandCreator.h
+/* * CommandCreator.h
  *
  *  Created on: Apr 27, 2015
  *      Author: williamcoon
@@ -15,6 +14,7 @@
 #include "PrintCommand.h"
 #include "MoveFinger.h"
 #include "MoveHand.h"
+#include "MoveWrist.h"
 #include "Drive.h"
 #include "Victor.h"
 #include "BackAndForth.h"
@@ -46,7 +46,10 @@ private:
 	static bool turnLeft(Parameters *params);
 	static bool turnRight(Parameters *params);
 	static bool metalSign(Parameters *params);
+	static bool moveWrist(Parameters *params);
 	static bool highFive(Parameters *params);
+	static bool fist(Parameters *params);
+	static bool beckon(Parameters *params);
 	static bool calibrateVictor(Parameters *params);
 	static bool backAndForth(Parameters *params);
 	static bool findHome(Parameters *params);
