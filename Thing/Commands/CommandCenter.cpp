@@ -90,6 +90,9 @@ void CommandCenter::clearCommands(){
 		currentCommands[i]->stop();
 		delete currentCommands[i];
 	}
+	while(!commands.isEmpty()){
+		commands.pop();
+	}
 	if(currentSize>0){
 		delete[] currentCommands;
 		currentCommands = NULL;

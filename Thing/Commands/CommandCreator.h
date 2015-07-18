@@ -28,6 +28,8 @@ public:
 	CommandCreator();
 	virtual ~CommandCreator();
 	bool createCommand(String command);
+	static bool ejectBlock(Parameters *params);
+
 private:
 	static CommandCenter *commandCenter;
 	StringHashTable commandHash;
@@ -40,6 +42,8 @@ private:
 	static bool pointerFinger(Parameters *params);
 	static bool reverse(Parameters *params);
 	static bool crawlForward(Parameters *params);
+	static bool threeFingers(Parameters *params);
+	static bool oneFingerCrawl(Parameters *params);
 	static bool middleFinger(Parameters *params);
 	static bool hangTenSign(Parameters *params);
 	static bool peaceSign(Parameters *params);
@@ -57,7 +61,6 @@ private:
 	static bool testParallel(Parameters *params);
 	static bool smallPoof(Parameters *params);
 	static bool stopAll(Parameters *params);
-	static bool ejectBlock(Parameters *params);
 	static bool pointAndMove(Parameters *params);
 	static bool resetFingers(Parameters *params);
 	static bool driveForward(Parameters *params);

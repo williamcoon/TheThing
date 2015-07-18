@@ -7,13 +7,13 @@
 
 #include <CommandCreator.h>
 #define THUMB_EXTENDED -5
-#define INDEX_EXTENDED -13
-#define MIDDLE_EXTENDED -13
-#define RING_EXTENDED -14
-#define PINKY_EXTENDED -12
+#define INDEX_EXTENDED -10
+#define MIDDLE_EXTENDED -12
+#define RING_EXTENDED -12
+#define PINKY_EXTENDED -10
 
-#define THUMB_HOME 16
-#define INDEX_HOME 22
+#define THUMB_HOME 14
+#define INDEX_HOME 23
 #define MIDDLE_HOME 24
 #define RING_HOME 22
 #define PINKY_HOME 19
@@ -39,21 +39,25 @@ CommandCreator::CommandCreator() {
 	commandHash.put("eject", ejectBlock);
 	commandHash.put("reset", resetFingers);
 	commandHash.put("moveWrist", moveWrist);
+	commandHash.put("crawl", crawlForward);
+	commandHash.put("test", beckon);
 
 	//RFID tags
 	commandHash.put("770097AA4D07", pointerFinger);
 	commandHash.put("770097F51207", reverse);
 	commandHash.put("78007C51A9FC", crawlForward);
-	commandHash.put("78007C7EA1DB", middleFinger);
 	commandHash.put("7600889AE783", resetFingers);
 	commandHash.put("770097BC5509", peaceSign);
-	commandHash.put("i have absolutely no idea what to put here", hangTenSign);
+	commandHash.put("78008002B54F", hangTenSign);
 	commandHash.put("i have absolutely no idea what to put here :)", fist);
-	commandHash.put("770097AADA90", turnLeft);
+	commandHash.put("770097AADA90", threeFingers);
+	commandHash.put("78007C7EA1DB", oneFingerCrawl);
 	commandHash.put("78007C900B9F", turnRight);
-	commandHash.put("78007C56E2B0", metalSign);
+	commandHash.put("78007C900B9F", turnRight);
+	commandHash.put("770097BD0B56", metalSign);
 	commandHash.put("78007C716F1A", highFive);
 	commandHash.put("78007C64CCAC", driveForward);
+	commandHash.put("77000EBE33F4", driveForward);
 	commandHash.put("78007C649BFB", driveForwardThirty);
 
 }
@@ -128,6 +132,31 @@ bool CommandCreator::pointerFinger(Parameters *params){
 	return true;
 }
 
+bool CommandCreator::threeFingers(Parameters *params){
+	Serial.println("3 Fingers");
+	CommandBase *handCommand = new MoveHand(0,RING_EXTENDED,MIDDLE_EXTENDED,INDEX_EXTENDED,0);
+	commandCenter->addCommand(handCommand);
+	ejectBlock(NULL);
+	return true;
+}
+
+bool CommandCreator::oneFingerCrawl(Parameters *params){
+	Serial.println("One Finger Crawl");
+	for(int i=0;i<3;i++){
+		CommandBase *fingerUp = new MoveHand(0,0,0,INDEX_EXTENDED,0);
+		commandCenter->addCommand(fingerUp);
+		CommandBase *wristUp = new MoveWrist(100,true,1000);
+		commandCenter->addCommand(wristUp);
+		CommandBase *fist = new MoveHand(0,0,0,0,0);
+		fist->setParallel(true);
+		commandCenter->addCommand(fist);
+		CommandBase *drive = new Drive(driveSpeed, driveSpeed, 1);
+		commandCenter->addCommand(drive);
+	}
+	ejectBlock(NULL);
+	return true;
+}
+
 /*
  * crawlForward(NULL)
  * Crawl forward. TODO: test this out and make it actually work
@@ -137,16 +166,19 @@ bool CommandCreator::crawlForward(Parameters *params){
 	CommandBase *wiggleCommand;
 	CommandBase *drive;
 	CommandBase *handUp;
-	handUp = new MoveHand(PINKY_EXTENDED,RING_EXTENDED,MIDDLE_EXTENDED,INDEX_EXTENDED,THUMB_EXTENDED, 0);
+	CommandBase *wristUp;
+	handUp = new MoveHand(-8,-8,-8,-8,THUMB_EXTENDED, 0);
 	commandCenter->addCommand(handUp);
 	for(int i=0;i<3;i++){
-		wiggleCommand = new WiggleFingers(-12,0,THUMB_EXTENDED,0,300,3000,1);
+		wristUp = new MoveWrist(100,true,1000);
+		commandCenter->addCommand(wristUp);
+		wiggleCommand = new WiggleFingers(-8,0,THUMB_EXTENDED,0,300,3000,1);
 		wiggleCommand->setParallel(true);
 		commandCenter->addCommand(wiggleCommand);
-		drive = new Drive(driveSpeed, driveSpeed, 3);
+		drive = new Drive(driveSpeed, driveSpeed, 2);
 		commandCenter->addCommand(drive);
-		handUp = new MoveHand(PINKY_EXTENDED,RING_EXTENDED,MIDDLE_EXTENDED,INDEX_EXTENDED,THUMB_EXTENDED, 0);
-		commandCenter->addCommand(handUp);
+		//handUp = new MoveHand(PINKY_EXTENDED,RING_EXTENDED,MIDDLE_EXTENDED,INDEX_EXTENDED,THUMB_EXTENDED, 0);
+		//commandCenter->addCommand(handUp);
 	}
 	resetFingers(NULL);
 	ejectBlock(NULL);
@@ -171,6 +203,9 @@ bool CommandCreator::middleFinger(Parameters *params){
  */
 bool CommandCreator::hangTenSign(Parameters *params){
 	Serial.println("Hang Ten Sign");
+	CommandBase *wristUp = new MoveWrist(100,true,1000);
+	wristUp->setParallel(true);
+	commandCenter->addCommand(wristUp);
 	CommandBase *handCommand = new MoveHand(PINKY_EXTENDED,0,0,0,THUMB_EXTENDED);
 	commandCenter->addCommand(handCommand);
 	ejectBlock(NULL);
@@ -184,7 +219,12 @@ bool CommandCreator::hangTenSign(Parameters *params){
 
 bool CommandCreator::peaceSign(Parameters *params){
 	Serial.println("Peace");
-	CommandBase *handCommand = new MoveHand(0,0,MIDDLE_EXTENDED,INDEX_EXTENDED,0);
+	CommandBase *handCommand = new MoveHand(0,0,MIDDLE_EXTENDED,INDEX_EXTENDED,0,0);
+	commandCenter->addCommand(handCommand);
+	CommandBase *wristUp = new MoveWrist(100,true,1000);
+	commandCenter->addCommand(wristUp);
+	wristUp->setParallel(true);
+	handCommand = new MoveHand(0,0,MIDDLE_EXTENDED,INDEX_EXTENDED,0,3);
 	commandCenter->addCommand(handCommand);
 	ejectBlock(NULL);
 	return true;
@@ -196,8 +236,13 @@ bool CommandCreator::peaceSign(Parameters *params){
  */
 bool CommandCreator::metalSign(Parameters *params){
 	Serial.println("Metal");
-	CommandBase *handCommand = new MoveHand(PINKY_EXTENDED,0,0,INDEX_EXTENDED,0);
+	CommandBase *wristUp = new MoveWrist(100,true,1000);
+	commandCenter->addCommand(wristUp);
+	wristUp->setParallel(true);
+	CommandBase *handCommand = new MoveHand(PINKY_EXTENDED,0,0,INDEX_EXTENDED,0,2000);
 	commandCenter->addCommand(handCommand);
+	wristUp = new MoveWrist(100,true,1000);
+	commandCenter->addCommand(wristUp);
 	ejectBlock(NULL);
 	return true;
 }
@@ -340,7 +385,7 @@ bool CommandCreator::driveForwardThirty(Parameters *params){
 
 bool CommandCreator::turnLeft(Parameters *params){
 	Serial.println("Turn left");
-	CommandBase *command = new Drive(20, 80, 4);
+	CommandBase *command = new Drive(30, 80, 4);
 	commandCenter->addCommand(command);
 	ejectBlock(NULL);
 	return true;
@@ -348,7 +393,7 @@ bool CommandCreator::turnLeft(Parameters *params){
 
 bool CommandCreator::turnRight(Parameters *params){
 	Serial.println("Turn right");
-	CommandBase *command = new Drive(70, 20, 4);
+	CommandBase *command = new Drive(80, 30, 4);
 	commandCenter->addCommand(command);
 	ejectBlock(NULL);
 	return true;
@@ -362,7 +407,7 @@ bool CommandCreator::reverse(Parameters *params){
 	Serial.println("Reversing");
 	CommandBase *handCommand = new MoveHand(0,0,0,0,0,0); //Do we need to close the hand first?
 	commandCenter->addCommand(handCommand);
-	CommandBase *command = new Drive(-40, -40, 10);
+	CommandBase *command = new Drive(-70, -70, 30);
 	commandCenter->addCommand(command);
 	ejectBlock(NULL);
 	return true;

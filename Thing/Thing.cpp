@@ -117,6 +117,7 @@ void Thing::checkButtonStates(){
 	if(stopButton->readButton()){
 		stopButton->disable();
 		stopAllSubsystems();
+		commandCreator->ejectBlock(NULL);
 	}
 	if(startButton->readButton()){
 		startButton->disable();
