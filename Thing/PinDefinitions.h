@@ -18,7 +18,7 @@
 #define INDEX_CONTROL_PIN 7
 #define THUMB_CONTROL_PIN 8
 
-#define WRIST_CONTROL_PIN 11
+#define WRIST_CONTROL_PIN 30
 
 //Counter pin definitions
 #define PINKY_COUNT_PIN 2 //Interrupt 0
@@ -40,7 +40,7 @@
 
 //Buttons
 #define START_BUTTON A8
-#define START_LED 28
+#define START_LED 31
 #define STOP_BUTTON A9
 #define STOP_LED 29
 
@@ -60,7 +60,7 @@
 #define RING_REV_SPEED 90
 #define MIDDLE_FWD_SPEED 40
 #define MIDDLE_REV_SPEED 80
-#define INDEX_FWD_SPEED 40
+#define INDEX_FWD_SPEED 50
 #define INDEX_REV_SPEED 80
 #define THUMB_FWD_SPEED 50
 #define THUMB_REV_SPEED 70

@@ -6,6 +6,17 @@
  */
 
 #include <CommandCreator.h>
+#define THUMB_EXTENDED -5
+#define INDEX_EXTENDED -13
+#define MIDDLE_EXTENDED -13
+#define RING_EXTENDED -14
+#define PINKY_EXTENDED -12
+
+#define THUMB_HOME 16
+#define INDEX_HOME 22
+#define MIDDLE_HOME 24
+#define RING_HOME 22
+#define PINKY_HOME 19
 const char* PARAM_START = "(";
 const char* PARAM_END = ")";
 CommandCenter* CommandCreator::commandCenter = CommandCenter::getInstance();
@@ -27,6 +38,7 @@ CommandCreator::CommandCreator() {
 	commandHash.put("testParallel", testParallel);
 	commandHash.put("eject", ejectBlock);
 	commandHash.put("reset", resetFingers);
+	commandHash.put("moveWrist", moveWrist);
 
 	//RFID tags
 	commandHash.put("770097AA4D07", pointerFinger);
@@ -35,6 +47,8 @@ CommandCreator::CommandCreator() {
 	commandHash.put("78007C7EA1DB", middleFinger);
 	commandHash.put("7600889AE783", resetFingers);
 	commandHash.put("770097BC5509", peaceSign);
+	commandHash.put("i have absolutely no idea what to put here", hangTenSign);
+	commandHash.put("i have absolutely no idea what to put here :)", fist);
 	commandHash.put("770097AADA90", turnLeft);
 	commandHash.put("78007C900B9F", turnRight);
 	commandHash.put("78007C56E2B0", metalSign);
@@ -108,7 +122,7 @@ Parameters* CommandCreator::parseParameters(String paramString){
  */
 bool CommandCreator::pointerFinger(Parameters *params){
 	Serial.println("Pointer Finger");
-	CommandBase *handCommand = new MoveHand(0,0,0,-13,0);
+	CommandBase *handCommand = new MoveHand(0,0,0,INDEX_EXTENDED,0);
 	commandCenter->addCommand(handCommand);
 	ejectBlock(NULL);
 	return true;
@@ -123,15 +137,15 @@ bool CommandCreator::crawlForward(Parameters *params){
 	CommandBase *wiggleCommand;
 	CommandBase *drive;
 	CommandBase *handUp;
-	handUp = new MoveHand(-12,-14,-13,-13,-5, 0);
+	handUp = new MoveHand(PINKY_EXTENDED,RING_EXTENDED,MIDDLE_EXTENDED,INDEX_EXTENDED,THUMB_EXTENDED, 0);
 	commandCenter->addCommand(handUp);
 	for(int i=0;i<3;i++){
-		wiggleCommand = new WiggleFingers(-12,0,-5,0,300,3000,1);
+		wiggleCommand = new WiggleFingers(-12,0,THUMB_EXTENDED,0,300,3000,1);
 		wiggleCommand->setParallel(true);
 		commandCenter->addCommand(wiggleCommand);
 		drive = new Drive(driveSpeed, driveSpeed, 3);
 		commandCenter->addCommand(drive);
-		handUp = new MoveHand(-12,-14,-13,-13,-5, 0);
+		handUp = new MoveHand(PINKY_EXTENDED,RING_EXTENDED,MIDDLE_EXTENDED,INDEX_EXTENDED,THUMB_EXTENDED, 0);
 		commandCenter->addCommand(handUp);
 	}
 	resetFingers(NULL);
@@ -145,7 +159,19 @@ bool CommandCreator::crawlForward(Parameters *params){
  */
 bool CommandCreator::middleFinger(Parameters *params){
 	Serial.println("Middle Finger");
-	CommandBase *handCommand = new MoveHand(0,0,-13,0,0);
+	CommandBase *handCommand = new MoveHand(0,0,MIDDLE_EXTENDED,0,0);
+	commandCenter->addCommand(handCommand);
+	ejectBlock(NULL);
+	return true;
+}
+
+/*
+ * HangTenFinger(NULL)
+ * Extend thumb and pinky
+ */
+bool CommandCreator::hangTenSign(Parameters *params){
+	Serial.println("Hang Ten Sign");
+	CommandBase *handCommand = new MoveHand(PINKY_EXTENDED,0,0,0,THUMB_EXTENDED);
 	commandCenter->addCommand(handCommand);
 	ejectBlock(NULL);
 	return true;
@@ -155,9 +181,10 @@ bool CommandCreator::middleFinger(Parameters *params){
  * peaceSign(NULL)
  * Makes a peace sign
  */
+
 bool CommandCreator::peaceSign(Parameters *params){
 	Serial.println("Peace");
-	CommandBase *handCommand = new MoveHand(0,0,-13,-13,0);
+	CommandBase *handCommand = new MoveHand(0,0,MIDDLE_EXTENDED,INDEX_EXTENDED,0);
 	commandCenter->addCommand(handCommand);
 	ejectBlock(NULL);
 	return true;
@@ -169,7 +196,7 @@ bool CommandCreator::peaceSign(Parameters *params){
  */
 bool CommandCreator::metalSign(Parameters *params){
 	Serial.println("Metal");
-	CommandBase *handCommand = new MoveHand(-12,0,0,-13,0);
+	CommandBase *handCommand = new MoveHand(PINKY_EXTENDED,0,0,INDEX_EXTENDED,0);
 	commandCenter->addCommand(handCommand);
 	ejectBlock(NULL);
 	return true;
@@ -181,11 +208,43 @@ bool CommandCreator::metalSign(Parameters *params){
  */
 bool CommandCreator::highFive(Parameters *params){
 	Serial.println("High Five");
-	CommandBase *handCommand = new MoveHand(-12,-14,-13,-13,-5);
+	CommandBase *handCommand = new MoveHand(PINKY_EXTENDED,RING_EXTENDED,MIDDLE_EXTENDED,INDEX_EXTENDED,THUMB_EXTENDED);
 	commandCenter->addCommand(handCommand);
 	ejectBlock(NULL);
 	return true;
 }
+
+/*
+ * fist(NULL)
+ * Puts all fingers in a fist like sign
+ */
+bool CommandCreator::fist(Parameters *params){
+	Serial.println("High Five");
+	CommandBase *handCommand = new MoveHand(0,0,0,0,0);
+	commandCenter->addCommand(handCommand);
+	ejectBlock(NULL);
+	return true;
+}
+
+/*
+ * beckon(NULL)
+ * summons the undead
+ */
+
+bool CommandCreator::beckon(Parameters *params){
+	Serial.println("High Five");
+	CommandBase *findHome = new FindHome(0);
+	commandCenter->addCommand(findHome);
+	for(int i = 0; i<2; i++){
+		CommandBase *handCommand = new MoveFinger(4,INDEX_EXTENDED);
+		commandCenter->addCommand(handCommand);
+		CommandBase *findHome = new FindHome(0);
+		commandCenter->addCommand(findHome);
+	}
+	ejectBlock(NULL);
+	return true;
+}
+
 
 /********************************************
  * Special Hand Commands
@@ -228,7 +287,7 @@ bool CommandCreator::resetFingers(Parameters *params){
 	Serial.println("Reset");
 	CommandBase *command = new FindHome(0); //This tells the hand to run to reed limits
 	commandCenter->addCommand(command);
-	CommandBase *command2 = new MoveHand(20,20,24,24,15,0);
+	CommandBase *command2 = new MoveHand(PINKY_HOME,RING_HOME,MIDDLE_HOME,INDEX_HOME,THUMB_HOME,0);
 	commandCenter->addCommand(command2);
 	CommandBase *reset = new FindHome(-1); //This actually sets the home position
 	commandCenter->addCommand(reset);
@@ -394,6 +453,19 @@ bool CommandCreator::drive(Parameters *params){
 	int driveTime;
 	if(params->getInt(0, &leftSpeed)&&params->getInt(1, &rightSpeed)&&params->getInt(2, &driveTime)){
 		CommandBase *command = new Drive(leftSpeed, rightSpeed, driveTime);
+		commandCenter->addCommand(command);
+		return true;
+	}else{
+		return false;
+	}
+}
+
+bool CommandCreator::moveWrist(Parameters *params){
+	int speed;
+	bool direction;
+	int moveTime;
+	if(params->getInt(0, &speed)&&params->getBool(1, &direction)&&params->getInt(2, &moveTime)){
+		CommandBase *command = new MoveWrist(speed, direction, moveTime);
 		commandCenter->addCommand(command);
 		return true;
 	}else{
