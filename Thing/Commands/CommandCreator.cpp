@@ -142,6 +142,7 @@ bool CommandCreator::threeFingers(Parameters *params){
 
 bool CommandCreator::oneFingerCrawl(Parameters *params){
 	Serial.println("One Finger Crawl");
+	Serial.println("One Finger Crawl"); //Add print statement to fix freeze on upload issue
 	for(int i=0;i<3;i++){
 		CommandBase *fingerUp = new MoveHand(0,0,0,INDEX_EXTENDED,0);
 		commandCenter->addCommand(fingerUp);
