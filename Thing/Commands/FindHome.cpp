@@ -5,7 +5,7 @@
  *      Author: williamcoon
  */
 
-#include <FindHome.h>
+#include "FindHome.h"
 
 Hand* FindHome::hand = Hand::getInstance();
 

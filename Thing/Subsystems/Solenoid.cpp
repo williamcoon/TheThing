@@ -5,7 +5,7 @@
  *      Author: billcoon
  */
 
-#include <Solenoid.h>
+#include "Solenoid.h"
 
 Solenoid::Solenoid(int extendPin, int retractPin)
 	: extendPin(extendPin),

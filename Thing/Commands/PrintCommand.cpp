@@ -5,7 +5,7 @@
  *      Author: williamcoon
  */
 
-#include <Commands/PrintCommand.h>
+#include "PrintCommand.h"
 
 PrintCommand::PrintCommand(String s, int timesToRepeat) {
 	// This is where you initialize any variables you declared in the header.

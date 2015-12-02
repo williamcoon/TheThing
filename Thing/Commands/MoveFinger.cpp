@@ -5,7 +5,7 @@
  *      Author: williamcoon
  */
 
-#include <MoveFinger.h>
+#include "MoveFinger.h"
 
 Hand* MoveFinger::hand = Hand::getInstance();
 

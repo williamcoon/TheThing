@@ -5,7 +5,7 @@
  *      Author: billcoon
  */
 
-#include <Wrist.h>
+#include "Wrist.h"
 
 Wrist* Wrist::instance = NULL;
 

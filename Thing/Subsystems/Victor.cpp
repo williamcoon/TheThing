@@ -5,7 +5,7 @@
  *      Author: williamcoon
  */
 
-#include <Victor.h>
+#include "Victor.h"
 
 Victor::Victor(int pin)
 	:	servoPin(pin),

@@ -5,7 +5,7 @@
  *      Author: williamcoon
  */
 
-#include <EjectBlock.h>
+#include "EjectBlock.h"
 
 #define EJECT_TIME 500UL //Amount of time(ms) to extend for ejection
 Ejector* EjectBlock::ejector = Ejector::getInstance();

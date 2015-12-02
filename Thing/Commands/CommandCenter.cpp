@@ -5,7 +5,7 @@
  *      Author: williamcoon
  */
 
-#include <CommandCenter.h>
+#include "CommandCenter.h"
 
 CommandCenter* CommandCenter::instance = NULL;
 

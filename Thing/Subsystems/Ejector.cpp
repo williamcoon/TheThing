@@ -5,7 +5,7 @@
  *      Author: williamcoon
  */
 
-#include <Ejector.h>
+#include "Ejector.h"
 
 
 Ejector * Ejector::instance = NULL;

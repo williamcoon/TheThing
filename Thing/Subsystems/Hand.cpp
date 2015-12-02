@@ -5,7 +5,7 @@
  *      Author: williamcoon
  */
 
-#include <Hand.h>
+#include "Hand.h"
 
 Hand* Hand::instance = NULL;
 Finger Hand::pinky(PINKY_CONTROL_PIN, PINKY_REED_PIN, PINKY_FWD_SPEED, PINKY_REV_SPEED, "Pinky");
