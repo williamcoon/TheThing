@@ -34,7 +34,7 @@ void loop()
 		wdt_reset(); //reset watchdog timer
 		lastSerial = current;
 	}
-	if((current-lastBlink) > 1000){
+	if((current-lastBlink) > 500){
 		/*
 		 * Blink a light to let us know we're still alive
 		 */
