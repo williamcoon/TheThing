@@ -55,6 +55,7 @@ Thing::Thing(){
 	commandCreator = new CommandCreator();
 	startButton = new LedButton(START_BUTTON, START_LED);
 	stopButton = new LedButton(STOP_BUTTON, STOP_LED);
+	joyStick = new Joystick(X_AXIS_PIN, Y_AXIS_PIN);
 	executingRFID = false;
 	lastRFIDTime = 0;
 }
