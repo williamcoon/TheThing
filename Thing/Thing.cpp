@@ -69,6 +69,7 @@ void Thing::init(){
 	poofer->init();
 	startButton->init();
 	stopButton->init();
+	joyStick->init();
 }
 
 void Thing::updateExecution(){
@@ -77,6 +78,12 @@ void Thing::updateExecution(){
 	startButton->poll();
 	stopButton->poll();
 	thing.checkButtonStates();
+	thing.driveWithJoystick();
+}
+
+void Thing::driveWithJoystick(){
+	joyStick->readJoystick();
+	tankDrive->drive(joyStick->getLeftSpeed(), joyStick->getRightSpeed());
 }
 
 void Thing::checkSerial(){

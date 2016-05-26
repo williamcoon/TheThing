@@ -19,6 +19,8 @@
 #include "Ejector.h"
 #include "Poofer.h"
 #include "LedButton.h"
+#include "Joystick.h"
+#include "TankDrive.h"
 
 //end of add your includes here
 #ifdef __cplusplus
@@ -41,6 +43,7 @@ public:
 	void updateExecution();
 	void checkButtonStates();
 	void stopAllSubsystems();
+	void driveWithJoystick();
 private:
 	RFID *rfid;
 	SerialHandler *serialHandler;
@@ -53,6 +56,7 @@ private:
 	CommandCreator *commandCreator;
 	LedButton *startButton;
 	LedButton *stopButton;
+	Joystick *joyStick;
 	bool executingRFID;
 	unsigned long lastRFIDTime;
 	static const unsigned long RFID_TIMEOUT;

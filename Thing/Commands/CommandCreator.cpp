@@ -152,8 +152,8 @@ bool CommandCreator::oneFingerCrawl(Parameters *params){
 		CommandBase *fist = new MoveHand(0,0,0,0,0);
 		fist->setParallel(true);
 		commandCenter->addCommand(fist);
-		CommandBase *drive = new Drive(driveSpeed, driveSpeed, 1);
-		commandCenter->addCommand(drive);
+//		CommandBase *drive = new Drive(driveSpeed, driveSpeed, 1);
+//		commandCenter->addCommand(drive);
 	}
 	ejectBlock(NULL);
 	return true;
@@ -166,7 +166,7 @@ bool CommandCreator::oneFingerCrawl(Parameters *params){
 bool CommandCreator::crawlForward(Parameters *params){
 	Serial.println("Crawl Forward");
 	CommandBase *wiggleCommand;
-	CommandBase *drive;
+	//CommandBase *drive;
 	CommandBase *handUp;
 	CommandBase *wristUp;
 	handUp = new MoveHand(-8,-8,-8,-8,THUMB_EXTENDED, 0);
@@ -177,8 +177,8 @@ bool CommandCreator::crawlForward(Parameters *params){
 		wiggleCommand = new WiggleFingers(-8,0,THUMB_EXTENDED,0,300,3000,1);
 		wiggleCommand->setParallel(true);
 		commandCenter->addCommand(wiggleCommand);
-		drive = new Drive(driveSpeed, driveSpeed, 2);
-		commandCenter->addCommand(drive);
+//		drive = new Drive(driveSpeed, driveSpeed, 2);
+//		commandCenter->addCommand(drive);
 		//handUp = new MoveHand(PINKY_EXTENDED,RING_EXTENDED,MIDDLE_EXTENDED,INDEX_EXTENDED,THUMB_EXTENDED, 0);
 		//commandCenter->addCommand(handUp);
 	}
@@ -370,16 +370,16 @@ bool CommandCreator::findHome(Parameters *params){
 
 bool CommandCreator::driveForward(Parameters *params){
 	Serial.println("Drive Forward");
-	CommandBase *command = new Drive(driveSpeed, driveSpeed, -1);
-	commandCenter->addCommand(command);
+//	CommandBase *command = new Drive(driveSpeed, driveSpeed, -1);
+//	commandCenter->addCommand(command);
 	ejectBlock(NULL);
 	return true;
 }
 
 bool CommandCreator::driveForwardThirty(Parameters *params){
 	Serial.println("Drive Forward");
-	CommandBase *command = new Drive(driveSpeed, driveSpeed, 30);
-	commandCenter->addCommand(command);
+//	CommandBase *command = new Drive(driveSpeed, driveSpeed, 30);
+//	commandCenter->addCommand(command);
 	ejectBlock(NULL);
 	return true;
 }
@@ -387,16 +387,16 @@ bool CommandCreator::driveForwardThirty(Parameters *params){
 
 bool CommandCreator::turnLeft(Parameters *params){
 	Serial.println("Turn left");
-	CommandBase *command = new Drive(30, 80, 4);
-	commandCenter->addCommand(command);
+//	CommandBase *command = new Drive(30, 80, 4);
+//	commandCenter->addCommand(command);
 	ejectBlock(NULL);
 	return true;
 }
 
 bool CommandCreator::turnRight(Parameters *params){
 	Serial.println("Turn right");
-	CommandBase *command = new Drive(80, 30, 4);
-	commandCenter->addCommand(command);
+//	CommandBase *command = new Drive(80, 30, 4);
+//	commandCenter->addCommand(command);
 	ejectBlock(NULL);
 	return true;
 }
@@ -409,8 +409,8 @@ bool CommandCreator::reverse(Parameters *params){
 	Serial.println("Reversing");
 	CommandBase *handCommand = new MoveHand(0,0,0,0,0,0); //Do we need to close the hand first?
 	commandCenter->addCommand(handCommand);
-	CommandBase *command = new Drive(-70, -70, 30);
-	commandCenter->addCommand(command);
+//	CommandBase *command = new Drive(-70, -70, 30);
+//	commandCenter->addCommand(command);
 	ejectBlock(NULL);
 	return true;
 }
@@ -499,8 +499,8 @@ bool CommandCreator::drive(Parameters *params){
 	int rightSpeed;
 	int driveTime;
 	if(params->getInt(0, &leftSpeed)&&params->getInt(1, &rightSpeed)&&params->getInt(2, &driveTime)){
-		CommandBase *command = new Drive(leftSpeed, rightSpeed, driveTime);
-		commandCenter->addCommand(command);
+//		CommandBase *command = new Drive(leftSpeed, rightSpeed, driveTime);
+//		commandCenter->addCommand(command);
 		return true;
 	}else{
 		return false;
