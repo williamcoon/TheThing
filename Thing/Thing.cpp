@@ -31,7 +31,6 @@ void loop()
 		 */
 		thing.checkSerial();
 		thing.checkRFID();
-		thing.driveWithJoystick();
 		wdt_reset(); //reset watchdog timer
 		lastSerial = current;
 	}
@@ -41,6 +40,7 @@ void loop()
 		 */
 		digitalWrite(STATUS_PIN, !digitalRead(STATUS_PIN));
 		lastBlink = current;
+		thing.driveWithJoystick(); //move this back to updateExecution after testing
 	}
 }
 
@@ -55,6 +55,7 @@ Thing::Thing(){
 	startButton = new LedButton(START_BUTTON, START_LED);
 	stopButton = new LedButton(STOP_BUTTON, STOP_LED);
 	joyStick = new Joystick(X_AXIS_PIN, Y_AXIS_PIN);
+	beanieLed = BeanieLed::getInstance();
 	executingRFID = false;
 	lastRFIDTime = 0;
 	driveTrainEnabled = false;
@@ -67,8 +68,10 @@ void Thing::init(){
 	tankDrive->init();
 	wrist->init();
 	startButton->init();
+	startButton->enable();
 	stopButton->init();
 	joyStick->init();
+	beanieLed->init();
 }
 
 void Thing::updateExecution(){
@@ -83,10 +86,14 @@ void Thing::updateExecution(){
 void Thing::driveWithJoystick(){
 	if(driveTrainEnabled){
 		joyStick->readJoystick();
-		Serial.print("Left Speed: ");
-		Serial.print(joyStick->getLeftSpeed());
-		Serial.print("    Right Speed: ");
-		Serial.println(joyStick->getRightSpeed());
+		double left = joyStick->getLeftSpeed();
+		double right = joyStick->getRightSpeed();
+		if(left != 0 || right != 0){
+			Serial.print("Left Speed: ");
+			Serial.print(joyStick->getLeftSpeed());
+			Serial.print("    Right Speed: ");
+			Serial.println(joyStick->getRightSpeed());
+		}
 		//tankDrive->drive(joyStick->getLeftSpeed(), joyStick->getRightSpeed());
 	}
 }
@@ -104,6 +111,7 @@ void Thing::checkRFID(){
 	if(!rfidCommand.equals(RFID::NO_TAG)){
 		if(executingRFID){
 			lastRFIDTime = millis();
+			beanieLed->turnOff();
 			commandCreator->createCommand(rfidCommand);
 			commandCreator->createCommand("resetRFID");
 		}else{
@@ -111,6 +119,8 @@ void Thing::checkRFID(){
 			Serial.println(rfidCommand);
 			rfid->resetReader();
 		}
+	}else{
+		beanieLed->turnOn();
 	}
 }
 

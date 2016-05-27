@@ -50,8 +50,9 @@
 
 //Other Pins
 #define STATUS_PIN 13
-#define EJECTOR_EXTEND_PIN 37
-#define EJECTOR_RETRACT_PIN 38
+#define EJECTOR_EXTEND_PIN 0 //unused
+#define EJECTOR_RETRACT_PIN 0 //unused
+#define BEANIE_LED_PIN 37
 #define POOFER_PIN 15
 #define RFID_RESET_PIN 27
 #define RFID_RX_PIN 17

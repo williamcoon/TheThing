@@ -19,6 +19,7 @@
 #include "LedButton.h"
 #include "Joystick.h"
 #include "TankDrive.h"
+#include "BeanieLed.h"
 
 //end of add your includes here
 #ifdef __cplusplus
@@ -53,6 +54,7 @@ private:
 	LedButton *startButton;
 	LedButton *stopButton;
 	Joystick *joyStick;
+	BeanieLed *beanieLed;
 	bool executingRFID;
 	bool driveTrainEnabled;
 	unsigned long lastRFIDTime;
