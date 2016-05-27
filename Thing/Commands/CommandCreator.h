@@ -20,15 +20,15 @@
 #include "BackAndForth.h"
 #include "FindHome.h"
 #include "WiggleFingers.h"
-#include "EjectBlock.h"
+//#include "EjectBlock.h"
 #include "Poof.h"
+#include "ResetRFID.h"
 
 class CommandCreator {
 public:
 	CommandCreator();
 	virtual ~CommandCreator();
 	bool createCommand(String command);
-	static bool ejectBlock(Parameters *params);
 
 private:
 	static CommandCenter *commandCenter;
@@ -65,7 +65,7 @@ private:
 	static bool resetFingers(Parameters *params);
 	static bool driveForward(Parameters *params);
 	static bool driveForwardThirty(Parameters *params);
-
+    static bool resetRFID(Parameters *params);
 
 };
 

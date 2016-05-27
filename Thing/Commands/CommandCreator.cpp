@@ -37,11 +37,11 @@ CommandCreator::CommandCreator() {
 	commandHash.put("findHome", findHome);
 	commandHash.put("wiggle", wiggleFingers);
 	commandHash.put("testParallel", testParallel);
-	commandHash.put("eject", ejectBlock);
 	commandHash.put("reset", resetFingers);
 	commandHash.put("moveWrist", moveWrist);
 	commandHash.put("crawl", crawlForward);
 	commandHash.put("test", beckon);
+	commandHash.put("resetRFID", resetRFID);
 
 	//RFID tags
 	commandHash.put("770097AA4D07", pointerFinger);
@@ -129,7 +129,6 @@ bool CommandCreator::pointerFinger(Parameters *params){
 	Serial.println("Pointer Finger");
 	CommandBase *handCommand = new MoveHand(0,0,0,INDEX_EXTENDED,0);
 	commandCenter->addCommand(handCommand);
-	ejectBlock(NULL);
 	return true;
 }
 
@@ -137,7 +136,6 @@ bool CommandCreator::threeFingers(Parameters *params){
 	Serial.println("3 Fingers");
 	CommandBase *handCommand = new MoveHand(0,RING_EXTENDED,MIDDLE_EXTENDED,INDEX_EXTENDED,0);
 	commandCenter->addCommand(handCommand);
-	ejectBlock(NULL);
 	return true;
 }
 
@@ -155,7 +153,6 @@ bool CommandCreator::oneFingerCrawl(Parameters *params){
 //		CommandBase *drive = new Drive(driveSpeed, driveSpeed, 1);
 //		commandCenter->addCommand(drive);
 	}
-	ejectBlock(NULL);
 	return true;
 }
 
@@ -183,7 +180,6 @@ bool CommandCreator::crawlForward(Parameters *params){
 		//commandCenter->addCommand(handUp);
 	}
 	resetFingers(NULL);
-	ejectBlock(NULL);
 	return true;
 }
 
@@ -195,7 +191,6 @@ bool CommandCreator::middleFinger(Parameters *params){
 	Serial.println("Middle Finger");
 	CommandBase *handCommand = new MoveHand(0,0,MIDDLE_EXTENDED,0,0);
 	commandCenter->addCommand(handCommand);
-	ejectBlock(NULL);
 	return true;
 }
 
@@ -210,7 +205,6 @@ bool CommandCreator::hangTenSign(Parameters *params){
 	commandCenter->addCommand(wristUp);
 	CommandBase *handCommand = new MoveHand(PINKY_EXTENDED,0,0,0,THUMB_EXTENDED);
 	commandCenter->addCommand(handCommand);
-	ejectBlock(NULL);
 	return true;
 }
 
@@ -228,7 +222,6 @@ bool CommandCreator::peaceSign(Parameters *params){
 	wristUp->setParallel(true);
 	handCommand = new MoveHand(0,0,MIDDLE_EXTENDED,INDEX_EXTENDED,0,3);
 	commandCenter->addCommand(handCommand);
-	ejectBlock(NULL);
 	return true;
 }
 
@@ -245,7 +238,6 @@ bool CommandCreator::metalSign(Parameters *params){
 	commandCenter->addCommand(handCommand);
 	wristUp = new MoveWrist(100,true,1000);
 	commandCenter->addCommand(wristUp);
-	ejectBlock(NULL);
 	return true;
 }
 
@@ -257,7 +249,6 @@ bool CommandCreator::highFive(Parameters *params){
 	Serial.println("High Five");
 	CommandBase *handCommand = new MoveHand(PINKY_EXTENDED,RING_EXTENDED,MIDDLE_EXTENDED,INDEX_EXTENDED,THUMB_EXTENDED);
 	commandCenter->addCommand(handCommand);
-	ejectBlock(NULL);
 	return true;
 }
 
@@ -269,7 +260,6 @@ bool CommandCreator::fist(Parameters *params){
 	Serial.println("High Five");
 	CommandBase *handCommand = new MoveHand(0,0,0,0,0);
 	commandCenter->addCommand(handCommand);
-	ejectBlock(NULL);
 	return true;
 }
 
@@ -288,7 +278,6 @@ bool CommandCreator::beckon(Parameters *params){
 		CommandBase *findHome = new FindHome(0);
 		commandCenter->addCommand(findHome);
 	}
-	ejectBlock(NULL);
 	return true;
 }
 
@@ -338,7 +327,6 @@ bool CommandCreator::resetFingers(Parameters *params){
 	commandCenter->addCommand(command2);
 	CommandBase *reset = new FindHome(-1); //This actually sets the home position
 	commandCenter->addCommand(reset);
-	ejectBlock(NULL);
 	return true;
 }
 
@@ -372,7 +360,6 @@ bool CommandCreator::driveForward(Parameters *params){
 	Serial.println("Drive Forward");
 //	CommandBase *command = new Drive(driveSpeed, driveSpeed, -1);
 //	commandCenter->addCommand(command);
-	ejectBlock(NULL);
 	return true;
 }
 
@@ -380,7 +367,6 @@ bool CommandCreator::driveForwardThirty(Parameters *params){
 	Serial.println("Drive Forward");
 //	CommandBase *command = new Drive(driveSpeed, driveSpeed, 30);
 //	commandCenter->addCommand(command);
-	ejectBlock(NULL);
 	return true;
 }
 
@@ -389,7 +375,6 @@ bool CommandCreator::turnLeft(Parameters *params){
 	Serial.println("Turn left");
 //	CommandBase *command = new Drive(30, 80, 4);
 //	commandCenter->addCommand(command);
-	ejectBlock(NULL);
 	return true;
 }
 
@@ -397,7 +382,6 @@ bool CommandCreator::turnRight(Parameters *params){
 	Serial.println("Turn right");
 //	CommandBase *command = new Drive(80, 30, 4);
 //	commandCenter->addCommand(command);
-	ejectBlock(NULL);
 	return true;
 }
 
@@ -411,7 +395,6 @@ bool CommandCreator::reverse(Parameters *params){
 	commandCenter->addCommand(handCommand);
 //	CommandBase *command = new Drive(-70, -70, 30);
 //	commandCenter->addCommand(command);
-	ejectBlock(NULL);
 	return true;
 }
 
@@ -587,6 +570,16 @@ bool CommandCreator::calibrateVictor(Parameters *params){
 }
 
 /*
+ * resetRFID()
+ * Reset RFID Reader so it looks for a new tag
+ */
+bool CommandCreator::resetRFID(Parameters *params){
+	CommandBase *resetCommand = new ResetRFID();
+	commandCenter->addCommand(resetCommand);
+	return true;
+}
+
+/*
  * smallPoof()
  * A 100 millisecond pulse to the poofer solenoid
  */
@@ -594,7 +587,6 @@ bool CommandCreator::smallPoof(Parameters *params){
 	Serial.println("Small Poof");
 	CommandBase *command = new Poof(100UL);
 	commandCenter->addCommand(command);
-	ejectBlock(NULL);
 	return true;
 }
 
@@ -602,9 +594,10 @@ bool CommandCreator::smallPoof(Parameters *params){
  * ejectBlock()
  * Eject an RFID block
  */
-bool CommandCreator::ejectBlock(Parameters *params){
-	CommandBase *ejectCommand = new EjectBlock();
-	commandCenter->addCommand(ejectCommand);
-	return true;
-}
+//bool CommandCreator::ejectBlock(Parameters *params){
+//	CommandBase *ejectCommand = new EjectBlock();
+//	commandCenter->addCommand(ejectCommand);
+//	return true;
+//}
+
 

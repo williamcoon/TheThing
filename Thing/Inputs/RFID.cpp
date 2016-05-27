@@ -6,16 +6,26 @@
  */
 
 #include "RFID.h"
+
+RFID* RFID::instance = NULL;
 const char* RFID::NO_TAG = "NOTAG";
 
-RFID::RFID(HardwareSerial *s, unsigned long baud)
-	: serial(s),
+RFID::RFID()
+	: serial(NULL),
 	  tagID(""),
-	  baud(baud)
+	  baud(0)
 {
 }
 
-void RFID::init(){
+RFID* RFID::getInstance(){
+	if(!instance)
+		instance = new RFID();
+	return instance;
+}
+
+void RFID::init(HardwareSerial *s, unsigned long baudRate){
+	serial = s;
+	baud = baudRate;
 	serial->begin(baud);
 	pinMode(RFID_RESET_PIN, OUTPUT);
 	digitalWrite(RFID_RESET_PIN, HIGH);

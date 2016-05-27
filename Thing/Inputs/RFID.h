@@ -13,13 +13,15 @@
 
 class RFID {
 public:
-	RFID(HardwareSerial *, unsigned long);
-	void init();
+	static RFID *getInstance();
+	void init(HardwareSerial *, unsigned long);
 	void clearSerial();
 	void resetReader();
 	String getCurrentTag();
 	static const char* NO_TAG;
 private:
+	RFID();
+	static RFID *instance;
 	HardwareSerial *serial;
 	String readSerial();
 	String tagID;

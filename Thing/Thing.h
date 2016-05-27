@@ -16,8 +16,6 @@
 #include "RFID.h"
 #include "Hand.h"
 #include "Wrist.h"
-#include "Ejector.h"
-#include "Poofer.h"
 #include "LedButton.h"
 #include "Joystick.h"
 #include "TankDrive.h"
@@ -51,13 +49,12 @@ private:
 	Hand *hand;
 	TankDrive *tankDrive;
 	Wrist *wrist;
-	Ejector *ejector;
-	Poofer *poofer;
 	CommandCreator *commandCreator;
 	LedButton *startButton;
 	LedButton *stopButton;
 	Joystick *joyStick;
 	bool executingRFID;
+	bool driveTrainEnabled;
 	unsigned long lastRFIDTime;
 	static const unsigned long RFID_TIMEOUT;
 }thing;

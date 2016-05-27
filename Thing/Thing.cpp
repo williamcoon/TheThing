@@ -45,30 +45,27 @@ void loop()
 }
 
 Thing::Thing(){
-	rfid = new RFID(&Serial2, 9600);
+	rfid = RFID::getInstance();
 	serialHandler = new SerialHandler(&Serial, 115200);
 	commandCenter = CommandCenter::getInstance();
 	hand = Hand::getInstance();
 	tankDrive = TankDrive::getInstance();
 	wrist = Wrist::getInstance();
-	ejector = Ejector::getInstance();
-	poofer = Poofer::getInstance();
 	commandCreator = new CommandCreator();
 	startButton = new LedButton(START_BUTTON, START_LED);
 	stopButton = new LedButton(STOP_BUTTON, STOP_LED);
 	joyStick = new Joystick(X_AXIS_PIN, Y_AXIS_PIN);
 	executingRFID = false;
 	lastRFIDTime = 0;
+	driveTrainEnabled = false;
 }
 
 void Thing::init(){
 	serialHandler->init();
-	rfid->init();
+	rfid->init(&Serial2, 9600);
 	hand->init();
 	tankDrive->init();
 	wrist->init();
-	ejector->init();
-	poofer->init();
 	startButton->init();
 	stopButton->init();
 	joyStick->init();
@@ -84,12 +81,14 @@ void Thing::updateExecution(){
 }
 
 void Thing::driveWithJoystick(){
-	joyStick->readJoystick();
-	Serial.print("Left Speed: ");
-	Serial.print(joyStick->getLeftSpeed());
-	Serial.print("    Right Speed: ");
-	Serial.println(joyStick->getRightSpeed());
-	//tankDrive->drive(joyStick->getLeftSpeed(), joyStick->getRightSpeed());
+	if(driveTrainEnabled){
+		joyStick->readJoystick();
+		Serial.print("Left Speed: ");
+		Serial.print(joyStick->getLeftSpeed());
+		Serial.print("    Right Speed: ");
+		Serial.println(joyStick->getRightSpeed());
+		//tankDrive->drive(joyStick->getLeftSpeed(), joyStick->getRightSpeed());
+	}
 }
 
 void Thing::checkSerial(){
@@ -106,22 +105,11 @@ void Thing::checkRFID(){
 		if(executingRFID){
 			lastRFIDTime = millis();
 			commandCreator->createCommand(rfidCommand);
+			commandCreator->createCommand("resetRFID");
 		}else{
 			Serial.print("Tag ID: ");
 			Serial.println(rfidCommand);
-			startButton->enable();
 			rfid->resetReader();
-		}
-	}else{
-		if(executingRFID){
-			if(ejector->getLastRetractTime() >= lastRFIDTime){
-				if((millis()-ejector->getLastRetractTime()) > RFID_TIMEOUT){
-					executingRFID = false;
-					stopAllSubsystems();
-				}
-			}
-		}else{
-			startButton->disable();
 		}
 	}
 }
@@ -130,24 +118,22 @@ void Thing::checkButtonStates(){
 	if(stopButton->readButton()){
 		stopButton->disable();
 		stopAllSubsystems();
-		commandCreator->ejectBlock(NULL);
+		startButton->enable();
 	}
 	if(startButton->readButton()){
 		startButton->disable();
-		executingRFID = true;
+		driveTrainEnabled = true;
 		stopButton->enable();
 	}
 }
 
 void Thing::stopAllSubsystems(){
 	commandCenter->clearCommands();
+	driveTrainEnabled = false;
 	tankDrive->stop();
 	hand->stop();
-	poofer->ceaseFire();
 	wrist->stopMotion();
-	ejector->turnOff();
 	stopButton->disable();
 	executingRFID = false;
-	rfid->resetReader();
 	Serial.println("Stopping Everything");
 }

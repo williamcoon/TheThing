@@ -28,14 +28,8 @@ void Joystick::init(){
 void Joystick::readJoystick(){
 	double x = getX();
 	double y = getY();
-	//Serial.print("X: ");
-	//Serial.println(x);
-//	Serial.print("   Y: ");
-//	Serial.println(y);
 	double right = y - x*TURN_DAMP;
 	double left = y + x*TURN_DAMP;
-	//Serial.print("Right : ");
-	//Serial.println(right);
 	if(right >= 0){
 		right = min(right, 1.0);
 	}else{
@@ -47,8 +41,6 @@ void Joystick::readJoystick(){
 		left = max(left, -1.0);
 	}
 	rightSpeed = round(right*MAX_SPEED);
-	//Serial.print("Right speed: ");
-	//Serial.println(rightSpeed);
 	leftSpeed = round(left*MAX_SPEED);
 }
 
@@ -76,8 +68,6 @@ double Joystick::mapValue(int rawVal, bool squared){
 	if(rawVal < (POT_ZERO + DEAD_ZONE) && (rawVal > (POT_ZERO - DEAD_ZONE))){
 		return 0;
 	}
-	//Serial.print("Raw: ");
-	//Serial.println(rawVal);
 	double val = ((double)(rawVal-POT_ZERO))/POT_ZERO;
 
 	//Square then inputs to make driving less jerky
@@ -86,7 +76,5 @@ double Joystick::mapValue(int rawVal, bool squared){
 	}else{
 		val = val*val;
 	}
-	//Serial.print("Val: ");
-	//Serial.println(val);
 	return val;
 }
