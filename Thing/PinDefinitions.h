@@ -8,8 +8,8 @@
 #ifndef PINDEFINITIONS_H_
 #define PINDEFINITIONS_H_
 
-#define FWD false
-#define REV true
+#define FWD true
+#define REV false
 
 //PWM pin definitions
 #define PINKY_CONTROL_PIN 4
@@ -45,8 +45,8 @@
 #define STOP_LED 29
 
 //Joystick
-#define X_AXIS_PIN 31
-#define Y_AXIS_PIN 32
+#define X_AXIS_PIN A11
+#define Y_AXIS_PIN A12
 
 //Other Pins
 #define STATUS_PIN 13

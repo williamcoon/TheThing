@@ -10,10 +10,10 @@
 
 #include "Arduino.h"
 
-#define POT_ZERO 1024 //Value pot should read when joy at 0
-#define DEAD_ZONE 10
+#define POT_ZERO 512 //Value pot should read when joy at 0
+#define DEAD_ZONE 25
 #define MAX_SPEED 50
-#define TURN_DAMP 0.1f //Value for slowing down turning
+#define TURN_DAMP 0.2 //Value for slowing down turning
 
 class Joystick {
 public:
@@ -30,8 +30,8 @@ private:
 	int yAxisPin;
 	int leftSpeed;
 	int rightSpeed;
-	int getX();
-	int getY();
+	double getX();
+	double getY();
 };
 
 #endif /* INPUTS_JOYSTICK_H_ */

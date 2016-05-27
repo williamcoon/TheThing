@@ -31,6 +31,7 @@ void loop()
 		 */
 		thing.checkSerial();
 		thing.checkRFID();
+		thing.driveWithJoystick();
 		wdt_reset(); //reset watchdog timer
 		lastSerial = current;
 	}
@@ -79,12 +80,16 @@ void Thing::updateExecution(){
 	startButton->poll();
 	stopButton->poll();
 	thing.checkButtonStates();
-	thing.driveWithJoystick();
+	//thing.driveWithJoystick();
 }
 
 void Thing::driveWithJoystick(){
 	joyStick->readJoystick();
-	tankDrive->drive(joyStick->getLeftSpeed(), joyStick->getRightSpeed());
+	Serial.print("Left Speed: ");
+	Serial.print(joyStick->getLeftSpeed());
+	Serial.print("    Right Speed: ");
+	Serial.println(joyStick->getRightSpeed());
+	//tankDrive->drive(joyStick->getLeftSpeed(), joyStick->getRightSpeed());
 }
 
 void Thing::checkSerial(){

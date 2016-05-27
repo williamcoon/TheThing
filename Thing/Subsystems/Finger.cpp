@@ -113,7 +113,7 @@ void Finger::update(){
 		}
 		else if((direction&&currentPos>=targetPos)|(!direction&&currentPos<=targetPos)){
 			stopMotion();
-		}else if(!digitalRead(reed_pin)&&!direction){
+		}else if(!digitalRead(reed_pin)&&direction){
 			Serial.print(name);
 			Serial.println(" hit reed limit.");
 			stopMotion();
