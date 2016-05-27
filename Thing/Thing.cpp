@@ -33,6 +33,7 @@ void loop()
 		thing.checkRFID();
 		wdt_reset(); //reset watchdog timer
 		lastSerial = current;
+		thing.driveWithJoystick(); //move this back to updateExecution after testing
 	}
 	if((current-lastBlink) > 1000){
 		/*
@@ -40,7 +41,6 @@ void loop()
 		 */
 		digitalWrite(STATUS_PIN, !digitalRead(STATUS_PIN));
 		lastBlink = current;
-		thing.driveWithJoystick(); //move this back to updateExecution after testing
 	}
 }
 
@@ -70,6 +70,7 @@ void Thing::init(){
 	startButton->init();
 	startButton->enable();
 	stopButton->init();
+	stopButton->disable();
 	joyStick->init();
 	beanieLed->init();
 }
@@ -101,7 +102,7 @@ void Thing::driveWithJoystick(){
 void Thing::checkSerial(){
 	String command = serialHandler->checkForCommand();
 	if(!command.equals(SerialHandler::NO_COMMAND)){
-		stopButton->enable();
+		//stopButton->enable();
 		commandCreator->createCommand(command);
 	}
 }
@@ -126,11 +127,13 @@ void Thing::checkRFID(){
 
 void Thing::checkButtonStates(){
 	if(stopButton->readButton()){
+		Serial.println("Stop");
 		stopButton->disable();
 		stopAllSubsystems();
 		startButton->enable();
 	}
 	if(startButton->readButton()){
+		Serial.println("Start");
 		startButton->disable();
 		driveTrainEnabled = true;
 		stopButton->enable();

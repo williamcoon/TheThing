@@ -12,7 +12,7 @@
 
 #define POT_ZERO 512 //Value pot should read when joy at 0
 #define DEAD_ZONE 25
-#define MAX_SPEED 50
+#define MAX_SPEED 20
 #define TURN_DAMP 0.2 //Value for slowing down turning
 
 class Joystick {

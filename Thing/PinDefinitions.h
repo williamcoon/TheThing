@@ -40,9 +40,9 @@
 
 //Buttons
 #define START_BUTTON A8
-#define START_LED 31
+#define START_LED 37
 #define STOP_BUTTON A9
-#define STOP_LED 29
+#define STOP_LED 38
 
 //Joystick
 #define X_AXIS_PIN A11
@@ -50,23 +50,23 @@
 
 //Other Pins
 #define STATUS_PIN 13
-#define EJECTOR_EXTEND_PIN 0 //unused
-#define EJECTOR_RETRACT_PIN 0 //unused
-#define BEANIE_LED_PIN 37
+#define EJECTOR_EXTEND_PIN 0 //unused was 38
+#define EJECTOR_RETRACT_PIN 0 //unused was 37
+#define BEANIE_LED_PIN 40
 #define POOFER_PIN 15
 #define RFID_RESET_PIN 27
 #define RFID_RX_PIN 17
 
 //Speed Constants
-#define PINKY_FWD_SPEED 40
-#define PINKY_REV_SPEED 80
-#define RING_FWD_SPEED 50
-#define RING_REV_SPEED 90
-#define MIDDLE_FWD_SPEED 40
-#define MIDDLE_REV_SPEED 80
-#define INDEX_FWD_SPEED 50
-#define INDEX_REV_SPEED 80
+#define PINKY_FWD_SPEED 75
+#define PINKY_REV_SPEED 50
+#define RING_FWD_SPEED 75
+#define RING_REV_SPEED 50
+#define MIDDLE_FWD_SPEED 75
+#define MIDDLE_REV_SPEED 50
+#define INDEX_FWD_SPEED 75
+#define INDEX_REV_SPEED 50
 #define THUMB_FWD_SPEED 50
-#define THUMB_REV_SPEED 70
+#define THUMB_REV_SPEED 50
 
 #endif /* PINDEFINITIONS_H_ */

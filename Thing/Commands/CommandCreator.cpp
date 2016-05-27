@@ -13,11 +13,11 @@
 #define RING_EXTENDED -12
 #define PINKY_EXTENDED -10
 
-#define THUMB_HOME 14
-#define INDEX_HOME 23
-#define MIDDLE_HOME 24
-#define RING_HOME 22
-#define PINKY_HOME 19
+#define THUMB_HOME -14
+#define INDEX_HOME -40
+#define MIDDLE_HOME -40
+#define RING_HOME -40
+#define PINKY_HOME -40
 const char* PARAM_START = "(";
 const char* PARAM_END = ")";
 CommandCenter* CommandCreator::commandCenter = CommandCenter::getInstance();

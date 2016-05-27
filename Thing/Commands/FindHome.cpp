@@ -24,7 +24,7 @@ void FindHome::init(){
 		hand->setHome();
 	}else{
 		for(int i=0; i<5; i++){
-			hand->fingers[i]->startMotion(-100);
+			hand->fingers[i]->startMotion(100);
 		}
 	}
 }
