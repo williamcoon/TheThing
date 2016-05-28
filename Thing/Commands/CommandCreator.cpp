@@ -7,15 +7,15 @@
 
 #include "CommandCreator.h"
 
-#define THUMB_EXTENDED -5
-#define INDEX_EXTENDED -10
-#define MIDDLE_EXTENDED -12
-#define RING_EXTENDED -12
-#define PINKY_EXTENDED -10
+#define THUMB_EXTENDED 5
+#define INDEX_EXTENDED 25
+#define MIDDLE_EXTENDED 20
+#define RING_EXTENDED 23
+#define PINKY_EXTENDED 25
 
 #define THUMB_HOME -14
-#define INDEX_HOME -40
-#define MIDDLE_HOME -40
+#define INDEX_HOME -48
+#define MIDDLE_HOME -45
 #define RING_HOME -40
 #define PINKY_HOME -40
 const char* PARAM_START = "(";
@@ -40,27 +40,26 @@ CommandCreator::CommandCreator() {
 	commandHash.put("reset", resetFingers);
 	commandHash.put("moveWrist", moveWrist);
 	commandHash.put("crawl", crawlForward);
-	commandHash.put("test", beckon);
+	commandHash.put("beckon", beckon);
 	commandHash.put("resetRFID", resetRFID);
+	commandHash.put("foldUp", foldUp);
 
 	//RFID tags
-	commandHash.put("770097AA4D07", pointerFinger);
-	commandHash.put("770097F51207", reverse);
-	commandHash.put("78007C51A9FC", crawlForward);
-	commandHash.put("7600889AE783", resetFingers);
-	commandHash.put("770097BC5509", peaceSign);
-	commandHash.put("78008002B54F", hangTenSign);
-	commandHash.put("i have absolutely no idea what to put here :)", fist);
-	commandHash.put("770097AADA90", threeFingers);
-	commandHash.put("78007C7EA1DB", oneFingerCrawl);
-	commandHash.put("78007C900B9F", turnRight);
-	commandHash.put("78007C900B9F", turnRight);
-	commandHash.put("770097BD0B56", metalSign);
-	commandHash.put("78007C716F1A", highFive);
-	commandHash.put("78007C64CCAC", driveForward);
-	commandHash.put("77000EBE33F4", driveForward);
-	commandHash.put("78007C649BFB", driveForwardThirty);
-
+	commandHash.put("78007C960290", pointerFinger);
+	commandHash.put("78007C878407", crawlForward);
+	commandHash.put("78007C8FC348", resetFingers);
+	commandHash.put("77000EB416DB", middleFinger);
+	commandHash.put("78007C70C4B0", peaceSign);
+	commandHash.put("78007C8771F2", hangTenSign);
+	commandHash.put("78007C5E84DE", metalSign);
+	commandHash.put("78007C9F3EA5", highFive);
+	commandHash.put("770097E2F2F0", shocker);
+	commandHash.put("78007C8844C8", foldUp);
+	commandHash.put("770097AAC18B", beckon);
+	commandHash.put("78007C375063", tickle);
+	commandHash.put("78008009C435", count);
+	commandHash.put("770097EEE5EB", reverseMiddle);
+	commandHash.put("770097E49692", flap);
 }
 
 CommandCreator::~CommandCreator() {
@@ -132,13 +131,6 @@ bool CommandCreator::pointerFinger(Parameters *params){
 	return true;
 }
 
-bool CommandCreator::threeFingers(Parameters *params){
-	Serial.println("3 Fingers");
-	CommandBase *handCommand = new MoveHand(0,RING_EXTENDED,MIDDLE_EXTENDED,INDEX_EXTENDED,0);
-	commandCenter->addCommand(handCommand);
-	return true;
-}
-
 bool CommandCreator::oneFingerCrawl(Parameters *params){
 	Serial.println("One Finger Crawl");
 	Serial.println("One Finger Crawl"); //Add print statement to fix freeze on upload issue
@@ -166,18 +158,19 @@ bool CommandCreator::crawlForward(Parameters *params){
 	//CommandBase *drive;
 	CommandBase *handUp;
 	CommandBase *wristUp;
-	handUp = new MoveHand(-8,-8,-8,-8,THUMB_EXTENDED, 0);
+	wristUp = new MoveWrist(100,false,2000);
+	wristUp->setParallel(true);
+	commandCenter->addCommand(wristUp);
+	handUp = new MoveHand(18,18,18,18,THUMB_EXTENDED, 0);
 	commandCenter->addCommand(handUp);
 	for(int i=0;i<3;i++){
-		wristUp = new MoveWrist(100,true,1000);
-		commandCenter->addCommand(wristUp);
-		wiggleCommand = new WiggleFingers(-8,0,THUMB_EXTENDED,0,300,3000,1);
-		wiggleCommand->setParallel(true);
+		wiggleCommand = new WiggleFingers(18, 0,THUMB_EXTENDED,0,300,3000,1);
 		commandCenter->addCommand(wiggleCommand);
-//		drive = new Drive(driveSpeed, driveSpeed, 2);
-//		commandCenter->addCommand(drive);
-		//handUp = new MoveHand(PINKY_EXTENDED,RING_EXTENDED,MIDDLE_EXTENDED,INDEX_EXTENDED,THUMB_EXTENDED, 0);
-		//commandCenter->addCommand(handUp);
+		wristUp = new MoveWrist(100,false,2000);
+		wristUp->setParallel(true);
+		commandCenter->addCommand(wristUp);
+		handUp = new MoveHand(18,18,18,18,THUMB_EXTENDED, 0);
+		commandCenter->addCommand(handUp);
 	}
 	resetFingers(NULL);
 	return true;
@@ -195,16 +188,29 @@ bool CommandCreator::middleFinger(Parameters *params){
 }
 
 /*
+ * shocker(NULL)
+ * I'm sure you can guess what this does.
+ */
+bool CommandCreator::shocker(Parameters *params){
+	Serial.println("Shocker");
+	CommandBase *handCommand = new MoveHand(PINKY_EXTENDED,0,MIDDLE_EXTENDED,INDEX_EXTENDED,0);
+	commandCenter->addCommand(handCommand);
+	return true;
+}
+
+/*
  * HangTenFinger(NULL)
  * Extend thumb and pinky
  */
 bool CommandCreator::hangTenSign(Parameters *params){
 	Serial.println("Hang Ten Sign");
-	CommandBase *wristUp = new MoveWrist(100,true,1000);
+	CommandBase *wristUp = new MoveWrist(100,false,2000);
 	wristUp->setParallel(true);
 	commandCenter->addCommand(wristUp);
-	CommandBase *handCommand = new MoveHand(PINKY_EXTENDED,0,0,0,THUMB_EXTENDED);
+	CommandBase *handCommand = new MoveHand(PINKY_EXTENDED,0,0,0,THUMB_EXTENDED,3000);
 	commandCenter->addCommand(handCommand);
+	wristUp = new MoveWrist(100,false,2000);
+	commandCenter->addCommand(wristUp);
 	return true;
 }
 
@@ -217,11 +223,8 @@ bool CommandCreator::peaceSign(Parameters *params){
 	Serial.println("Peace");
 	CommandBase *handCommand = new MoveHand(0,0,MIDDLE_EXTENDED,INDEX_EXTENDED,0,0);
 	commandCenter->addCommand(handCommand);
-	CommandBase *wristUp = new MoveWrist(100,true,1000);
+	CommandBase *wristUp = new MoveWrist(100,false,2000);
 	commandCenter->addCommand(wristUp);
-	wristUp->setParallel(true);
-	handCommand = new MoveHand(0,0,MIDDLE_EXTENDED,INDEX_EXTENDED,0,3);
-	commandCenter->addCommand(handCommand);
 	return true;
 }
 
@@ -231,12 +234,12 @@ bool CommandCreator::peaceSign(Parameters *params){
  */
 bool CommandCreator::metalSign(Parameters *params){
 	Serial.println("Metal");
-	CommandBase *wristUp = new MoveWrist(100,true,1000);
+	CommandBase *wristUp = new MoveWrist(100,false,2000);
 	commandCenter->addCommand(wristUp);
 	wristUp->setParallel(true);
-	CommandBase *handCommand = new MoveHand(PINKY_EXTENDED,0,0,INDEX_EXTENDED,0,2000);
+	CommandBase *handCommand = new MoveHand(PINKY_EXTENDED,0,0,INDEX_EXTENDED,0,3000);
 	commandCenter->addCommand(handCommand);
-	wristUp = new MoveWrist(100,true,1000);
+	wristUp = new MoveWrist(100,false,2000);
 	commandCenter->addCommand(wristUp);
 	return true;
 }
@@ -269,17 +272,92 @@ bool CommandCreator::fist(Parameters *params){
  */
 
 bool CommandCreator::beckon(Parameters *params){
-	Serial.println("High Five");
-	CommandBase *findHome = new FindHome(0);
-	commandCenter->addCommand(findHome);
+	Serial.println("Beckon");
+	CommandBase *handUp = new MoveHand(-PINKY_HOME, -RING_HOME, -MIDDLE_HOME, -INDEX_HOME, -THUMB_HOME);
+	commandCenter->addCommand(handUp);
 	for(int i = 0; i<2; i++){
-		CommandBase *handCommand = new MoveFinger(4,INDEX_EXTENDED);
-		commandCenter->addCommand(handCommand);
-		CommandBase *findHome = new FindHome(0);
-		commandCenter->addCommand(findHome);
+		CommandBase *extendIndex = new MoveFinger(3,INDEX_EXTENDED);
+		commandCenter->addCommand(extendIndex);
+		CommandBase *retractIndex = new MoveFinger(3, -INDEX_HOME);
+		commandCenter->addCommand(retractIndex);
 	}
 	return true;
 }
+
+bool CommandCreator::tickle(Parameters *params){
+	Serial.println("Tickle");
+	CommandBase *handUp = new MoveHand(-PINKY_HOME, -RING_HOME, -MIDDLE_HOME, -INDEX_HOME, -THUMB_HOME);
+	commandCenter->addCommand(handUp);
+	for(int i = 0; i<2; i++){
+		CommandBase *extendIndex = new MoveFinger(3,INDEX_EXTENDED);
+		extendIndex->setParallel(true);
+		commandCenter->addCommand(extendIndex);
+		CommandBase *extendMiddle = new MoveFinger(2,MIDDLE_EXTENDED);
+		commandCenter->addCommand(extendMiddle);
+		CommandBase *retractIndex = new MoveFinger(3, -INDEX_HOME);
+		commandCenter->addCommand(retractIndex);
+		retractIndex->setParallel(true);
+		CommandBase *retractMiddle = new MoveFinger(2, -MIDDLE_HOME);
+		commandCenter->addCommand(retractMiddle);
+	}
+	return true;
+}
+
+bool CommandCreator::count(Parameters *params){
+	Serial.println("Count");
+	CommandBase *closeHand = new MoveHand(0,0,0,0,0);
+	commandCenter->addCommand(closeHand);
+	CommandBase *moveFinger = new MoveFinger(3, INDEX_EXTENDED);
+	commandCenter->addCommand(moveFinger);
+	CommandBase *moveFinger1 = new MoveFinger(2, MIDDLE_EXTENDED);
+	commandCenter->addCommand(moveFinger1);
+	CommandBase *moveFinger2 = new MoveFinger(1, RING_EXTENDED);
+	commandCenter->addCommand(moveFinger2);
+	CommandBase *moveFinger3 = new MoveFinger(0, PINKY_EXTENDED);
+	commandCenter->addCommand(moveFinger3);
+	CommandBase *moveFinger4 = new MoveFinger(4, THUMB_EXTENDED);
+	commandCenter->addCommand(moveFinger4);
+	CommandBase *moveWrist = new MoveWrist(100,false,2000);
+	commandCenter->addCommand(moveWrist);
+	closeHand = new MoveHand(0,0,0,0,0);
+	commandCenter->addCommand(closeHand);
+	return true;
+}
+
+bool CommandCreator::reverseMiddle(Parameters *params){
+	Serial.println("Reverse Middle");
+	CommandBase *handUp = new MoveHand(-PINKY_HOME, -RING_HOME, -MIDDLE_HOME, -INDEX_HOME, -THUMB_HOME);
+	handUp->setParallel(true);
+	commandCenter->addCommand(handUp);
+	CommandBase *wristUp = new MoveWrist(100,false,5000);
+	commandCenter->addCommand(wristUp);
+	CommandBase *holdWrist = new MoveWrist(20, false, 3000);
+	holdWrist->setParallel(true);
+	commandCenter->addCommand(holdWrist);
+	CommandBase *middleFinger = new MoveHand(-PINKY_HOME, -RING_HOME, MIDDLE_EXTENDED, -INDEX_HOME, -THUMB_HOME, 4000);
+	commandCenter->addCommand(middleFinger);
+	CommandBase *retractMiddle = new MoveFinger(2,-MIDDLE_HOME);
+	retractMiddle->setParallel(true);
+	commandCenter->addCommand(retractMiddle);
+	CommandBase *wristDown = new MoveWrist(50,true,1000);
+	commandCenter->addCommand(wristDown);
+	return true;
+}
+
+bool CommandCreator::flap(Parameters *params){
+	Serial.println("Flap");
+	for(int i=0;i<3;i++){
+		CommandBase *moveWrist = new MoveWrist(100,false,3000);
+		moveWrist->setParallel(true);
+		commandCenter->addCommand(moveWrist);
+		CommandBase *closeHand = new MoveHand(0,0,0,0,0);
+		commandCenter->addCommand(closeHand);
+		CommandBase *openHand = new MoveHand(PINKY_EXTENDED,RING_EXTENDED,MIDDLE_EXTENDED,INDEX_EXTENDED,THUMB_EXTENDED);
+		commandCenter->addCommand(openHand);
+	}
+	return true;
+}
+
 
 
 /********************************************
@@ -327,6 +405,13 @@ bool CommandCreator::resetFingers(Parameters *params){
 	commandCenter->addCommand(command2);
 	CommandBase *reset = new FindHome(-1); //This actually sets the home position
 	commandCenter->addCommand(reset);
+	return true;
+}
+
+bool CommandCreator::foldUp(Parameters *params){
+	Serial.println("Folding up");
+	CommandBase *command = new MoveHand(100, 100, 100, 100, 100);
+	commandCenter->addCommand(command);
 	return true;
 }
 

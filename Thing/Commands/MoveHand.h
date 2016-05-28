@@ -18,7 +18,7 @@ public:
 			int middlePosition,
 			int indexPosition,
 			int thumbPosition,
-			unsigned long delay=5000);
+			unsigned long delay=0);
 	virtual ~MoveHand();
 	void init();
 	void execute();

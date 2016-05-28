@@ -70,11 +70,11 @@ void Finger::startMotion(int targetPosition){
 		int adjustedSpeed = (int)(targetSpeed*EASE_FACTOR_1);
 		int setSpeed = adjustedSpeed > MIN_SPEED ? adjustedSpeed:MIN_SPEED;
 		lastTickTime = millis();
-		if(direction==FWD){
-			fingerMotor.setSpeed(setSpeed);
+		if(direction==REV){
+			fingerMotor.setSpeed(-setSpeed);
 		}else{
 			if(digitalRead(reed_pin)){
-				fingerMotor.setSpeed(-setSpeed);
+				fingerMotor.setSpeed(setSpeed);
 			}else{
 				Serial.print(name);
 				Serial.println(" hit reed limit.");

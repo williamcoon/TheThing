@@ -66,6 +66,12 @@ private:
 	static bool driveForward(Parameters *params);
 	static bool driveForwardThirty(Parameters *params);
     static bool resetRFID(Parameters *params);
+    static bool foldUp(Parameters *params);
+    static bool shocker(Parameters *params);
+    static bool tickle(Parameters *params);
+    static bool count(Parameters *params);
+    static bool reverseMiddle(Parameters *params);
+    static bool flap(Parameters *params);
 
 };
 

@@ -59,6 +59,7 @@ private:
 	bool driveTrainEnabled;
 	unsigned long lastRFIDTime;
 	static const unsigned long RFID_TIMEOUT;
+	String lastCommand;
 }thing;
 
 

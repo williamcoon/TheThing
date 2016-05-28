@@ -33,7 +33,6 @@ void loop()
 		thing.checkRFID();
 		wdt_reset(); //reset watchdog timer
 		lastSerial = current;
-		thing.driveWithJoystick(); //move this back to updateExecution after testing
 	}
 	if((current-lastBlink) > 1000){
 		/*
@@ -56,9 +55,10 @@ Thing::Thing(){
 	stopButton = new LedButton(STOP_BUTTON, STOP_LED);
 	joyStick = new Joystick(X_AXIS_PIN, Y_AXIS_PIN);
 	beanieLed = BeanieLed::getInstance();
-	executingRFID = false;
+	executingRFID = true;
 	lastRFIDTime = 0;
 	driveTrainEnabled = false;
+	lastCommand = "";
 }
 
 void Thing::init(){
@@ -81,7 +81,7 @@ void Thing::updateExecution(){
 	startButton->poll();
 	stopButton->poll();
 	thing.checkButtonStates();
-	//thing.driveWithJoystick();
+	thing.driveWithJoystick();
 }
 
 void Thing::driveWithJoystick(){
@@ -89,12 +89,12 @@ void Thing::driveWithJoystick(){
 		joyStick->readJoystick();
 		double left = joyStick->getLeftSpeed();
 		double right = joyStick->getRightSpeed();
-		if(left != 0 || right != 0){
-			Serial.print("Left Speed: ");
-			Serial.print(joyStick->getLeftSpeed());
-			Serial.print("    Right Speed: ");
-			Serial.println(joyStick->getRightSpeed());
-		}
+//		if(left != 0 || right != 0){
+//			Serial.print("Left Speed: ");
+//			Serial.print(joyStick->getLeftSpeed());
+//			Serial.print("    Right Speed: ");
+//			Serial.println(joyStick->getRightSpeed());
+//		}
 		//tankDrive->drive(joyStick->getLeftSpeed(), joyStick->getRightSpeed());
 	}
 }
@@ -109,19 +109,25 @@ void Thing::checkSerial(){
 
 void Thing::checkRFID(){
 	String rfidCommand = rfid->getCurrentTag();
-	if(!rfidCommand.equals(RFID::NO_TAG)){
-		if(executingRFID){
-			lastRFIDTime = millis();
-			beanieLed->turnOff();
-			commandCreator->createCommand(rfidCommand);
-			commandCreator->createCommand("resetRFID");
+	if(!rfidCommand.equals(lastCommand)){
+		lastCommand = rfidCommand;
+		if(!rfidCommand.equals(RFID::NO_TAG)){
+			if(executingRFID){
+				lastRFIDTime = millis();
+				beanieLed->turnOff();
+				commandCreator->createCommand(rfidCommand);
+				rfid->resetReader();
+			}else{
+				Serial.print("Tag ID: ");
+				Serial.println(rfidCommand);
+				rfid->resetReader();
+			}
 		}else{
-			Serial.print("Tag ID: ");
-			Serial.println(rfidCommand);
-			rfid->resetReader();
+			beanieLed->turnOn();
 		}
 	}else{
-		beanieLed->turnOn();
+		//Tag has been executed and is still there
+		rfid->resetReader();
 	}
 }
 
@@ -147,6 +153,5 @@ void Thing::stopAllSubsystems(){
 	hand->stop();
 	wrist->stopMotion();
 	stopButton->disable();
-	executingRFID = false;
 	Serial.println("Stopping Everything");
 }
