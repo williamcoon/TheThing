@@ -60,6 +60,7 @@ CommandCreator::CommandCreator() {
 	commandHash.put("78008009C435", count);
 	commandHash.put("770097EEE5EB", reverseMiddle);
 	commandHash.put("770097E49692", flap);
+	commandHash.put("78007C567123", metalSign);
 }
 
 CommandCreator::~CommandCreator() {

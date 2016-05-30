@@ -65,6 +65,7 @@ double Joystick::getY(){
  */
 double Joystick::mapValue(int rawVal, bool squared){
 	//If within dead zone, just return zero to ignore noise.
+	//Serial.println(rawVal);
 	if(rawVal < (POT_ZERO + DEAD_ZONE) && (rawVal > (POT_ZERO - DEAD_ZONE))){
 		return 0;
 	}

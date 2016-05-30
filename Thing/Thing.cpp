@@ -95,7 +95,7 @@ void Thing::driveWithJoystick(){
 //			Serial.print("    Right Speed: ");
 //			Serial.println(joyStick->getRightSpeed());
 //		}
-		//tankDrive->drive(joyStick->getLeftSpeed(), joyStick->getRightSpeed());
+		tankDrive->drive(joyStick->getLeftSpeed(), joyStick->getRightSpeed());
 	}
 }
 
