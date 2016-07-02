@@ -150,7 +150,6 @@ void Thing::checkButtonStates(){
 		stopButton->enable();
 	}
 	if(!hornButton->readButton()){
-		Serial.println("Horn On");
 		horn->turnOn();
 	}else{
 		horn->turnOff();
