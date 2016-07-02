@@ -91,8 +91,6 @@ void Thing::updateExecution(){
 void Thing::driveWithJoystick(){
 	if(driveTrainEnabled){
 		joyStick->readJoystick();
-		//double left = joyStick->getLeftSpeed();
-		//double right = joyStick->getRightSpeed();
 		tankDrive->drive(joyStick->getLeftSpeed(), joyStick->getRightSpeed());
 	}
 }
@@ -106,13 +104,18 @@ void Thing::checkSerial(){
 }
 
 void Thing::checkRFID(){
+	int noTagThreshold = 7; //Checking once every 2000ms, so this is 1.4s
+	static int noTagCount = 0;
 	String rfidCommand = rfid->getCurrentTag();
-	if(!rfidCommand.equals(lastCommand)){
-		lastCommand = rfidCommand;
-		if(!rfidCommand.equals(RFID::NO_TAG)){
+	if(!rfidCommand.equals(RFID::NO_TAG)){
+		noTagCount = 0;
+		if(!rfidCommand.equals(lastCommand)){
+			lastCommand = rfidCommand;
 			if(executingRFID){
 				lastRFIDTime = millis();
 				beanieLed->turnOff();
+				Serial.print("EXECUTE: ");
+				Serial.println(rfidCommand);
 				commandCreator->createCommand(rfidCommand);
 				rfid->resetReader();
 			}else{
@@ -121,11 +124,15 @@ void Thing::checkRFID(){
 				rfid->resetReader();
 			}
 		}else{
-			beanieLed->turnOn();
+			//Tag has been executed and is still there
+			rfid->resetReader();
 		}
 	}else{
-		//Tag has been executed and is still there
-		rfid->resetReader();
+		noTagCount++;
+		if(noTagCount>=noTagThreshold){
+			lastCommand = RFID::NO_TAG;
+			beanieLed->turnOn();
+		}
 	}
 }
 
