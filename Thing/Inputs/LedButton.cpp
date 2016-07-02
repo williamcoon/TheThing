@@ -7,11 +7,13 @@
 
 #include "LedButton.h"
 
-LedButton::LedButton(int inputPin, int ledPin)
+LedButton::LedButton(int inputPin, int ledPin, bool latching, bool hasLed)
 	: inputPin(inputPin),
 	  ledPin(ledPin),
 	  latched(false),
-	  enabled(false)
+	  enabled(false),
+	  latching(latching),
+	  hasLed(hasLed)
 {
 }
 
@@ -22,17 +24,23 @@ LedButton::~LedButton() {
 void LedButton::init(){
 	pinMode(inputPin, INPUT);
 	digitalWrite(inputPin, HIGH);
-	pinMode(ledPin, OUTPUT);
-	digitalWrite(ledPin, LOW);
+	if(hasLed){
+		pinMode(ledPin, OUTPUT);
+		digitalWrite(ledPin, LOW);
+	}
 }
 
 void LedButton::enable(){
-	digitalWrite(ledPin, HIGH);
+	if(hasLed){
+		digitalWrite(ledPin, HIGH);
+	}
 	enabled = true;
 }
 
 void LedButton::disable(){
-	digitalWrite(ledPin, LOW);
+	if(hasLed){
+		digitalWrite(ledPin, LOW);
+	}
 	enabled = false;
 }
 
@@ -45,9 +53,13 @@ void LedButton::poll(){
 }
 
 bool LedButton::readButton(){
-	bool ret = latched;
-	latched = false;
-	return ret;
+	if(latching){
+		bool ret = latched;
+		latched = false;
+		return ret;
+	}else{
+		return digitalRead(inputPin);
+	}
 }
 
 

@@ -59,6 +59,8 @@ Thing::Thing(){
 	lastRFIDTime = 0;
 	driveTrainEnabled = false;
 	lastCommand = "";
+	hornButton = new LedButton(HORN_BUTTON_PIN, 0, false, false);
+	horn = new Horn(HORN_PIN);
 }
 
 void Thing::init(){
@@ -73,6 +75,8 @@ void Thing::init(){
 	stopButton->disable();
 	joyStick->init();
 	beanieLed->init();
+	horn->init();
+	hornButton->init();
 }
 
 void Thing::updateExecution(){
@@ -87,14 +91,8 @@ void Thing::updateExecution(){
 void Thing::driveWithJoystick(){
 	if(driveTrainEnabled){
 		joyStick->readJoystick();
-		double left = joyStick->getLeftSpeed();
-		double right = joyStick->getRightSpeed();
-//		if(left != 0 || right != 0){
-//			Serial.print("Left Speed: ");
-//			Serial.print(joyStick->getLeftSpeed());
-//			Serial.print("    Right Speed: ");
-//			Serial.println(joyStick->getRightSpeed());
-//		}
+		//double left = joyStick->getLeftSpeed();
+		//double right = joyStick->getRightSpeed();
 		tankDrive->drive(joyStick->getLeftSpeed(), joyStick->getRightSpeed());
 	}
 }
@@ -143,6 +141,12 @@ void Thing::checkButtonStates(){
 		startButton->disable();
 		driveTrainEnabled = true;
 		stopButton->enable();
+	}
+	if(!hornButton->readButton()){
+		Serial.println("Horn On");
+		horn->turnOn();
+	}else{
+		horn->turnOff();
 	}
 }
 

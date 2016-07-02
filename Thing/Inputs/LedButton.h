@@ -12,7 +12,7 @@
 
 class LedButton {
 public:
-	LedButton(int inputPin, int ledPin);
+	LedButton(int inputPin, int ledPin, bool latching=true, bool hasLed=true);
 	virtual ~LedButton();
 	void init();
 	void poll();
@@ -26,6 +26,8 @@ private:
 	int ledPin;
 	bool latched;
 	bool enabled;
+	bool latching;
+	bool hasLed;
 };
 
 #endif /* SUBSYSTEMS_LEDBUTTON_H_ */

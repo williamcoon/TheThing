@@ -72,6 +72,8 @@ private:
     static bool count(Parameters *params);
     static bool reverseMiddle(Parameters *params);
     static bool flap(Parameters *params);
+    static bool crazy(Parameters *params);
+    static bool love(Parameters *params);
 
 };
 

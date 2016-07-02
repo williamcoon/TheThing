@@ -56,6 +56,8 @@
 #define POOFER_PIN 15
 #define RFID_RESET_PIN 27
 #define RFID_RX_PIN 17
+#define HORN_BUTTON_PIN 41
+#define HORN_PIN 36
 
 //Speed Constants
 #define PINKY_FWD_SPEED 75
@@ -66,7 +68,7 @@
 #define MIDDLE_REV_SPEED 60
 #define INDEX_FWD_SPEED 75
 #define INDEX_REV_SPEED 50
-#define THUMB_FWD_SPEED 70
-#define THUMB_REV_SPEED 65
+#define THUMB_FWD_SPEED 75
+#define THUMB_REV_SPEED 75
 
 #endif /* PINDEFINITIONS_H_ */

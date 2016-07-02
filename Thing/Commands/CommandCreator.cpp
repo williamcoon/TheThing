@@ -47,20 +47,32 @@ CommandCreator::CommandCreator() {
 	//RFID tags
 	commandHash.put("78007C960290", pointerFinger);
 	commandHash.put("78007C878407", crawlForward);
+	commandHash.put("770097BB510A", crawlForward);
 	commandHash.put("78007C8FC348", resetFingers);
+	commandHash.put("78007C555E0F", resetFingers);
+	commandHash.put("78007C9FD348", resetFingers);
 	commandHash.put("77000EB416DB", middleFinger);
 	commandHash.put("78007C70C4B0", peaceSign);
 	commandHash.put("78007C8771F2", hangTenSign);
 	commandHash.put("78007C5E84DE", metalSign);
+	commandHash.put("78007C567123", metalSign);
 	commandHash.put("78007C9F3EA5", highFive);
 	commandHash.put("770097E2F2F0", shocker);
+	commandHash.put("7700979ECAB4", shocker);
 	commandHash.put("78007C8844C8", foldUp);
 	commandHash.put("770097AAC18B", beckon);
 	commandHash.put("78007C375063", tickle);
+	commandHash.put("770097B74B1C", tickle);
 	commandHash.put("78008009C435", count);
+	commandHash.put("770097A5C88D", count);
 	commandHash.put("770097EEE5EB", reverseMiddle);
+	commandHash.put("78007C756011", reverseMiddle);
 	commandHash.put("770097E49692", flap);
-	commandHash.put("78007C567123", metalSign);
+	commandHash.put("78007C9ABB25", crazy);
+	commandHash.put("6C008F0A638A", crazy);
+	commandHash.put("770097EE000E", love);
+	commandHash.put("78007C4CBBF3", love);
+
 }
 
 CommandCreator::~CommandCreator() {
@@ -330,7 +342,7 @@ bool CommandCreator::reverseMiddle(Parameters *params){
 	CommandBase *handUp = new MoveHand(-PINKY_HOME, -RING_HOME, -MIDDLE_HOME, -INDEX_HOME, -THUMB_HOME);
 	handUp->setParallel(true);
 	commandCenter->addCommand(handUp);
-	CommandBase *wristUp = new MoveWrist(100,false,5000);
+	CommandBase *wristUp = new MoveWrist(100,false,4000);
 	commandCenter->addCommand(wristUp);
 	CommandBase *holdWrist = new MoveWrist(20, false, 3000);
 	holdWrist->setParallel(true);
@@ -359,6 +371,32 @@ bool CommandCreator::flap(Parameters *params){
 	return true;
 }
 
+bool CommandCreator::crazy(Parameters *params){
+	Serial.println("Crazy");
+	CommandBase *moveHand = new MoveHand(PINKY_EXTENDED,RING_EXTENDED,MIDDLE_EXTENDED,INDEX_EXTENDED,THUMB_EXTENDED);
+	commandCenter->addCommand(moveHand);
+	CommandBase *moveHand1 = new MoveHand(0, -RING_HOME, 0, -INDEX_HOME, 0, 4000);
+	commandCenter->addCommand(moveHand1);
+	CommandBase *moveHand2 = new MoveHand(0,0,0,0,0);
+	commandCenter->addCommand(moveHand2);
+	return true;
+}
+
+/*
+ * love(NULL)
+ *
+ */
+bool CommandCreator::love(Parameters *params){
+	Serial.println("Love");
+	CommandBase *wristUp = new MoveWrist(100,false,4000);
+	commandCenter->addCommand(wristUp);
+	wristUp->setParallel(true);
+	CommandBase *handCommand = new MoveHand(PINKY_EXTENDED,0,0,INDEX_EXTENDED,THUMB_EXTENDED,3000);
+	commandCenter->addCommand(handCommand);
+	wristUp = new MoveWrist(30,true,1000);
+	commandCenter->addCommand(wristUp);
+	return true;
+}
 
 
 /********************************************
